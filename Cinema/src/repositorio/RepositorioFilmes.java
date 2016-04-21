@@ -1,6 +1,7 @@
 
 package repositorio;
 
+import dao.FilmeDao;
 import java.util.ArrayList;
 import model.Filme;
 
@@ -8,7 +9,7 @@ import model.Filme;
  *Classe que vai ter os dados dos filmes e realizar as operações de adicionar,
  * listar, consultar 
  */
-public class RepositorioFilmes {
+public class RepositorioFilmes implements FilmeDao {
     private ArrayList<Filme> listaFilmes;
    
     /**
@@ -17,13 +18,7 @@ public class RepositorioFilmes {
     public RepositorioFilmes(){
         listaFilmes = new ArrayList<>();
     }
-    /**
-     * metodo para adicionar novos filmes no repositorio
-     * @param filme 
-     */
-    public void adicionar(Filme filme){
-        listaFilmes.add(filme);
-    }
+    
     /**
      * Puxa toda lista de pacientes
      * @return 
@@ -31,12 +26,23 @@ public class RepositorioFilmes {
     public ArrayList<Filme> getListaFilmes(){
         return listaFilmes;
     }
+    
+    /**
+     * metodo para adicionar novos filmes no repositorio
+     * @param filme 
+     */
+    @Override
+    public void adicionar(Filme filme){
+        listaFilmes.add(filme);
+    }
+    
     /**
      * metodo para consultar o filme 
      * @param codigo: Parametro codigo recebido para fazer a busca
      * @return :retorna o objeto de acordo com o código 
      */
-    public Filme ConsultaPorCodigo(int codigo){
+    @Override
+    public Filme consultarPorCodigo(int codigo){
         for(Filme filme: listaFilmes){
             if(filme.getCodigo() == codigo)
                 return filme;
@@ -48,7 +54,8 @@ public class RepositorioFilmes {
      * @param nome: Parametro nome recebido para fazer a busca
      * @return : Retorna o objeto de acordo com o nome
      */
-     public Filme ConsultaPorNome(String nome){
+    @Override
+     public Filme consultarPorNome(String nome){
          for(Filme filme: listaFilmes){
              if(filme.getNomeFilme().equals(nome))
                  return filme;

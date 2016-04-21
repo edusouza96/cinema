@@ -1,8 +1,10 @@
 package executar;
 import repositorio.RepositorioFilmes;
 import view.FilmeUI;
-
-public class Main {
+/**
+ * Da inicio as operações do filme
+ */
+public class MainFilme {
     private static RepositorioFilmes listaFilme;
     
     public static void main(String[] args) {

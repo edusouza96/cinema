@@ -13,8 +13,8 @@ public class FilmeUI {
     private RepositorioFilmes lista;
 
     /**
-     * COnstrutor que recebe a kista do repositorio
-     * @param lista 
+     * Construtor que recebe o objeto repositorio
+     * @param lista Parametro do tipo RepositorioFilmes
      */
     public FilmeUI(RepositorioFilmes lista) {
         this.lista = lista;
@@ -25,19 +25,22 @@ public class FilmeUI {
     public void executar() {
         int opcao = 0;
         do {
-            opcao = Console.scanInt("Digite sua opção:");
+            opcao = Console.scanInt("Digite sua opção desejada:");
             switch (opcao) {
                 case 1:
                     cadastrarFilme();
                     break;
                 case 2:
-                    mostrarFilme();
+                    mostrarFilmes();
                     break;
                 case 3:
                     alterarFilme();
                     break;
                 case 4:
                     deletarFilme();
+                    break;
+                case 0:
+                    System.out.println("Saindo....");
                     break;
                 default:
                     System.err.println("Opção inválida..");
@@ -60,7 +63,7 @@ public class FilmeUI {
     /**
      * metodo que exibe todos os filmes cadastrados,  que se encontram no repositorio
      */
-    private void mostrarFilme() {
+    private void mostrarFilmes() {
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-50s", "Nome do Filme") + "\t"
                 + String.format("%-20s", "|Gênero") + "\t"
@@ -76,7 +79,7 @@ public class FilmeUI {
      */
     private void alterarFilme() {
         String filmeAlterar = Console.scanString("Nome do filme á alterar: ");
-        Filme filme = lista.ConsultaPorNome(filmeAlterar);
+        Filme filme = lista.consultarPorNome(filmeAlterar);
         System.out.println("Dados atuais");
         System.out.println("Nome do filme: "+filme.getNomeFilme());
         System.out.println("Gênero: "+filme.getGenero());
@@ -97,7 +100,7 @@ public class FilmeUI {
      */    
     private void deletarFilme() {
         String filmeDeletar = Console.scanString("Nome do filme a excluir: ");
-        Filme filme = lista.ConsultaPorNome(filmeDeletar);
+        Filme filme = lista.consultarPorNome(filmeDeletar);
         lista.remover(filme);
         JOptionPane.showMessageDialog(null, "Exclusão Concluida");
     }
