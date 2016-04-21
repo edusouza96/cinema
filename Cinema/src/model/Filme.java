@@ -4,7 +4,8 @@ package model;
  *Classe Responsavel por modelar os  filmes
  */
 public class Filme {
-    private int codigo;
+    private static int CODIGO_GERADO=1;
+    private int codigoFilme;
     private String nomeFilme;
     private String genero;
     private String sinopse;
@@ -15,6 +16,7 @@ public class Filme {
      * @param sinopse: Recebe  a sinopse do filme
      */
     public Filme(String nomeFilme, String genero, String sinopse) {
+        this.codigoFilme = generateCodigo();
         this.nomeFilme = nomeFilme;
         this.genero = genero;
         this.sinopse = sinopse;
@@ -25,18 +27,18 @@ public class Filme {
     public Filme() {
     }
     /**
-     * getter do codigo
+     * getter do codigoFilme
      * @return retorna o código do filme
      */
-    public int getCodigo() {
-        return codigo;
+    public int getCodigoFilme() {
+        return codigoFilme;
     }
     /**
-     * setter do codigo
-     * @param codigo recebe um código para inserir na classe
+     * setter do codigoFilme
+     * @param codigoFilme recebe um código para inserir na classe
      */
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setCodigoFilme(int codigoFilme) {
+        this.codigoFilme = codigoFilme;
     }
      /**
      * getter do nome
@@ -86,7 +88,13 @@ public class Filme {
      */
     @Override
     public String toString() {
-        return "Código = " + codigo + ", Nome Filme = " + nomeFilme + ", Gênero = " + genero + ", Sinopse = " + sinopse;
+        return "Código = " + codigoFilme + ", Nome Filme = " + nomeFilme + ", Gênero = " + genero + ", Sinopse = " + sinopse;
     }
-    
+    /**
+     * metodo responsavel por gerar um codigoFilme para objeto
+     * @return retorna um codigoFilme
+     */
+    private int generateCodigo(){
+        return(CODIGO_GERADO++);
+    }    
 }

@@ -7,7 +7,7 @@ import model.Filme;
 
 /**
  *Classe que vai ter os dados dos filmes e realizar as operações de adicionar,
- * listar, consultar 
+ * listar, consultar por codigo e por nome, e remover o filme
  */
 public class RepositorioFilmes implements FilmeDao {
     private ArrayList<Filme> listaFilmes;
@@ -44,7 +44,7 @@ public class RepositorioFilmes implements FilmeDao {
     @Override
     public Filme consultarPorCodigo(int codigo){
         for(Filme filme: listaFilmes){
-            if(filme.getCodigo() == codigo)
+            if(filme.getCodigoFilme() == codigo)
                 return filme;
         }
         return null;
