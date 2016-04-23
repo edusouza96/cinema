@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import util.DateUtil;
 
 /**
  *classe responsavel por fazer o modelo da sessão
@@ -101,7 +102,8 @@ public class Sessao {
      */
     @Override
     public String toString() {
-        return "Nome do Filme = " + filme.getNomeFilme() + "\n Numero da Sala = " + sala.getNumeroSala() + "\n Horario = " + horario;
+        String hora = DateUtil.hourToString(horario);
+        return "Nome do Filme = " + filme.getNomeFilme() + "\n Numero da Sala = " + sala.getNumeroSala() + "\n Horario = " + hora;
     }
     
     /**
