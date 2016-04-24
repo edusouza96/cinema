@@ -3,10 +3,13 @@ package view;
 import java.text.ParseException;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Assento;
 import model.Sessao;
 import model.Venda;
 import repositorio.RepositorioAssentos;
+import repositorio.RepositorioFilmes;
+import repositorio.RepositorioSalas;
 import repositorio.RepositorioSessao;
 import repositorio.RepositorioVendas;
 import util.Console;
@@ -20,36 +23,45 @@ public class VendaUI {
     private RepositorioVendas listaVendas;
     private RepositorioAssentos listaAssentos;
     private RepositorioSessao listaSessao;
+    private RepositorioSalas listaSalas;
+    private RepositorioFilmes listaFilmes;
 
     /**
      * Construtor que recebe o objeto repositorio
+     * @param listaFilmes recebe objeto repositorio filme
+     * @param listaSalas recebe objeto repositorio salas
+     * @param listaSessao recebe objeto repositorio sessao
      * @param listaVendas recebe objeto reporitorio vendas
      * @param listaAssentos recebe objeto reporitorio assentos
      */
-    public VendaUI(RepositorioVendas listaVendas, RepositorioAssentos listaAssentos) {
+    public VendaUI(RepositorioFilmes listaFilmes, RepositorioSalas listaSalas, RepositorioSessao listaSessao, RepositorioAssentos listaAssentos, RepositorioVendas listaVendas) {
         this.listaVendas = listaVendas;
         this.listaAssentos = listaAssentos;
+        this.listaFilmes = listaFilmes;
+        this.listaSalas = listaSalas;
+        this.listaSessao = listaSessao;
     }
     
     /**
     * metodo que contem as opções para execução dos procedimentos
     */
     public void executar() throws ParseException{
-        int opcao = 0;
+        int opcao;
         do{
-             opcao = Console.scanInt("Digite sua opção desejada:");
+            System.out.println(MenuUI.menuVenda());
+            opcao = Console.scanInt("Digite sua opção desejada:");
             switch (opcao) {
-                case 1:
+                case MenuUI.CADASTRAR:
                     realizarVenda();
                     break;
-                case 2:
+                case MenuUI.LISTAR:
                     mostrarVendas();
                     break;
-                case 0:
-                    System.out.println("Saindo....");
+                case MenuUI.SAIR:
+                    JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                     break;
                 default:
-                    System.err.println("Opção inválida..");
+                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
             }
         }while(opcao != 0);
     }
@@ -58,42 +70,27 @@ public class VendaUI {
      * Realizar as vendas de ingresso do cinema
      */
     private void realizarVenda() throws ParseException {
-        Date dataAssento;
-        String dataAssentoString;
-        Boolean temLista = false;
-        Boolean temAssento = true;
         Date dataSessao;
         String dataString = Console.scanString("Dia da Sessão: ");
-        for(Assento assento: listaAssentos.getListaAssentos()){
-            dataAssento = assento.getData();
-            dataAssentoString = DateUtil.dateToString(dataAssento);
-            if(dataString.equals(dataAssentoString)){
-                if(assento.getAssentoLivres()>0){
-                    System.out.println(assento.toString());
-                    temLista = true;
-                }else{
-                    temAssento = false;
-                }
-            }
-        }
-        if(temLista == false && temAssento == true){
-            mostrarSessoes();
-            Sessao sessao = listaSessao.consultarPorCodigo(Console.scanInt("Digite o código da sessão desejada: "));
-            dataSessao = DateUtil.stringToDate(dataString);
+        mostrarSessoes();
+        int codigoSessao = Console.scanInt("Digite o código da sessão desejada: ");
+        Assento assento = listaAssentos.consultarPorDataCodigo(dataString,codigoSessao);
+        dataSessao = DateUtil.stringToDate(dataString);
+        if(assento == null){
+            Sessao sessao = listaSessao.consultarPorCodigo(codigoSessao);
             listaVendas.adicionar(new Venda(sessao,dataSessao));
             JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
             int lugares = sessao.getSala().getQuantidadeSala() -1;
             listaAssentos.adicionar(new Assento(sessao,lugares , dataSessao));
-        }else if (temLista == false && temAssento == false){
-            JOptionPane.showMessageDialog(null, "Não tem mais sessão para este dia");
         }else{
-            Assento assento = listaAssentos.consultarPorCodigo(Console.scanInt("Digite o código da sessão desejada: "));
-            dataSessao = DateUtil.stringToDate(dataString);
-            listaVendas.adicionar(new Venda(assento.getSessao(), dataSessao));
-            JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
-            assento.ocuparLugar();
-        }
-      
+            if(assento.getAssentoLivres() > 0){
+                listaVendas.adicionar(new Venda(assento.getSessao(), dataSessao));
+                JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
+                assento.ocuparLugar();
+            }else{
+              JOptionPane.showMessageDialog(null, "Não tem mais esta sessão para este dia", "", JOptionPane.WARNING_MESSAGE);
+            }
+        }     
     }
     
     /**

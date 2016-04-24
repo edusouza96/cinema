@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Sala;
 import repositorio.RepositorioSalas;
 import util.Console;
@@ -23,27 +24,28 @@ public class SalaUI {
      * metodo que contem um switch para escolher os procedimentos a ser realix=zado
      */
     public void executar(){
-        int opcao = 0;
+        int opcao;
         do{
+            System.out.println(MenuUI.menuSala());
             opcao = Console.scanInt("Digite a opção desejada:");
             switch(opcao){
-                case 1:
+                case MenuUI.CADASTRAR:
                     cadastrarSala();
                     break;
-                case 2:
+                case MenuUI.EDITAR:
                     mostrarSalas();
                     break;
-                case 3:
+                case MenuUI.LISTAR:
                     alterarFilme();
                     break;
-                case 4:
+                case MenuUI.DELETAR:
                     deletarSala();
                     break;
-                case 0:
-                    System.out.println("Saindo...");
+                case MenuUI.SAIR:
+                    JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                     break;
                 default:
-                    System.err.println("Opção Inválida...");
+                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
                         
             }
             

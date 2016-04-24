@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Filme;
 import repositorio.RepositorioFilmes;
 import util.Console;
@@ -23,30 +24,31 @@ public class FilmeUI {
      * metodo que contem as opções para execução dos procedimentos
      */
     public void executar() {
-        int opcao = 0;
+        int opcao;
         do {
+            System.out.println(MenuUI.menuFilme());
             opcao = Console.scanInt("Digite sua opção desejada:");
             switch (opcao) {
-                case 1:
+                case MenuUI.CADASTRAR:
                     cadastrarFilme();
                     break;
-                case 2:
+                case MenuUI.LISTAR:
                     mostrarFilmes();
                     break;
-                case 3:
+                case MenuUI.EDITAR:
                     alterarFilme();
                     break;
-                case 4:
+                case MenuUI.DELETAR:
                     deletarFilme();
                     break;
-                case 0:
-                    System.out.println("Saindo....");
+                case MenuUI.SAIR:
+                    JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                     break;
                 default:
-                    System.err.println("Opção inválida..");
+                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
 
             }
-        } while (opcao != 0);
+        } while (opcao != MenuUI.SAIR);
     }
     
     /**
@@ -86,13 +88,13 @@ public class FilmeUI {
         System.out.println("Sinopse: "+filme.getSinopse());
         String resposta = Console.scanString("Mudar o nome do filme? sim ou não ~> ");
         if (resposta.equalsIgnoreCase("sim"))
-            filme.setNomeFilme(Console.scanString("Novo nome do Filme"));
+            filme.setNomeFilme(Console.scanString("Novo nome do Filme: "));
         resposta = Console.scanString("Mudar o genero do filme? sim ou não ~> ");
         if (resposta.equalsIgnoreCase("sim"))
-            filme.setGenero(Console.scanString("Novo Genero do Filme"));
+            filme.setGenero(Console.scanString("Novo Genero do Filme: "));
         resposta = Console.scanString("Mudar a sinopse do filme? sim ou não ~> ");
         if (resposta.equalsIgnoreCase("sim"))
-            filme.setSinopse(Console.scanString("Nova Sinopse do Filme"));
+            filme.setSinopse(Console.scanString("Nova Sinopse do Filme: "));
         JOptionPane.showMessageDialog(null, "Mudanças Concluida"); 
     }
     /**

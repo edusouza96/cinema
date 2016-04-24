@@ -3,6 +3,7 @@ package view;
 import java.text.ParseException;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Filme;
 import model.Sala;
 import model.Sessao;
@@ -24,6 +25,8 @@ public class SessaoUI {
     /**
      * Construtor que recebe o objeto repositorio
      * @param lista Parametro do tipo RepositorioSessão
+     * @param listaFilme Parametro do tipo RepositorioFilme
+     * @param listaSala Parametro do tipo RepositorioSala
      */
     public SessaoUI(RepositorioSessao lista,RepositorioFilmes listaFilme,RepositorioSalas listaSala) {
         this.lista = lista;
@@ -36,27 +39,28 @@ public class SessaoUI {
      * @throws java.text.ParseException
      */
     public void executar() throws ParseException{
-        int opcao = 0;
+        int opcao;
         do{
+            System.out.println(MenuUI.menuSessao());
             opcao = Console.scanInt("Digite a opção  desejada: ");
             switch(opcao){
-                case 1:
+                case MenuUI.CADASTRAR:
                     cadastrarSessao();
                     break;
-                case 2:
+                case MenuUI.LISTAR:
                     mostrarSessoes();
                     break;
-                case 3:
+                case MenuUI.EDITAR:
                     alterarSessao();
                     break;
-                case 4:
+                case MenuUI.DELETAR:
                    deletarSessoes();
                     break;
-                case 0:
-                    System.out.println("Saindo...");
+                case MenuUI.SAIR:
+                    JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                     break;
                 default:
-                    System.err.println("Opção Invalida....");
+                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
             }
         }while(opcao != 0);
     }

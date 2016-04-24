@@ -54,14 +54,15 @@ public class RepositorioAssentos implements AssentoDao{
     /**
      * metodo que consulta um assento por data
      * @param data recebe por parametro uma data
+     * @param codigo recebe por parametro um codigo de sessao
      * @return retorna o objeto assento
      */
     @Override
-    public Assento consultarPorData(String data) {
+    public Assento consultarPorDataCodigo(String data,int codigo) {
         String dataString;
         for(Assento assento: listaAssentos){
             dataString = DateUtil.dateToString(assento.getData());
-            if(dataString.equalsIgnoreCase(data)){
+            if(dataString.equalsIgnoreCase(data) && assento.getSessao().getCodigoSessao() == codigo){
                 return assento;
             }
         }
