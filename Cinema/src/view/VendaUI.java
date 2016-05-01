@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Assento;
+import model.Filme;
 import model.Sessao;
 import model.Venda;
 import repositorio.RepositorioAssentos;

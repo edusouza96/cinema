@@ -10,6 +10,7 @@ import repositorio.RepositorioVendas;
 import util.Console;
 import view.FilmeUI;
 import view.MenuUI;
+import view.RelatorioUI;
 import view.SalaUI;
 import view.SessaoUI;
 import view.VendaUI;
@@ -50,7 +51,7 @@ public class MainVenda {
                     new VendaUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
                     break;
                 case MenuUI.RELATORIO:
-                    //new Relatorio(listaSessao, listaFilme, listaSala).executar();
+                    new RelatorioUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
                     break;
                 case MenuUI.SAIR:
                     JOptionPane.showMessageDialog(null, "Sistema Finalizado!");

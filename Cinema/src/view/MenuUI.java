@@ -87,8 +87,9 @@ public class MenuUI {
      */
     public static String menuRelatorio() {
         return ("\n--------------------------------------\n"
-                + "1- \n"
-                + "2- \n"
+                + "1- Venda Por Filme\n"
+                + "2- Venda Por Sala\n"
+                + "3- Venda Por Sessões\n"
                 + "0- Voltar Menu Principal"
                 + "\n--------------------------------------");
     }
