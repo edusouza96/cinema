@@ -16,6 +16,13 @@ public class MenuUI {
     public static final int LISTAR = 2;
     public static final int EDITAR = 3;
     public static final int DELETAR = 4;
+    
+    public static final int VENDA_FILME = 1;
+    public static final int VENDA_SALA = 2;
+    public static final int VENDA_SESSAO = 3;
+    public static final int VENDA_HORARIO = 6;
+    public static final int FILME_SESSAO = 5;
+    public static final int SALAS_SESSAO = 7;
 
     /**
      * Menu Principal
@@ -90,6 +97,9 @@ public class MenuUI {
                 + "1- Venda Por Filme\n"
                 + "2- Venda Por Sala\n"
                 + "3- Venda Por Sessões\n"
+                + "4- Venda Por Horario\n"
+                + "5- Filme Por Sessões\n"
+                + "6- Salas Por Sessões\n"
                 + "0- Voltar Menu Principal"
                 + "\n--------------------------------------");
     }
