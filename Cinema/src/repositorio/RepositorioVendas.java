@@ -28,7 +28,7 @@ public class RepositorioVendas implements VendaDao{
 
     /**
      * metodo para adicionar uma venda na lista
-     * @param venda 
+     * @param venda recebe por parametro um objeto do tipo venda
      */
     @Override
     public void adicionar(Venda venda) {

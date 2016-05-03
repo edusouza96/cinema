@@ -2,6 +2,8 @@ package view;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Assento;
@@ -46,7 +48,7 @@ public class VendaUI {
     /**
     * metodo que contem as opções para execução dos procedimentos
     */
-    public void executar() throws ParseException{
+    public void executar(){
         int opcao;
         do{
             System.out.println(MenuUI.menuVenda());
@@ -70,14 +72,15 @@ public class VendaUI {
     /**
      * Realizar as vendas de ingresso do cinema
      */
-    private void realizarVenda() throws ParseException {
+    private void realizarVenda() {
         Date dataSessao;
         String dataString = Console.scanString("Dia da Sessão: ");
         mostrarSessoes();
         int codigoSessao = Console.scanInt("Digite o código da sessão desejada: ");
         Assento assento = listaAssentos.consultarPorDataCodigo(dataString,codigoSessao);
-        dataSessao = DateUtil.stringToDate(dataString);
-        if(assento == null){
+        try {
+            dataSessao = DateUtil.stringToDate(dataString);
+            if(assento == null){
             Sessao sessao = listaSessao.consultarPorCodigo(codigoSessao);
             listaVendas.adicionar(new Venda(sessao,dataSessao));
             JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
@@ -91,7 +94,11 @@ public class VendaUI {
             }else{
               JOptionPane.showMessageDialog(null, "Não tem mais esta sessão para este dia", "", JOptionPane.WARNING_MESSAGE);
             }
-        }     
+        }
+        } catch (ParseException ex) {
+            Logger.getLogger(VendaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             
     }
     
     /**

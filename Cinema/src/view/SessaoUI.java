@@ -2,6 +2,8 @@ package view;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Filme;
@@ -36,9 +38,8 @@ public class SessaoUI {
     
     /**
      * metodo que contem as opções para execução dos procedimentos
-     * @throws java.text.ParseException
      */
-    public void executar() throws ParseException{
+    public void executar() {
         int opcao;
         do{
             System.out.println(MenuUI.menuSessao());
@@ -69,7 +70,7 @@ public class SessaoUI {
      * metodo que coleta as informações da sessão e depois
      * coloca na lista do repositorio
      */
-    private void cadastrarSessao() throws ParseException {
+    private void cadastrarSessao() {
         exibirFilmes();
         System.out.println("---------------------------------\n");
         String nomeFilme = Console.scanString("Nome do Filme: ");
@@ -79,9 +80,14 @@ public class SessaoUI {
         int numeroSala = Console.scanInt("Numero da Sala: ");
         Sala sala = listaSalas.consultarPorSala(numeroSala);
         String horario = Console.scanString("Horario da Sessão: ");
-        Date hora = DateUtil.stringToHour(horario);
-        lista.adicionar(new Sessao(filme,sala,hora));
-        JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");     
+        Date hora;
+        try {
+            hora = DateUtil.stringToHour(horario);lista.adicionar(new Sessao(filme,sala,hora));
+            JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");
+        } catch (ParseException ex) {
+            Logger.getLogger(SessaoUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             
     }
     /**
      * metodo que lista os nomes dos filmes
@@ -121,7 +127,7 @@ public class SessaoUI {
     /**
      * metodo responsavel para alterar dados da sessão
      */
-    private void alterarSessao() throws ParseException {
+    private void alterarSessao(){
         int sessaoAlterar = Console.scanInt("Código da sessão a alterar: ");
         Sessao sessao = lista.consultarPorCodigo(sessaoAlterar);
         System.out.println("Dados Atuais");
@@ -143,10 +149,15 @@ public class SessaoUI {
         resposta = Console.scanString("Mudar o Horario: sim ou não ~> ");
         if(resposta.equalsIgnoreCase("sim")){
             String hora = Console.scanString("Novo Horario para esta sessao: ");
-            sessao.setHorario(DateUtil.stringToHour(hora));
+            try {
+                sessao.setHorario(DateUtil.stringToHour(hora));
+                JOptionPane.showMessageDialog(null, "Mudanças Concluida");
+            } catch (ParseException ex) {
+                Logger.getLogger(SessaoUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
            
-        JOptionPane.showMessageDialog(null, "Mudanças Concluida");        
+                
     }
 
     /**

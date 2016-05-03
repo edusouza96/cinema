@@ -30,11 +30,11 @@ public class RelatorioUI {
     
     /**
      * Construtor que inicializa as listas
-     * @param listaFilmes
-     * @param listaSalas
-     * @param listaSessao
-     * @param listaAssentos
-     * @param listaVendas 
+     * @param listaFilmes recebe por parametro uma objeto do tipo repositorioFilme
+     * @param listaSalas recebe por parametro uma objeto do tipo repositorioSalas
+     * @param listaSessao recebe por parametro uma objeto do tipo repositorioSessao
+     * @param listaAssentos recebe por parametro uma objeto do tipo repositorioAssento
+     * @param listaVendas recebe por parametro uma objeto do tipo repositorioVendas
      */
     public RelatorioUI(RepositorioFilmes listaFilmes, RepositorioSalas listaSalas, RepositorioSessao listaSessao, RepositorioAssentos listaAssentos, RepositorioVendas listaVendas) {
         this.listaVendas = listaVendas;

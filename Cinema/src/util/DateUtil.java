@@ -12,7 +12,7 @@ public class DateUtil {
      * Recebe uma string e passa para formato date
      * @param data Recebe String
      * @return Retorna date dd/mm/yyyy
-     * @throws ParseException 
+     * @throws ParseException tratamento erro
      */
     public static Date stringToDate(String data) throws ParseException
     {
@@ -22,7 +22,7 @@ public class DateUtil {
      * Recebe uma string e passa para formato date
      * @param data recebe uma string
      * @return retorna uma hora HH:mm
-     * @throws ParseException 
+     * @throws ParseException tratamento erro
      */
     public static Date stringToHour(String data) throws ParseException
     {
@@ -33,7 +33,7 @@ public class DateUtil {
      * Recebe uma string e passar para o formato datetime
      * @param data recebe uma string
      * @return retorna date dd/mm/yyyy hh:mm
-     * @throws ParseException 
+     * @throws ParseException tratamento erro
      */
     public static Date stringToDateHour(String data) throws ParseException
     {
@@ -68,8 +68,8 @@ public class DateUtil {
     }
     /**
      * recebe uma data e verifica se esta no padrao definido dd/mm/yyyy
-     * @param data
-     * @return 
+     * @param data recebe por parametro uma data a verificar
+     * @return retorna a data verificada
      */
     public static boolean verificaData(String data)
     {
@@ -77,8 +77,8 @@ public class DateUtil {
     }
     /**
      * recebe uma data e hora e verifica se esta no padrao definido dd/mm/yyyy hh:mm
-     * @param data
-     * @return 
+     * @param data recebe por parametro uma data\hora a verificar
+     * @return retorna a data\hora verificada
      */
     public static boolean verificaDataHora(String data)
     {

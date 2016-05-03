@@ -20,8 +20,8 @@ public class RepositorioFilmes implements FilmeDao {
     }
     
     /**
-     * Puxa toda lista de pacientes
-     * @return 
+     * Puxa toda lista de filmes
+     * @return retorna uma lista de filmes
      */
     public ArrayList<Filme> getListaFilmes(){
         return listaFilmes;
@@ -29,7 +29,7 @@ public class RepositorioFilmes implements FilmeDao {
     
     /**
      * metodo para adicionar novos filmes no repositorio
-     * @param filme 
+     * @param filme recebe por parametro um objeto do tipo filme
      */
     @Override
     public void adicionar(Filme filme){
