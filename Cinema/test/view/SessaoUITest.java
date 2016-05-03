@@ -13,7 +13,7 @@ import repositorio.RepositorioSessao;
 import util.DateUtil;
 
 /**
- *Classe de responsavel por fazer os testes da classe SessaoUI 
+ *@see Testa a Classe SessaoUI 
  */
 public class SessaoUITest {
     private Filme filme;

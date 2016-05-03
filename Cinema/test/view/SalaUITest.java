@@ -8,7 +8,7 @@ import org.junit.Test;
 import repositorio.RepositorioSalas;
 
 /**
- *Classe de responsavel por fazer os testes da classe
+ *@see Testa a Classe SalaUI
  */
 public class SalaUITest {
     private final RepositorioSalas lista = new RepositorioSalas();

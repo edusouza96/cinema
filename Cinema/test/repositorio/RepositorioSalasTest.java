@@ -12,12 +12,11 @@ import static org.junit.Assert.*;
  */
 public class RepositorioSalasTest {
     private RepositorioSalas lista;
+    
     public RepositorioSalasTest() {
         lista = new RepositorioSalas();
     }
     
-    
-
     /**
      * Teste do método getListaSalas, da classe RepositorioSalas.
      */

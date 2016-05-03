@@ -8,14 +8,13 @@ import model.Filme;
 import model.Sala;
 import model.Sessao;
 import model.Venda;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import repositorio.RepositorioVendas;
 import util.DateUtil;
 
 /**
- *Classe de responsavel por fazer os testes da classe VendaUI 
+ *@see Testa a Classe VendaUI 
  */
 public class VendaUITest {
     private Filme filme;

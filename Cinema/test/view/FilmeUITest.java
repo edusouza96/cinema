@@ -7,7 +7,7 @@ import repositorio.RepositorioFilmes;
 
 /**
  *
- * Classe de responsavel por fazer os testes da classe filmeUI
+ * @see Testa a Classe FilmeUI
  */
 public class FilmeUITest {
     
