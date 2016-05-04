@@ -2,8 +2,6 @@ package view;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Filme;
@@ -61,6 +59,9 @@ public class RelatorioUI {
                 case MenuUI.VENDA_SESSAO:
                     vendaPorSessao();
                     break;
+                case MenuUI.VENDA_DATA:
+                    vendaPorData();
+                    break;
                 case MenuUI.VENDA_HORARIO:
                     vendaPorHorario();
                     break;
@@ -106,7 +107,7 @@ public class RelatorioUI {
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Data"));
-        String dataBusca = Console.scanString("Digite uma data a consultar");
+        String dataBusca = Console.scanString("Digite uma data a consultar_ ");
         try {
             Date dataConvertida = DateUtil.stringToDate(dataBusca);
             int cont =0;
@@ -119,7 +120,7 @@ public class RelatorioUI {
                 + String.format("%-80s", "|" + dataBusca));
         
         } catch (ParseException ex) {
-            Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Data Inválida\n Favor digitar no Padrão dd/mm/aaaa", "Operação cancelada", ERROR_MESSAGE);
         }
         
     }

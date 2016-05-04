@@ -30,7 +30,7 @@ public class SessaoUITest {
             sessao = new Sessao(filme, sala, hora);
             lista = new RepositorioSessao();
         } catch (ParseException ex) {
-            Logger.getLogger(SessaoUITest.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Erro na hora, formato invalido");
         }
     }
     
@@ -66,7 +66,7 @@ public class SessaoUITest {
             assertFalse(sessao.getHorario().equals(hora)); 
             
         } catch (ParseException ex) {
-            Logger.getLogger(SessaoUITest.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Erro na hora, formato invalido");
         }
     }
     

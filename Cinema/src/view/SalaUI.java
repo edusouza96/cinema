@@ -1,5 +1,7 @@
 package view;
 
+import exceptions.ObjectNullException;
+import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Sala;
@@ -19,35 +21,45 @@ public class SalaUI {
      */
     public SalaUI(RepositorioSalas lista) {
         this.lista = lista;
+        lista.adicionar(new Sala(100, 200));
+        lista.adicionar(new Sala(200, 400));
+        lista.adicionar(new Sala(300, 600));
     }
     /**
      * metodo que contem um switch para escolher os procedimentos a ser realix=zado
      */
     public void executar(){
-        int opcao;
+        int opcao=0;
         do{
             System.out.println(MenuUI.menuSala());
-            opcao = Console.scanInt("Digite a opção desejada:");
-            switch(opcao){
-                case MenuUI.CADASTRAR:
-                    cadastrarSala();
-                    break;
-                case MenuUI.EDITAR:
-                    mostrarSalas();
-                    break;
-                case MenuUI.LISTAR:
-                    alterarFilme();
-                    break;
-                case MenuUI.DELETAR:
-                    deletarSala();
-                    break;
-                case MenuUI.SAIR:
-                    JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
-                        
+            try{
+                opcao = Console.scanInt("Digite a opção desejada:");
+                switch(opcao){
+                    case MenuUI.CADASTRAR:
+                        cadastrarSala();
+                        break;
+                    case MenuUI.LISTAR:
+                        mostrarSalas();
+                        break;
+                    case MenuUI.EDITAR:
+                        alterarFilme();
+                        break;
+                    case MenuUI.DELETAR:
+                        deletarSala();
+                        break;
+                    case MenuUI.SAIR:
+                        JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
+
+                }
+            }catch(InputMismatchException ex){
+                JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+            } catch (ObjectNullException ex) {
+                 JOptionPane.showMessageDialog(null, "Sala Não Localizada", null, ERROR_MESSAGE);
             }
+            
             
         }while(opcao !=0);
     }
@@ -55,10 +67,15 @@ public class SalaUI {
      * Metodo que coleta as informações da sala e depois inseri na lista do repositorio
      */
     private void cadastrarSala() {
-        int numeroSala  = Console.scanInt("Número da Sala: ");
-        int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
-        lista.adicionar(new Sala(numeroSala,quantidadeSala));
-        JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
+        try{
+            int numeroSala  = Console.scanInt("Número da Sala: ");
+            int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
+            lista.adicionar(new Sala(numeroSala,quantidadeSala));
+            JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
+        }catch(InputMismatchException ex){
+            JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+        }
+        
     }
     /**
      * metodo que mostra todos os dados referente da sala que foram inseridos na lista
@@ -75,23 +92,36 @@ public class SalaUI {
     /**
      * metodo que faz alteração na capacidade da sala
      */
-    private void alterarFilme() {
+    private void alterarFilme() throws ObjectNullException {
         int salaAlterar = Console.scanInt("Número da sala á alterar: ");
         Sala sala = lista.consultarPorSala(salaAlterar);
+        if(sala==null)
+            throw new ObjectNullException();
         System.out.println("Dados Atuais");
         System.out.println("Número da sala: "+sala.getNumeroSala());
         System.out.println("Capacidade da Sala: "+sala.getQuantidadeSala());
         String resposta = Console.scanString("Mudar a capacidade da Sala: sim ou não ~> ");
-        if(resposta.equalsIgnoreCase("sim"))
-            sala.setQuantidadeSala(Console.scanInt("Nova Capacidade da sala: "));
-        JOptionPane.showMessageDialog(null, "Mudanças Concluida");
+        if(resposta.equalsIgnoreCase("sim")){
+            try{
+                sala.setQuantidadeSala(Console.scanInt("Nova Capacidade da sala: "));
+                JOptionPane.showMessageDialog(null, "Mudanças Concluida");
+            }catch(InputMismatchException ex){
+                JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+            }
+        }
+            
+        
+        
+        
     }
     /**
      * metodo que exclui uma sala da lista
      */
-    private void deletarSala() {
+    private void deletarSala() throws ObjectNullException {
         int filmeDeletar = Console.scanInt("Numero da sala a excluir: ");
         Sala sala = lista.consultarPorSala(filmeDeletar);
+        if(sala==null)
+            throw new ObjectNullException();
         lista.remover(sala);
         JOptionPane.showMessageDialog(null, "Exclusão Concluida");
     }

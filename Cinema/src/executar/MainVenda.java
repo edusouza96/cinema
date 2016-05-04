@@ -25,7 +25,7 @@ public class MainVenda {
     private static RepositorioVendas listaVenda;
     
     
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args){
         listaFilme = new RepositorioFilmes();
         listaSala = new RepositorioSalas();
         listaSessao = new RepositorioSessao();        

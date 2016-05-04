@@ -35,7 +35,7 @@ public class VendaUITest {
             venda = new Venda(sessao, data);
             lista = new RepositorioVendas();
         } catch (ParseException ex) {
-            Logger.getLogger(SessaoUITest.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Erro na data, formato invalido");
         }
     }
     

@@ -96,7 +96,7 @@ public class VendaUI {
             }
         }
         } catch (ParseException ex) {
-            Logger.getLogger(VendaUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Data Inválida\n Favor digitar no Padrão DD/MM/AAAA", "Operação cancelada", ERROR_MESSAGE);
         }
              
     }

@@ -85,7 +85,7 @@ public class SessaoUI {
             hora = DateUtil.stringToHour(horario);lista.adicionar(new Sessao(filme,sala,hora));
             JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");
         } catch (ParseException ex) {
-            Logger.getLogger(SessaoUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Hora Inválida\n Favor digitar no Padrão HH:MM", "Operação cancelada", ERROR_MESSAGE);
         }
              
     }
@@ -153,7 +153,7 @@ public class SessaoUI {
                 sessao.setHorario(DateUtil.stringToHour(hora));
                 JOptionPane.showMessageDialog(null, "Mudanças Concluida");
             } catch (ParseException ex) {
-                Logger.getLogger(SessaoUI.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Hora Inválida\n Favor digitar no Padrão HH:MM", "Operação cancelada", ERROR_MESSAGE);
             }
         }
            
