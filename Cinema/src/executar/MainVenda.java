@@ -1,5 +1,5 @@
 package executar;
-import java.text.ParseException;
+import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import repositorio.RepositorioAssentos;
@@ -32,33 +32,38 @@ public class MainVenda {
         listaAssento = new RepositorioAssentos();
         listaVenda = new RepositorioVendas();
         
-        int opcao;
+        int opcao = 0;
         
         do{
             System.out.println(MenuUI.menuPrincipal());
-            opcao = Console.scanInt("Digite a opção desejada ~> ");
-            switch(opcao){
-                case MenuUI.FILME:
-                    new FilmeUI(listaFilme).executar();
-                    break;
-                case MenuUI.SALA:
-                    new SalaUI(listaSala).executar();
-                    break;
-                case MenuUI.SESSAO:
-                    new SessaoUI(listaSessao, listaFilme, listaSala).executar();
-                    break;
-                case MenuUI.VENDA:
-                    new VendaUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
-                    break;
-                case MenuUI.RELATORIO:
-                    new RelatorioUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
-                    break;
-                case MenuUI.SAIR:
-                    JOptionPane.showMessageDialog(null, "Sistema Finalizado!");
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
-            }
+            try{
+                opcao = Console.scanInt("Digite a opção desejada ~> ");
+                switch(opcao){
+                    case MenuUI.FILME:
+                        new FilmeUI(listaFilme).executar();
+                        break;
+                    case MenuUI.SALA:
+                        new SalaUI(listaSala).executar();
+                        break;
+                    case MenuUI.SESSAO:
+                        new SessaoUI(listaSessao, listaFilme, listaSala).executar();
+                        break;
+                    case MenuUI.VENDA:
+                        new VendaUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
+                        break;
+                    case MenuUI.RELATORIO:
+                        new RelatorioUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
+                        break;
+                    case MenuUI.SAIR:
+                        JOptionPane.showMessageDialog(null, "Sistema Finalizado!");
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opção Invalida!", null, ERROR_MESSAGE);
+                }
+            }catch(InputMismatchException ex){
+                    JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+                }
+                
         }while(opcao != MenuUI.SAIR);
         
     }

@@ -4,9 +4,7 @@ import exceptions.ObjectNullException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.InputMismatchException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Filme;
@@ -37,8 +35,10 @@ public class SessaoUI {
         this.lista = lista;
         this.listaFilmes = listaFilme;
         this.listaSalas = listaSala;
-        Filme filme= new Filme("Vingadores: Era de Ultron","ficção científica/Ação","Sequência do sucesso 'Os Vingadores', que reúne mais uma vez a equipe de super-heróis");
-        Sala sala = new Sala(200, 400);
+        FilmeUI filmeUI = new FilmeUI(listaFilmes);
+        Filme filme = filmeUI.getLista().getListaFilmes().get(1);
+        SalaUI salaUI = new SalaUI(listaSalas);
+        Sala sala = salaUI.getLista().getListaSalas().get(1);
         try {
             lista.adicionar(new Sessao(filme, sala, DateUtil.stringToHour("10:00")));
         } catch (ParseException ex) {
@@ -77,7 +77,7 @@ public class SessaoUI {
             }catch(InputMismatchException ex){
                 JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
             } catch (ObjectNullException ex) {
-                JOptionPane.showMessageDialog(null, "Filme Não Localizado", null, ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Requisição Não Localizado", null, ERROR_MESSAGE);
             }
         }while(opcao != 0);
     }
@@ -220,6 +220,15 @@ public class SessaoUI {
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         }    
     }
+
+    /**
+     * Getter Sessão
+     * @return retorna uma lista de objetos sessão
+     */
+    public RepositorioSessao getLista() {
+        return lista;
+    }
+    
     
     
 }

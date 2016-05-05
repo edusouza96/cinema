@@ -13,7 +13,7 @@ import util.Console;
  * contem cadastrar, listar, alterar, deletar sala
  */
 public class SalaUI {
-    public RepositorioSalas lista;
+    private RepositorioSalas lista;
 
     /***
      * Construtor que recebe o objeto repositorio 
@@ -125,5 +125,14 @@ public class SalaUI {
         lista.remover(sala);
         JOptionPane.showMessageDialog(null, "Exclusão Concluida");
     }
+
+    /**
+     * Getter do RepositorioSalas
+     * @return Retorna a lista de Salas
+     */
+    public RepositorioSalas getLista() {
+        return lista;
+    }
             
+    
 }

@@ -163,6 +163,15 @@ public class FilmeUI {
         JOptionPane.showMessageDialog(null, "Exclusão Concluida");
         
     }
+
+    /**
+     * Getter do RepositorioFilmes
+     * @return Retorna a lista de Filmes
+     */
+    public RepositorioFilmes getLista() {
+        return lista;
+    }
+    
     
     
     
