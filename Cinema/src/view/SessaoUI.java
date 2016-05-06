@@ -111,7 +111,7 @@ public class SessaoUI {
             hora = DateUtil.stringToHour(horario);
             lista.adicionar(new Sessao(filme,sala,hora));
             JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");
-            
+        lista.verificaTempo(new Sessao(filme,sala,hora));
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         } catch (ParseException ex) {

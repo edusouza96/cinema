@@ -33,26 +33,27 @@ public class RepositorioSessao implements SessaoDao {
      */
     @Override
     public void adicionar(Sessao sessao) {
-        try{
-            
         
-        Sessao verificaSessao = consultarPorSala(sessao.getSala().getNumeroSala());
-       int diferencaHoras;
-        diferencaHoras = sessao.getHorario().compareTo(verificaSessao.getHorario());
-        System.out.println(diferencaHoras);
         listaSessao.add(sessao);
-        
-        }catch(Exception ex){
-            
-        }
     }
-
+    /**
+     * Método que traz a diferença de tempo entre sessoes
+     * @param sessao recebe uma sessao
+     */
+    public void verificaTempo(Sessao sessao){
+        Sessao verificaSessao = consultarPorSala(sessao.getSala().getNumeroSala());
+       
+            long diferencaHoras;
+            diferencaHoras = sessao.getHorario().getTime() - verificaSessao.getHorario().getTime();
+            System.out.println((diferencaHoras/1000)/60);
+    }
     /**
      * metodo consultar pelo numero do codigo
      * @param codigo recebe por parametro o codigo de uma sessão
      * @return Retorna um objeto do tipo sessão
      */
-    @Override    public Sessao consultarPorCodigo(int codigo) {
+    @Override    
+    public Sessao consultarPorCodigo(int codigo) {
         for(Sessao sessao : listaSessao){
             if(sessao.getCodigoSessao() == codigo)
                 return sessao;
@@ -70,6 +71,13 @@ public class RepositorioSessao implements SessaoDao {
         for(Sessao sessao: listaSessao){
             if(sessao.getSala().getNumeroSala() == sala)
                 return sessao;
+        }
+        return null;
+    }
+     public Sessao consultarPorSal(Sessao sessaoParametro) { 
+        for(Sessao sessao: listaSessao){
+            if(sessao.getSala().getNumeroSala() == sessaoParametro.getSala().getNumeroSala())
+                
         }
         return null;
     }
