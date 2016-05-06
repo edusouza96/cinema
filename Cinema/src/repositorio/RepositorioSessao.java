@@ -1,6 +1,7 @@
 package repositorio;
 
 import dao.SessaoDao;
+import exceptions.HourNotAvailable;
 import java.util.ArrayList;
 import java.util.Date;
 import model.Sessao;
@@ -33,19 +34,26 @@ public class RepositorioSessao implements SessaoDao {
      */
     @Override
     public void adicionar(Sessao sessao) {
-        
+        //verificaTempo(sessao);
         listaSessao.add(sessao);
     }
     /**
      * Método que traz a diferença de tempo entre sessoes
-     * @param sessao recebe uma sessao
+     * @param sessaoParametro recebe por parametro um objeto do tipo sessão
      */
-    public void verificaTempo(Sessao sessao){
-        Sessao verificaSessao = consultarPorSala(sessao.getSala().getNumeroSala());
-       
-            long diferencaHoras;
-            diferencaHoras = sessao.getHorario().getTime() - verificaSessao.getHorario().getTime();
-            System.out.println((diferencaHoras/1000)/60);
+    @Override
+    public void verificaTempo(Sessao sessaoParametro) throws HourNotAvailable{
+        for(Sessao sessao: listaSessao){
+            if(sessao.getSala().getNumeroSala() == sessaoParametro.getSala().getNumeroSala()){
+                long diferencaHorasMile;
+                diferencaHorasMile = sessao.getHorario().getTime() - sessaoParametro.getHorario().getTime();
+                long diferencaHorasMinutos = (diferencaHorasMile/1000)/60;
+                System.out.println(diferencaHorasMinutos);
+                if(diferencaHorasMinutos > -180 && diferencaHorasMinutos < 180){
+                        throw new HourNotAvailable();
+                }
+            }
+        }
     }
     /**
      * metodo consultar pelo numero do codigo
@@ -74,13 +82,7 @@ public class RepositorioSessao implements SessaoDao {
         }
         return null;
     }
-     public Sessao consultarPorSal(Sessao sessaoParametro) { 
-        for(Sessao sessao: listaSessao){
-            if(sessao.getSala().getNumeroSala() == sessaoParametro.getSala().getNumeroSala())
-                
-        }
-        return null;
-    }
+  
 
     /**
      * Metodo consultar pelo nome do filme

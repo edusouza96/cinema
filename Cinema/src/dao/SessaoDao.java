@@ -8,6 +8,7 @@ import model.Sessao;
  */
 public interface SessaoDao {
     public void adicionar(Sessao sessao);
+    public void verificaTempo(Sessao sessaoParametro);
     public Sessao consultarPorCodigo(int codigo);
     public Sessao consultarPorSala(int sala);
     public Sessao consultarPorFilme(String filme);

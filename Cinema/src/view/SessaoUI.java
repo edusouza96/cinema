@@ -1,5 +1,6 @@
 package view;
 
+import exceptions.HourNotAvailable;
 import exceptions.ObjectNullException;
 import java.text.ParseException;
 import java.util.Date;
@@ -106,16 +107,21 @@ public class SessaoUI {
             System.out.println("---------------------------------\n");
             int numeroSala = Console.scanInt("Numero da Sala: ");
             Sala sala = listaSalas.consultarPorSala(numeroSala);
+            if(sala == null)
+                    throw new ObjectNullException();
             String horario = Console.scanString("Horario da Sessão: ");
             Date hora;
             hora = DateUtil.stringToHour(horario);
+            lista.verificaTempo(new Sessao(filme,sala,hora));
             lista.adicionar(new Sessao(filme,sala,hora));
             JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");
-        lista.verificaTempo(new Sessao(filme,sala,hora));
+        
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Hora Inválida\n Favor digitar no Padrão HH:MM", "Operação cancelada", ERROR_MESSAGE);
+        } catch(HourNotAvailable ex){
+           JOptionPane.showMessageDialog(null, "Já existe uma sessão neste horario", "Erro", ERROR_MESSAGE);
         }
         
              

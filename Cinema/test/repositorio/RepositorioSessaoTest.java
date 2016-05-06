@@ -14,7 +14,8 @@ public class RepositorioSessaoTest {
     public RepositorioSessaoTest() {
         lista = new RepositorioSessao();
     }
-    
+
+   
     /**
      * Teste do método getListaSessao, da classe RepositorioSessao.
      */
@@ -26,6 +27,7 @@ public class RepositorioSessaoTest {
         
     }
 
+    
     /**
      * Teste do método adicionar, da class RepositorioSessao.
      */
@@ -94,5 +96,7 @@ public class RepositorioSessaoTest {
         assertEquals(0, lista.getListaSessao().size());
         
     }
+
+   
     
 }
