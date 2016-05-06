@@ -86,8 +86,12 @@ public class FilmeUI {
         
         String genero = Console.scanString("Gênero: ");
         String sinopse = Console.scanString("Sinopse: ");
-        lista.adicionar(new Filme(nomeFilme,genero,sinopse));
-        JOptionPane.showMessageDialog(null, "Filme cadastrado com suceso");     
+        boolean response = lista.adicionar(new Filme(nomeFilme,genero,sinopse));
+        if(response){
+            JOptionPane.showMessageDialog(null, "Filme cadastrado com suceso");     
+        }else{
+            JOptionPane.showMessageDialog(null, "Este filme já esta cadastrado!", null, WARNING_MESSAGE);
+        }
     }
     /**
      * metodo que exibe todos os filmes cadastrados,  que se encontram no repositorio
@@ -124,7 +128,12 @@ public class FilmeUI {
                 if(novoNomeFilme.equals(""))
                     JOptionPane.showMessageDialog(null, "Campo Nome do Filme\nDeve ser Preenchido", "Campo Obrigatório", WARNING_MESSAGE );
             }while(novoNomeFilme.equals(""));
-            filme.setNomeFilme(novoNomeFilme);
+            if(lista.hasFilme(novoNomeFilme)){
+                
+            }else{
+                filme.setNomeFilme(novoNomeFilme);
+            }
+            
         }
         
         resposta = Console.scanString("Mudar o genero do filme? sim ou não ~> ");

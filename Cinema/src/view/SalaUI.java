@@ -4,6 +4,7 @@ import exceptions.ObjectNullException;
 import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Sala;
 import repositorio.RepositorioSalas;
 import util.Console;
@@ -69,9 +70,15 @@ public class SalaUI {
     private void cadastrarSala() {
         try{
             int numeroSala  = Console.scanInt("Número da Sala: ");
-            int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
-            lista.adicionar(new Sala(numeroSala,quantidadeSala));
-            JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
+            boolean verificaSala = lista.hasSala(numeroSala);
+            if(verificaSala){
+                JOptionPane.showMessageDialog(null, "Esta sala ja existe", null, WARNING_MESSAGE);
+            }else{
+                int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
+                lista.adicionar(new Sala(numeroSala,quantidadeSala));
+                JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
+            }
+            
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         }

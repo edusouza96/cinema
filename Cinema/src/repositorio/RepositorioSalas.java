@@ -33,6 +33,20 @@ public class RepositorioSalas implements SalaDao{
     public void adicionar(Sala sala) {
         listaSalas.add(sala);
     }
+    /**
+     * 
+     * @param numero RECEBE O NUMERO DA SALA
+     *
+     * @return DEVOLVE TRUE OU FALSE 
+     */
+    public boolean hasSala(int numero){
+        Sala _sala = consultarPorSala(numero);
+        if(_sala == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
     /***
      * metodo consultar por numero da sala
      * @param sala Recebe por parametro o numero da sala

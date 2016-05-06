@@ -5,8 +5,6 @@ import java.awt.HeadlessException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.InputMismatchException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Assento;

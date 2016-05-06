@@ -2,6 +2,7 @@ package repositorio;
 
 import dao.SessaoDao;
 import java.util.ArrayList;
+import java.util.Date;
 import model.Sessao;
 import util.DateUtil;
 /**
@@ -32,7 +33,18 @@ public class RepositorioSessao implements SessaoDao {
      */
     @Override
     public void adicionar(Sessao sessao) {
+        try{
+            
+        
+        Sessao verificaSessao = consultarPorSala(sessao.getSala().getNumeroSala());
+       int diferencaHoras;
+        diferencaHoras = sessao.getHorario().compareTo(verificaSessao.getHorario());
+        System.out.println(diferencaHoras);
         listaSessao.add(sessao);
+        
+        }catch(Exception ex){
+            
+        }
     }
 
     /**
@@ -40,8 +52,7 @@ public class RepositorioSessao implements SessaoDao {
      * @param codigo recebe por parametro o codigo de uma sessão
      * @return Retorna um objeto do tipo sessão
      */
-    @Override
-    public Sessao consultarPorCodigo(int codigo) {
+    @Override    public Sessao consultarPorCodigo(int codigo) {
         for(Sessao sessao : listaSessao){
             if(sessao.getCodigoSessao() == codigo)
                 return sessao;

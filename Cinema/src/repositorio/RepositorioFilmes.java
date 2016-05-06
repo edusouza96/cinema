@@ -3,6 +3,8 @@ package repositorio;
 
 import dao.FilmeDao;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Filme;
 
 /**
@@ -30,10 +32,31 @@ public class RepositorioFilmes implements FilmeDao {
     /**
      * metodo para adicionar novos filmes no repositorio
      * @param filme recebe por parametro um objeto do tipo filme
+     * @return retorna true ou false
      */
     @Override
-    public void adicionar(Filme filme){
-        listaFilmes.add(filme);
+    public boolean adicionar(Filme filme){
+        Filme temFilme = consultarPorNome(filme.getNomeFilme());
+        if(temFilme == null){
+            listaFilmes.add(filme);
+            return true;
+        }else{
+            return false;
+        }
+            
+    }
+    /**
+     * 
+     * @param filme recebe por parametro um objeto do tipo filme
+     * @return retorna true ou false
+     */
+    public boolean hasFilme(String filme){
+        Filme temFilme = consultarPorNome(filme);
+        if(temFilme == null){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     /**

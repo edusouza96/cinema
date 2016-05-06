@@ -108,7 +108,8 @@ public class SessaoUI {
             Sala sala = listaSalas.consultarPorSala(numeroSala);
             String horario = Console.scanString("Horario da Sessão: ");
             Date hora;
-            hora = DateUtil.stringToHour(horario);lista.adicionar(new Sessao(filme,sala,hora));
+            hora = DateUtil.stringToHour(horario);
+            lista.adicionar(new Sessao(filme,sala,hora));
             JOptionPane.showMessageDialog(null, "Sessão cadastrada com suceso");
             
         }catch(InputMismatchException ex){
