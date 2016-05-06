@@ -48,7 +48,7 @@ public class RepositorioSessao implements SessaoDao {
                 long diferencaHorasMile;
                 diferencaHorasMile = sessao.getHorario().getTime() - sessaoParametro.getHorario().getTime();
                 long diferencaHorasMinutos = (diferencaHorasMile/1000)/60;
-                System.out.println(diferencaHorasMinutos);
+                
                 if(diferencaHorasMinutos > -180 && diferencaHorasMinutos < 180){
                         throw new HourNotAvailable();
                 }

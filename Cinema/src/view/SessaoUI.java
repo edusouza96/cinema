@@ -203,13 +203,16 @@ public class SessaoUI {
             if(resposta.equalsIgnoreCase("sim")){
                 String hora = Console.scanString("Novo Horario para esta sessao: ");
                 sessao.setHorario(DateUtil.stringToHour(hora));
+                lista.verificaTempo(sessao);
             }
             JOptionPane.showMessageDialog(null, "Mudanças Concluida");
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         }catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Hora Inválida\n Favor digitar no Padrão HH:MM", "Operação cancelada", ERROR_MESSAGE);
-        }    
+        } catch(HourNotAvailable ex){
+           JOptionPane.showMessageDialog(null, "Já existe uma sessão neste horario", "Erro", ERROR_MESSAGE);
+        }   
     }
 
     /**
