@@ -1,15 +1,15 @@
 package repositorio;
 
-import dao.AssentoDao;
 import java.util.ArrayList;
 import model.Assento;
 import util.DateUtil;
+import IRepositorio.IAssento;
 
 /**
  *Classe que vai ter os dados do Assento e realizar as operações de adicionar,
  * listar, consultar por codigo e por data
  */
-public class RepositorioAssentos implements AssentoDao{
+public class RepositorioAssentos implements IAssento{
     private ArrayList<Assento> listaAssentos;
 
     /**

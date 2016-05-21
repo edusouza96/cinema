@@ -1,17 +1,17 @@
 
 package repositorio;
 
-import dao.FilmeDao;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Filme;
+import IRepositorio.IFilme;
 
 /**
  *Classe que vai ter os dados dos filmes e realizar as operações de adicionar,
  * listar, consultar por codigo e por nome, e remover o filme
  */
-public class RepositorioFilmes implements FilmeDao {
+public class RepositorioFilmes implements IFilme {
     private ArrayList<Filme> listaFilmes;
    
     /**

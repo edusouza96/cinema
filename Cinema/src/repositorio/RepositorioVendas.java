@@ -1,14 +1,14 @@
 package repositorio;
 
-import dao.VendaDao;
 import java.util.ArrayList;
 import model.Venda;
+import IRepositorio.IVenda;
 
 /**
  *Classe que vai ter os dados da venda e realizar as operações de adicionar,
  * listar, consultar por registro
  */
-public class RepositorioVendas implements VendaDao{
+public class RepositorioVendas implements IVenda{
     private ArrayList<Venda> listaVendas;
 
     /**

@@ -1,4 +1,4 @@
-package dao;
+package IRepositorio;
 
 import model.Sessao;
 
@@ -6,7 +6,7 @@ import model.Sessao;
  *contem adicionar, consultar por codigo, consultar por sala, 
  * consultar por filme, consultar por horario, remover
  */
-public interface SessaoDao {
+public interface ISessao {
     public void adicionar(Sessao sessao);
     public void verificaTempo(Sessao sessaoParametro);
     public Sessao consultarPorCodigo(int codigo);

@@ -1,16 +1,16 @@
 package repositorio;
 
-import dao.SessaoDao;
 import exceptions.HourNotAvailable;
 import java.util.ArrayList;
 import java.util.Date;
 import model.Sessao;
 import util.DateUtil;
+import IRepositorio.ISessao;
 /**
 Classe que vai ter os dados das sessões e realizar as operações de adicionar,remover,
  * listar, consultar por nome do filme, por nunmero da sala e por horario da sessao
  */
-public class RepositorioSessao implements SessaoDao {
+public class RepositorioSessao implements ISessao {
     private ArrayList<Sessao> listaSessao;
 
     /**

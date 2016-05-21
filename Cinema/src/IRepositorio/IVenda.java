@@ -1,11 +1,11 @@
-package dao;
+package IRepositorio;
 
 import model.Venda;
 
 /**
  *contem adicionar e consultar por registro
  */
-public interface VendaDao {
+public interface IVenda {
     public void adicionar(Venda venda);
     public Venda consultarPorRegistro(int registro);
     

@@ -1,14 +1,14 @@
 package repositorio;
 
-import dao.SalaDao;
 import java.util.ArrayList;
 import model.Sala;
+import IRepositorio.ISala;
 
 /**
  *Classe que vai ter os dados da sala e realizar as operações de adicionar,
  * listar, consultar 
  */
-public class RepositorioSalas implements SalaDao{
+public class RepositorioSalas implements ISala{
     private ArrayList<Sala> listaSalas;
     
     /**
