@@ -40,7 +40,7 @@ public class MainVenda {
                 opcao = Console.scanInt("Digite a opção desejada ~> ");
                 switch(opcao){
                     case MenuUI.FILME:
-                        new FilmeUI(listaFilme).executar();
+                        new FilmeUI().executar();
                         break;
                     case MenuUI.SALA:
                         new SalaUI(listaSala).executar();

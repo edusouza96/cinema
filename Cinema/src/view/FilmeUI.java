@@ -1,12 +1,13 @@
 package view;
 
-import exceptions.ObjectNullException;
+import exceptions.RNException;
 import java.util.InputMismatchException;
+import java.util.List;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Filme;
-import repositorio.RepositorioFilmes;
+import rn.FilmeRN;
 import util.Console;
 
 /**
@@ -14,19 +15,13 @@ import util.Console;
  * contem cadastrar,listar,alterar, deletar filme
  */
 public class FilmeUI {
-    private RepositorioFilmes lista;
+    private FilmeRN filmeRN;
 
     /**
-     * Construtor que recebe o objeto repositorio
-     * @param lista Parametro do tipo RepositorioFilmes
+     * Construtor 
      */
-    public FilmeUI(RepositorioFilmes lista) {
-        this.lista = lista;
-        lista.adicionar(new Filme("Vingadores: Era de Ultron","ficção científica/Ação","Sequência do sucesso 'Os Vingadores', que reúne mais uma vez a equipe de super-heróis"));
-        lista.adicionar(new Filme("Pixels","Fantasi/ficção científica"," seres intergalácticos interpretam um vídeo com imagens de jogos clássicos como uma declaração de guerra"));
-        lista.adicionar(new Filme("Meu Passado Me Condena 2","Comédia","O filme mostra o que aconteceu com Fábio (Fábio Porchat) e Miá (Miá Mello) três anos após o casamento "));
-        
-        
+    public FilmeUI() {
+        filmeRN = new FilmeRN();
     }
     /**
      * metodo que contem as opções para execução dos procedimentos
@@ -48,13 +43,10 @@ public class FilmeUI {
                         alterarFilme();
                         break;
                     case MenuUI.DELETAR:
-                    {
-                        try {
-                            deletarFilme();
-                        } catch (ObjectNullException ex) {
-                            JOptionPane.showMessageDialog(null, "Filme Não Localizado", null, ERROR_MESSAGE);
-                        }
-                    }
+                        deletarFilme();
+                        break;
+                    case MenuUI.CONSULTAR_GENERO:
+                        consultarFilmePorGenero();
                         break;
                     case MenuUI.SAIR:
                         JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
@@ -66,9 +58,6 @@ public class FilmeUI {
             }catch(InputMismatchException ex){
                 JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
             }
-                
-                
-            
         } while (opcao != MenuUI.SAIR);
     }
     
@@ -77,109 +66,109 @@ public class FilmeUI {
      * coloca na lista do repositorio
      */
     private void cadastrarFilme() {
-        String nomeFilme = "";
-        do{
-            nomeFilme = Console.scanString("Nome do Filme: ");
-            if(nomeFilme.equals(""))
-                JOptionPane.showMessageDialog(null, "Campo Nome do Filme\nDeve ser Preenchido", "Campo Obrigatório", WARNING_MESSAGE );
-        }while(nomeFilme.equals(""));
-        
+        String nomeFilme = Console.scanString("Nome do Filme: ");
         String genero = Console.scanString("Gênero: ");
         String sinopse = Console.scanString("Sinopse: ");
-        boolean response = lista.adicionar(new Filme(nomeFilme,genero,sinopse));
-        if(response){
-            JOptionPane.showMessageDialog(null, "Filme cadastrado com suceso");     
-        }else{
-            JOptionPane.showMessageDialog(null, "Este filme já esta cadastrado!", null, WARNING_MESSAGE);
-        }
+        try {
+            filmeRN.adicionar(new Filme(nomeFilme, genero, sinopse));
+            JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso");
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        } 
+        
     }
     /**
      * metodo que exibe todos os filmes cadastrados,  que se encontram no repositorio
      */
     private void mostrarFilmes() {
-        System.out.println("___________________________________________\n");
-        System.out.println(String.format("%-50s", "Nome do Filme") + "\t"
-                + String.format("%-20s", "|Gênero") + "\t"
-                + String.format("%-40s", "|Sinopse"));
-        for (Filme filme : lista.getListaFilmes()) {
-            System.out.println(String.format("%-50s", filme.getNomeFilme()) + "\t"
-                    + String.format("%-20s", "|" + filme.getGenero()) + "\t"
-                    + String.format("%-40s", "|" + filme.getSinopse()));
+        List<Filme> listaFilmes = filmeRN.listar();
+        this.mostrarFilmes(listaFilmes);
+    }
+    
+    private void mostrarFilmes(List<Filme> listaFilmes) {
+        if (listaFilmes.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Filmes não encontrados", null, WARNING_MESSAGE);
+        } else {
+            System.out.println("___________________________________________\n");
+            System.out.println(String.format("%-50s", "Nome do Filme") + "\t"
+                    + String.format("%-20s", "|Gênero") + "\t"
+                    + String.format("%-40s", "|Sinopse"));
+            for (Filme filme : listaFilmes) {
+                System.out.println(String.format("%-50s", filme.getNomeFilme()) + "\t"
+                        + String.format("%-20s", "|" + filme.getGenero()) + "\t"
+                        + String.format("%-40s", "|" + filme.getSinopse()));
+            }
         }
+    }
+    
+    private void mostrarFilme(Filme f) {
+        System.out.println("-----------------------------");
+        System.out.println("Dados atuais");
+        System.out.println("Nome do filme: "+f.getNomeFilme());
+        System.out.println("Gênero: "+f.getGenero());
+        System.out.println("Sinopse: "+f.getSinopse());
+        System.out.println("-----------------------------");
+    }
+    private void consultarFilmePorGenero() {
+        String genero = Console.scanString("Genero: ");
+        try {
+            List<Filme> listaFilme = filmeRN.procuraPorGenero(genero);
+            this.mostrarFilmes(listaFilme);
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }
+
     }
     /**
      * metodo responsavel para alterar algum dado do filme
      */
     private void alterarFilme() {
         String filmeAlterar = Console.scanString("Nome do filme á alterar: ");
-        Filme filme = lista.consultarPorNome(filmeAlterar);
-        String novoNomeFilme;
-        String novoGenero;
-        String novaSinopse;
-        System.out.println("Dados atuais");
-        System.out.println("Nome do filme: "+filme.getNomeFilme());
-        System.out.println("Gênero: "+filme.getGenero());
-        System.out.println("Sinopse: "+filme.getSinopse());
-       
-        String resposta = Console.scanString("Mudar o nome do filme? sim ou não ~> ");
-        if (resposta.equalsIgnoreCase("sim")){
-            do{
-                novoNomeFilme = Console.scanString("Novo nome do Filme: ");
-                if(novoNomeFilme.equals(""))
-                    JOptionPane.showMessageDialog(null, "Campo Nome do Filme\nDeve ser Preenchido", "Campo Obrigatório", WARNING_MESSAGE );
-            }while(novoNomeFilme.equals(""));
-            if(lista.hasFilme(novoNomeFilme)){
-                
-            }else{
+        try {
+            Filme filme = filmeRN.procuraPorNome(filmeAlterar);
+            this.mostrarFilme(filme);
+
+            System.out.println("Digite os dados do filme que quer alterar [Vazio caso nao queira]");
+            String novoNomeFilme = Console.scanString("Novo nome do Filme: ");
+            String novoGenero = Console.scanString("Novo Genero do Filme: ");
+            String novaSinopse = Console.scanString("Nova Sinopse do Filme: ");
+            if (!novoNomeFilme.isEmpty()) {
                 filme.setNomeFilme(novoNomeFilme);
             }
-            
-        }
-        
-        resposta = Console.scanString("Mudar o genero do filme? sim ou não ~> ");
-        if (resposta.equalsIgnoreCase("sim")){
-            do{
-                novoGenero = Console.scanString("Novo Genero do Filme: ");
-                if(novoGenero.equals(""))
-                    JOptionPane.showMessageDialog(null, "Campo Genero do Filme\nDeve ser Preenchido", "Campo Obrigatório", WARNING_MESSAGE );
-            }while(novoGenero.equals(""));
-            filme.setGenero(novoGenero);
-        }
-            
-        
-        resposta = Console.scanString("Mudar a sinopse do filme? sim ou não ~> ");
-        if (resposta.equalsIgnoreCase("sim")){
-            do{
-                novaSinopse = Console.scanString("Nova Sinopse do Filme: ");
-                if(novaSinopse.equals(""))
-                    JOptionPane.showMessageDialog(null, "Campo Sinopse do Filme\nDeve ser Preenchido", "Campo Obrigatório", WARNING_MESSAGE );
-                    
-            }while(novaSinopse.equals(""));
-            filme.setSinopse(novaSinopse);
-        }
-            
-        JOptionPane.showMessageDialog(null, "Mudanças Concluida"); 
+            if (!novoGenero.isEmpty()) {
+                filme.setGenero(novoGenero);
+            }
+            if (!novaSinopse.isEmpty()) {
+                filme.setSinopse(novaSinopse);
+            }
+
+            filmeRN.atualizar(filme);
+            JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso");
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }  
     }
     /**
-     * Metodo que deleta um filme da lista
+     * Metodo que deleta um filme 
      */    
-    private void deletarFilme() throws ObjectNullException {
+    private void deletarFilme(){
         String filmeDeletar = Console.scanString("Nome do filme a excluir: ");
-        Filme filme = lista.consultarPorNome(filmeDeletar);
-        if(filme == null)
-            throw new ObjectNullException();
-        lista.remover(filme);
-        JOptionPane.showMessageDialog(null, "Exclusão Concluida");
-        
+        try {
+            Filme filme = filmeRN.procuraPorNome(filmeDeletar);
+            this.mostrarFilme(filme);
+            char resposta = Console.scanChar("Realmente deseja remover esse Filme?(s/n)");
+            if (resposta == 's') {
+                filmeRN.deletar(filme);
+                JOptionPane.showMessageDialog(null, "Filme deletado com sucesso");
+            } else {
+                JOptionPane.showMessageDialog(null, "Operação cancelada", "Aviso", WARNING_MESSAGE);
+            }
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
-    /**
-     * Getter do RepositorioFilmes
-     * @return Retorna a lista de Filmes
-     */
-    public RepositorioFilmes getLista() {
-        return lista;
-    }
+    
     
     
     

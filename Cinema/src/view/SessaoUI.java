@@ -36,15 +36,10 @@ public class SessaoUI {
         this.lista = lista;
         this.listaFilmes = listaFilme;
         this.listaSalas = listaSala;
-        FilmeUI filmeUI = new FilmeUI(listaFilmes);
-        Filme filme = filmeUI.getLista().getListaFilmes().get(1);
+        FilmeUI filmeUI = new FilmeUI();
         SalaUI salaUI = new SalaUI(listaSalas);
         Sala sala = salaUI.getLista().getListaSalas().get(1);
-        try {
-            lista.adicionar(new Sessao(filme, sala, DateUtil.stringToHour("10:00")));
-        } catch (ParseException ex) {
-            System.out.println("Não tem erro aqui, pois sou que manipulo");
-        }
+        
     }
     
     /**

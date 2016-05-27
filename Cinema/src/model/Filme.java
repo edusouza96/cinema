@@ -21,6 +21,19 @@ public class Filme {
         this.genero = genero;
         this.sinopse = sinopse;
     }
+     /**
+     * Construtor com parametros
+     * @param codigoFilme: Recebe o código do filme
+     * @param nomeFilme: Recebe o nome do filme
+     * @param genero: Recebe o genero do filme
+     * @param sinopse: Recebe  a sinopse do filme
+     */
+    public Filme(int codigoFilme, String nomeFilme, String genero, String sinopse) {
+        this.codigoFilme = codigoFilme;
+        this.nomeFilme = nomeFilme;
+        this.genero = genero;
+        this.sinopse = sinopse;
+    }
     /**
      * Contrutor sem parametro
      */

@@ -16,6 +16,7 @@ public class MenuUI {
     public static final int LISTAR = 2;
     public static final int EDITAR = 3;
     public static final int DELETAR = 4;
+    public static final int CONSULTAR_GENERO = 5;
     
     public static final int VENDA_FILME = 1;
     public static final int VENDA_SALA = 2;
@@ -49,6 +50,7 @@ public class MenuUI {
                 + "2- Listar Filmes\n"
                 + "3- Editar Filme\n"
                 + "4- Deletar Filme\n"
+                + "5- Consultar por Genero\n"
                 + "0- Voltar Menu Principal"
                 + "\n--------------------------------------");
     }
