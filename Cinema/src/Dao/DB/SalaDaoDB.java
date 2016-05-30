@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Sala;
 
+/**
+ * Classe que implementa os métodos para manipular os dados na base de dados
+ */
 public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
 
     @Override
@@ -34,10 +37,14 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
         return null;
     }
 
+    /**
+     * Método que envia os dados para o banco de dados
+     * @param sala: um objeto sala que contem as informações a ser enviadas ao banco
+     */
     @Override
     public void adicionar(Sala sala) {
         try{
-            String sql = "INSERT INTO sala (numeroSala, qunatidadeSala)"
+            String sql = "INSERT INTO sala (numeroSala, quantidadeSala)"
                     + "VALUES (?,?)";
             conectar(sql);
             comando.setInt(1, sala.getNumeroSala());
@@ -52,6 +59,10 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
                 
     }
 
+    /**
+     * Metodo que lista as salas do banco
+     * @return : Traz uma lista de salas
+     */
     @Override
     public List<Sala> listar() {
         List<Sala> listaSalas = new ArrayList<>();
@@ -73,14 +84,24 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
         }finally{
             fecharConexao();
         }
-        return null;
+        return (listaSalas);
     }
 
+    /**
+     * Este Método não é utilizado pois a sala não tem ID definido e é numero da sala o 
+     * que torna um objeto unico
+     * @param id receberia ID se houver
+     * @return retorna um objeto do tipo sala
+     */
     @Override
     public Sala procurarPorId(int id) {
         return null;//não utilizado
     }
 
+    /**
+     * metodo que atualiza os dados no banco
+     * @param sala : Um objeto que tem os novos dados a serem atualizados
+     */
     @Override
     public void atualizar(Sala sala) {
         try{
@@ -97,6 +118,10 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
         }
     }
 
+    /**
+     * método que deleta uma linha de dados do banco de dados
+     * @param sala: Um objeto que contem o ID para deletar uma sala do banco de dados
+     */
     @Override
     public void deletar(Sala sala) {
         try{

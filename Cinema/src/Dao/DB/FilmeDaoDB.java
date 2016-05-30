@@ -8,9 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Filme;
 
+/**
+ * Classe que implementa os métodos para manipular os dados na base de dados
+ */
 public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
   
 
+    /**
+     * Método que envia os dados para o banco de dados
+     * @param filme: um objeto filme que contem as informações a ser enviadas ao banco
+     */
     @Override
     public void adicionar(Filme filme) {
         int id = 0;
@@ -41,6 +48,10 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
         }
     }
 
+    /**
+     * método que deleta uma linha de dados do banco de dados
+     * @param filme: Um objeto que coontem o ID para deletar um filme do banco de dados
+     */
     @Override
     public void deletar(Filme filme) {
         try {
@@ -59,6 +70,10 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
 
     }
 
+    /**
+     * metodo que atualiza os dados no banco
+     * @param filme : Um objeto que tem os novos dados a sereem atualizados
+     */
     @Override
     public void atualizar(Filme filme) {
         try {
@@ -81,6 +96,10 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
 
     }
 
+    /**
+     * Metodo que lista os filmes do banco
+     * @return : Traz uma lista de Filmes
+     */
     @Override
     public List<Filme> listar() {
         List<Filme> listaFilmes = new ArrayList<>();
@@ -115,6 +134,11 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
         return (listaFilmes);
     }
 
+    /**
+     * Metodo que devolve um objeto de Filmes de acordo com o ID passado
+     * @param id: ID para buscar uma linha de dados no banco
+     * @return : Retorna um objeto do tipo filme de acordo com o ID fornecido
+     */
     @Override
     public Filme procurarPorId(int id) {
         String sql = "SELECT * FROM filme WHERE id = ?";
@@ -147,6 +171,11 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
         return (null);
     }
 
+    /**
+     * Metodo que devolve um objeto de Filmes de acordo com o nome passado
+     * @param nome : nome para buscar uma linha de dados no banco
+     * @return : Retorna um objeto do tipo filme de acordo com o nome fornecido
+     */
     @Override
     public Filme procurarPorNome(String nome) {
         String sql = "SELECT * FROM filme WHERE nomeFilme = ?";
@@ -178,6 +207,11 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
         return (null);
     }
 
+    /**
+     *  Metodo que devolve uma lista Filmes de acordo com o genero passado
+     * @param genero : genero para buscar no banco
+     * @return : Retorna uma lista de filmes de acordo com o genero fornecido
+     */
     @Override
     public List<Filme> procurarPorGenero(String genero) {
         List<Filme> listaFilmes = new ArrayList<>();

@@ -1,12 +1,13 @@
 package view;
 
-import exceptions.ObjectNullException;
+import exceptions.RNException;
 import java.util.InputMismatchException;
+import java.util.List;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Sala;
-import repositorio.RepositorioSalas;
+import rn.SalaRN;
 import util.Console;
 
 /**
@@ -14,17 +15,13 @@ import util.Console;
  * contem cadastrar, listar, alterar, deletar sala
  */
 public class SalaUI {
-    private RepositorioSalas lista;
+    private SalaRN salaRN;
 
     /***
-     * Construtor que recebe o objeto repositorio 
-     * @param lista Parametro do tipo RepositorioSalas
+     * Construtor 
      */
-    public SalaUI(RepositorioSalas lista) {
-        this.lista = lista;
-        lista.adicionar(new Sala(100, 200));
-        lista.adicionar(new Sala(200, 400));
-        lista.adicionar(new Sala(300, 600));
+    public SalaUI() {
+        salaRN = new SalaRN();
     }
     /**
      * metodo que contem um switch para escolher os procedimentos a ser realix=zado
@@ -48,6 +45,9 @@ public class SalaUI {
                     case MenuUI.DELETAR:
                         deletarSala();
                         break;
+                    case MenuUI.BUSCA_ESPECIFICA:
+                        consultarSalaPorNumero();
+                        break;
                     case MenuUI.SAIR:
                         JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                         break;
@@ -57,88 +57,116 @@ public class SalaUI {
                 }
             }catch(InputMismatchException ex){
                 JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
-            } catch (ObjectNullException ex) {
-                 JOptionPane.showMessageDialog(null, "Sala Não Localizada", null, ERROR_MESSAGE);
-            }
-            
-            
+            }       
         }while(opcao !=0);
     }
+    
     /**
-     * Metodo que coleta as informações da sala e depois inseri na lista do repositorio
+     * Metodo que coleta as informações da sala e depois 
+     * envia para RN tratar da requisição
      */
     private void cadastrarSala() {
+        int numeroSala  = Console.scanInt("Número da Sala: ");
+        int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
         try{
-            int numeroSala  = Console.scanInt("Número da Sala: ");
-            boolean verificaSala = lista.hasSala(numeroSala);
-            if(verificaSala){
-                JOptionPane.showMessageDialog(null, "Esta sala ja existe", null, WARNING_MESSAGE);
-            }else{
-                int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
-                lista.adicionar(new Sala(numeroSala,quantidadeSala));
-                JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
-            }
-            
+            salaRN.adicionar(new Sala(numeroSala,quantidadeSala));
+            JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+        }catch(RNException ex){
+            System.err.println(ex.getMessage());
         }
         
     }
+    
     /**
-     * metodo que mostra todos os dados referente da sala que foram inseridos na lista
+     * metodo que faz uma requisição para RN e depois exibe todas as salas cadastradas no banco
      */
-    private void mostrarSalas() {
-        System.out.println("___________________________________________\n");
-        System.out.println(String.format("%-30s", "Numero da Sala")+ "\t"
-                + String.format("%-30s", "|Capacidade da Sala"));
-        for(Sala sala : lista.getListaSalas()){
-            System.out.println(String.format("%-30s", sala.getNumeroSala())+"\t"
-                    + String.format("%-30s", "|" + sala.getQuantidadeSala()));
+    private void mostrarSalas(){
+        List<Sala> listaSalas = salaRN.listar();
+        this.mostrarSalas(listaSalas);
+    }
+    
+    /**
+     * Método que verifica se a lista está vazia e se não estiver trata visualmente para ser exibido na tela
+     * @param listaSalas recebe uma lista de salas para fazer as verificações e tratar a saida
+     */
+    private void mostrarSalas(List<Sala> listaSalas) {
+        if(listaSalas.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Salas não encontradas", "Aviso", WARNING_MESSAGE);
+            
+        }else{
+             System.out.println("___________________________________________\n");
+            System.out.println(String.format("%-30s", "Numero da Sala")+ "\t"
+                    + String.format("%-30s", "|Capacidade da Sala"));
+            for(Sala sala : listaSalas){
+                System.out.println(String.format("%-30s", sala.getNumeroSala())+"\t"
+                        + String.format("%-30s", "|" + sala.getQuantidadeSala()));
+            }
         }
+       
+    }
+    
+    /**
+     * Recebe um objeto sala e trata visualmente os dados para ser exibido na tela
+     * @param s : Objero sala recebido por parametro
+     */
+    private void mostrarSala(Sala s){
+        System.out.println("-----------------------------");
+        System.out.println("Dados Atuais");
+        System.out.println("Número da sala: "+s.getNumeroSala());
+        System.out.println("Capacidade da Sala: "+s.getQuantidadeSala());
+        System.out.println("-----------------------------");
     }
     /**
      * metodo que faz alteração na capacidade da sala
      */
-    private void alterarFilme() throws ObjectNullException {
+    private void alterarFilme(){
         int salaAlterar = Console.scanInt("Número da sala á alterar: ");
-        Sala sala = lista.consultarPorSala(salaAlterar);
-        if(sala==null)
-            throw new ObjectNullException();
-        System.out.println("Dados Atuais");
-        System.out.println("Número da sala: "+sala.getNumeroSala());
-        System.out.println("Capacidade da Sala: "+sala.getQuantidadeSala());
-        String resposta = Console.scanString("Mudar a capacidade da Sala: sim ou não ~> ");
-        if(resposta.equalsIgnoreCase("sim")){
-            try{
-                sala.setQuantidadeSala(Console.scanInt("Nova Capacidade da sala: "));
-                JOptionPane.showMessageDialog(null, "Mudanças Concluida");
-            }catch(InputMismatchException ex){
-                JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
-            }
-        }
+        try{
+            Sala sala = salaRN.procurarPorNumero(salaAlterar);
+            this.mostrarSala(sala);
             
-        
-        
-        
+            int capacidadeSala = Console.scanInt("Nova Capacidade da sala [Digite '0' caso não queira alterar]: ");
+            if(capacidadeSala != 0){
+                sala.setQuantidadeSala(capacidadeSala);
+            }
+            salaRN.atualizar(sala);
+            JOptionPane.showMessageDialog(null, "Mudanças Concluida");
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }catch(InputMismatchException ex){
+            JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+        }
     }
     /**
-     * metodo que exclui uma sala da lista
+     * metodo que exclui uma sala
      */
-    private void deletarSala() throws ObjectNullException {
+    private void deletarSala(){
         int filmeDeletar = Console.scanInt("Numero da sala a excluir: ");
-        Sala sala = lista.consultarPorSala(filmeDeletar);
-        if(sala==null)
-            throw new ObjectNullException();
-        lista.remover(sala);
-        JOptionPane.showMessageDialog(null, "Exclusão Concluida");
+        try{
+            Sala sala = salaRN.procurarPorNumero(filmeDeletar);
+            this.mostrarSala(sala);
+            char resposta = Console.scanChar("Realmente deseja remover essa Sala?(s/n)");
+            if(resposta == 'S' || resposta == 's' ){
+                salaRN.deletar(sala);
+                JOptionPane.showMessageDialog(null, "Exclusão Concluida");
+            }else{
+                JOptionPane.showMessageDialog(null, "Operação cancelada", "Aviso", WARNING_MESSAGE);
+            }
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }        
     }
 
-    /**
-     * Getter do RepositorioSalas
-     * @return Retorna a lista de Salas
-     */
-    public RepositorioSalas getLista() {
-        return lista;
+    private void consultarSalaPorNumero() {
+        int numeroSala = Console.scanInt("Numero da Sala: ");
+        try{
+            Sala sala = salaRN.procurarPorNumero(numeroSala);
+            this.mostrarSala(sala);
+        }catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
             
     

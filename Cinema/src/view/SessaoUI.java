@@ -37,9 +37,7 @@ public class SessaoUI {
         this.listaFilmes = listaFilme;
         this.listaSalas = listaSala;
         FilmeUI filmeUI = new FilmeUI();
-        SalaUI salaUI = new SalaUI(listaSalas);
-        Sala sala = salaUI.getLista().getListaSalas().get(1);
-        
+        SalaUI salaUI = new SalaUI();
     }
     
     /**

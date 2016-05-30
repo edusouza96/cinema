@@ -45,7 +45,7 @@ public class FilmeUI {
                     case MenuUI.DELETAR:
                         deletarFilme();
                         break;
-                    case MenuUI.CONSULTAR_GENERO:
+                    case MenuUI.BUSCA_ESPECIFICA:
                         consultarFilmePorGenero();
                         break;
                     case MenuUI.SAIR:
@@ -63,7 +63,7 @@ public class FilmeUI {
     
     /**
      * metodo que coleta as informações do filme e depois 
-     * coloca na lista do repositorio
+     * envia para RN tratar da requisição
      */
     private void cadastrarFilme() {
         String nomeFilme = Console.scanString("Nome do Filme: ");
@@ -77,14 +77,19 @@ public class FilmeUI {
         } 
         
     }
+    
     /**
-     * metodo que exibe todos os filmes cadastrados,  que se encontram no repositorio
+     * metodo que faz uma requisição para RN e depois exibe todos os filmes cadastrados no banco
      */
     private void mostrarFilmes() {
         List<Filme> listaFilmes = filmeRN.listar();
         this.mostrarFilmes(listaFilmes);
     }
     
+    /**
+     * Método que verifica se a lista está vazia e se não estiver trata visualmente para ser exibido na tela
+     * @param listaFilmes recebe uma lista de filmes para fazer as verificações e tratas a saida
+     */
     private void mostrarFilmes(List<Filme> listaFilmes) {
         if (listaFilmes.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Filmes não encontrados", null, WARNING_MESSAGE);
@@ -100,7 +105,10 @@ public class FilmeUI {
             }
         }
     }
-    
+    /**
+     * Recebe um objeto filme e trata visualmente os dados deles para ser exibido na tela
+     * @param f : Objeto Filme recebido por parametro
+     */
     private void mostrarFilme(Filme f) {
         System.out.println("-----------------------------");
         System.out.println("Dados atuais");
@@ -109,6 +117,10 @@ public class FilmeUI {
         System.out.println("Sinopse: "+f.getSinopse());
         System.out.println("-----------------------------");
     }
+    
+    /**
+     * Através de um genero inserido ele retorna uma lista dos filmes de tal genero 
+     */
     private void consultarFilmePorGenero() {
         String genero = Console.scanString("Genero: ");
         try {
@@ -157,7 +169,7 @@ public class FilmeUI {
             Filme filme = filmeRN.procuraPorNome(filmeDeletar);
             this.mostrarFilme(filme);
             char resposta = Console.scanChar("Realmente deseja remover esse Filme?(s/n)");
-            if (resposta == 's') {
+            if (resposta == 's' || resposta == 'S' ) {
                 filmeRN.deletar(filme);
                 JOptionPane.showMessageDialog(null, "Filme deletado com sucesso");
             } else {

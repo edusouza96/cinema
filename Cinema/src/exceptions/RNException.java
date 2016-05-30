@@ -1,8 +1,11 @@
 package exceptions;
 
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+
 public class RNException extends Exception{
     public RNException(String s) {
-        super(s);
+        JOptionPane.showMessageDialog(null, s, "Aviso", WARNING_MESSAGE);
     }
 
     public RNException(String s, Throwable throwable) {
@@ -12,4 +15,6 @@ public class RNException extends Exception{
     public RNException(Throwable throwable) {
         super(throwable);
     }
+    
+    
 }
