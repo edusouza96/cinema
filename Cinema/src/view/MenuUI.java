@@ -17,6 +17,7 @@ public class MenuUI {
     public static final int EDITAR = 3;
     public static final int DELETAR = 4;
     public static final int BUSCA_ESPECIFICA = 5;
+    public static final int BUSCA_VENDA = 3;
     
     public static final int VENDA_FILME = 1;
     public static final int VENDA_SALA = 2;
@@ -78,6 +79,7 @@ public class MenuUI {
                 + "2- Listar Sessão\n"
                 + "3- Editar Sessões\n"
                 + "4- Deletar Sessão\n"
+                + "5- Busca Por Horário\n"
                 + "0- Voltar Menu Principal"
                 + "\n--------------------------------------");
     }

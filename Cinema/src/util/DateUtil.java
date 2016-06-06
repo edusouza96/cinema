@@ -18,6 +18,10 @@ public class DateUtil {
     {
         return(new SimpleDateFormat("dd/MM/yyyy").parse(data));
     }
+    public static Date stringToDateEUA(String data) throws ParseException
+    {
+        return(new SimpleDateFormat("yyyy/MM/dd").parse(data));
+    }
     /**
      * Recebe uma string e passa para formato date
      * @param data recebe uma string
@@ -46,6 +50,9 @@ public class DateUtil {
      */
     public static String dateToString(Date data){
         return(new SimpleDateFormat("dd/MM/yyyy").format(data));
+    }
+    public static String dateToStringEUA(Date data){
+        return(new SimpleDateFormat("yyyy-MM-dd").format(data));
     }
     
     /**

@@ -27,6 +27,18 @@ public class Venda {
         this.filmeSalaSessao = filmeSalaSessao;
         this.data = data;
     }
+    
+    /**
+    * Construtor com parametro
+     * @param registroVenda recebe uma key para representar o registro de venda
+    * @param filmeSalaSessao recebe um objeto sessao
+    * @param data recebe um objeto data
+    */
+    public Venda(int registroVenda,Sessao filmeSalaSessao, Date data) {
+        this.registroVenda = registroVenda;
+        this.filmeSalaSessao = filmeSalaSessao;
+        this.data = data;
+    }
 
     /**
      * getter de registroVenda
@@ -34,6 +46,10 @@ public class Venda {
      */
     public int getRegistroVenda() {
         return registroVenda;
+    }
+
+    public void setRegistroVenda(int registroVenda) {
+        this.registroVenda = registroVenda;
     }
 
     /**

@@ -42,7 +42,7 @@ public class RepositorioSessao implements ISessao {
      * @param sessaoParametro recebe por parametro um objeto do tipo sessão
      */
     @Override
-    public void verificaTempo(Sessao sessaoParametro) throws HourNotAvailable{
+    public void verificaTempo(Sessao sessaoParametro) {
         for(Sessao sessao: listaSessao){
             if(sessao.getSala().getNumeroSala() == sessaoParametro.getSala().getNumeroSala()){
                 long diferencaHorasMile;
@@ -50,7 +50,7 @@ public class RepositorioSessao implements ISessao {
                 long diferencaHorasMinutos = (diferencaHorasMile/1000)/60;
                 
                 if(diferencaHorasMinutos > -180 && diferencaHorasMinutos < 180){
-                        throw new HourNotAvailable();
+                        
                 }
             }
         }

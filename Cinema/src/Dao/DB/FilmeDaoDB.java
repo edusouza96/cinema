@@ -141,7 +141,7 @@ public class FilmeDaoDB extends DaoDB<Filme> implements FilmeDao {
      */
     @Override
     public Filme procurarPorId(int id) {
-        String sql = "SELECT * FROM filme WHERE id = ?";
+        String sql = "SELECT * FROM filme WHERE codigoFilme = ?";
 
         try {
             conectar(sql);

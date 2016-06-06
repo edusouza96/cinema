@@ -135,9 +135,9 @@ public class FilmeUI {
      * metodo responsavel para alterar algum dado do filme
      */
     private void alterarFilme() {
-        String filmeAlterar = Console.scanString("Nome do filme á alterar: ");
         try {
-            Filme filme = filmeRN.procuraPorNome(filmeAlterar);
+            int filmeAlterar = Console.scanInt("Código do filme á alterar: ");
+            Filme filme = filmeRN.procurarPorId(filmeAlterar);
             this.mostrarFilme(filme);
 
             System.out.println("Digite os dados do filme que quer alterar [Vazio caso nao queira]");
@@ -158,15 +158,18 @@ public class FilmeUI {
             JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso");
         } catch (RNException ex) {
             System.err.println(ex.getMessage());
-        }  
+        }  catch(InputMismatchException ex){
+            JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
+        }
     }
     /**
      * Metodo que deleta um filme 
      */    
     private void deletarFilme(){
-        String filmeDeletar = Console.scanString("Nome do filme a excluir: ");
+        
         try {
-            Filme filme = filmeRN.procuraPorNome(filmeDeletar);
+            int filmeDeletar = Console.scanInt("Código do filme a excluir: ");
+            Filme filme = filmeRN.procurarPorId(filmeDeletar);
             this.mostrarFilme(filme);
             char resposta = Console.scanChar("Realmente deseja remover esse Filme?(s/n)");
             if (resposta == 's' || resposta == 'S' ) {
@@ -177,12 +180,8 @@ public class FilmeUI {
             }
         } catch (RNException ex) {
             System.err.println(ex.getMessage());
+        }catch(InputMismatchException ex){
+            JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         }
-    }
-
-    
-    
-    
-    
-    
+    }    
 }

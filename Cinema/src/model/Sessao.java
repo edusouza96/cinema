@@ -25,6 +25,20 @@ public class Sessao {
         this.sala = sala;
         this.horario = horario;
     }
+    
+    /**
+     * Contrutor que recebe os parametros para iniciar os atribbutos do objetos
+     * @param codigoSessao: Recebe o código da sessao
+     * @param filme Recebe um objeto do tipo filme
+     * @param sala Recebe um objeto do tipo sala 
+     * @param horario Recebe um objeto do tipo Date
+     */
+    public Sessao(int codigoSessao,  Sala sala,Filme filme, Date horario) {
+        this.codigoSessao = generateCodigo();
+        this.filme = filme;
+        this.sala = sala;
+        this.horario = horario;
+    }
 
     /**
      * contrutor sem parametro
@@ -103,7 +117,7 @@ public class Sessao {
     @Override
     public String toString() {
         String hora = DateUtil.hourToString(horario);
-        return "Nome do Filme = " + filme.getNomeFilme() + " / Numero da Sala = " + sala.getNumeroSala() + " / Horario = " + hora;
+        return "Nome do Filme = " + filme.getNomeFilme() + " | Numero da Sala = " + sala.getNumeroSala() + " | Horario = " + hora;
     }
     
     /**

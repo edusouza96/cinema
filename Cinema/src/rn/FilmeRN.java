@@ -63,7 +63,7 @@ public class FilmeRN {
      */
     public void atualizar (Filme filme) throws RNException{
         if(filme==null || filme.getNomeFilme() ==null){
-            throw new RNException("Paciente não existe!");
+            throw new RNException("Filme não existe!");
             
         }
         this.validarCamposObrigatorios(filme);
@@ -87,6 +87,25 @@ public class FilmeRN {
         }
         return (filme);
     }
+    
+    /**
+     * Verifica se o parametro passado não está vazio
+     * Faz uma pesquisa para verificar a existencia do filme através do código informado
+     * @param codigoFilme : còdigo recebido da view
+     * @return : Retorna um objeto Filme
+     * @throws RNException : Lança uma exceção caso não seja informado o código ou se não for encontrado o filme
+     */
+    public Filme procurarPorId(int codigoFilme) throws RNException{
+        if(codigoFilme <= 0){
+            throw new RNException("Campo Código não informado!");
+        }
+        Filme filme = filmeDao.procurarPorId(codigoFilme);
+        if(filme == null){
+            throw new RNException("Filme não Encontrado!");
+        }
+        return filme;
+    }
+    
     
     /**
      * Verifica se o genero do filme recebido não esta vazio;

@@ -24,6 +24,20 @@ public class Assento {
         this.assentoLivres = assentoLivres;
         this.data = data;
     }
+    
+    /**
+     * Construtor com parametros
+     * @param codigoAssento Recebe um código
+     * @param sessao recebe um objeto do tipo sessão
+     * @param assentoLivres Recebe a quantidade de assentos disponiveis para sessão
+     * @param data recebe a data do dia de uma determinada sessão
+     */
+    public Assento(int codigoAssento,Sessao sessao, int assentoLivres, Date data) {
+        this.codigoAssento = codigoAssento;
+        this.sessao = sessao;
+        this.assentoLivres = assentoLivres;
+        this.data = data;
+    }
 
     /**
      * construtor sem parametro
@@ -77,6 +91,10 @@ public class Assento {
      */
     public Sessao getSessao() {
         return sessao;
+    }
+
+    public void setCodigoAssento(int codigoAssento) {
+        this.codigoAssento = codigoAssento;
     }
 
     /**

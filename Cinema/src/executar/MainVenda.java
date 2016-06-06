@@ -46,10 +46,10 @@ public class MainVenda {
                         new SalaUI().executar();
                         break;
                     case MenuUI.SESSAO:
-                        new SessaoUI(listaSessao, listaFilme, listaSala).executar();
+                        new SessaoUI().executar();
                         break;
                     case MenuUI.VENDA:
-                        new VendaUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
+                        new VendaUI().executar();
                         break;
                     case MenuUI.RELATORIO:
                         new RelatorioUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();

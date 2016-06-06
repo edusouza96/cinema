@@ -1,20 +1,22 @@
 package view;
 
-import exceptions.ObjectNullException;
+import exceptions.RNException;
 import java.awt.HeadlessException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import model.Assento;
 import model.Sessao;
 import model.Venda;
-import repositorio.RepositorioAssentos;
-import repositorio.RepositorioFilmes;
-import repositorio.RepositorioSalas;
-import repositorio.RepositorioSessao;
-import repositorio.RepositorioVendas;
+import rn.AssentoRN;
+import rn.SessaoRN;
+import rn.VendaRN;
 import util.Console;
 import util.DateUtil;
 
@@ -23,36 +25,13 @@ import util.DateUtil;
  * contem realizar venda,listar vendas 
  */
 public class VendaUI {
-    private RepositorioVendas listaVendas;
-    private RepositorioAssentos listaAssentos;
-    private RepositorioSessao listaSessao;
-    private RepositorioSalas listaSalas;
-    private RepositorioFilmes listaFilmes;
+    private VendaRN vendaRN;
 
     /**
-     * Construtor que recebe o objeto repositorio
-     * @param listaFilmes recebe objeto repositorio filme
-     * @param listaSalas recebe objeto repositorio salas
-     * @param listaSessao recebe objeto repositorio sessao
-     * @param listaVendas recebe objeto reporitorio vendas
-     * @param listaAssentos recebe objeto reporitorio assentos
+     * Construtor 
      */
-    public VendaUI(RepositorioFilmes listaFilmes, RepositorioSalas listaSalas, RepositorioSessao listaSessao, RepositorioAssentos listaAssentos, RepositorioVendas listaVendas) {
-        this.listaVendas = listaVendas;
-        this.listaAssentos = listaAssentos;
-        this.listaFilmes = listaFilmes;
-        this.listaSalas = listaSalas;
-        this.listaSessao = listaSessao;
-              
-        try {
-            SessaoUI sessaoUI = new SessaoUI(listaSessao,listaFilmes,listaSalas);
-            Sessao sessao = sessaoUI.getLista().getListaSessao().get(1);
-            listaVendas.adicionar(new Venda(sessao, DateUtil.stringToDate("05/05/2016")));
-        } catch (ParseException ex) {
-            System.out.println("Não tem erro aqui, pois sou que manipulo");
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Erro não identificado!\nRetorne ao menu principal e tente novamente", null, ERROR_MESSAGE);
-        }
+    public VendaUI() {
+        vendaRN = new VendaRN();
     }
     
     /**
@@ -71,6 +50,9 @@ public class VendaUI {
                     case MenuUI.LISTAR:
                         mostrarVendas();
                         break;
+                    case MenuUI.BUSCA_VENDA:
+                         consultarPorRegistroVenda();
+                         break;
                     case MenuUI.SAIR:
                         JOptionPane.showMessageDialog(null, "Retornando ao Menu Principal!");
                         break;
@@ -89,39 +71,40 @@ public class VendaUI {
      * Realizar as vendas de ingresso do cinema
      */
     private void realizarVenda() {
-        Date dataSessao;
+        AssentoRN assentoRN = new AssentoRN();
+        SessaoRN sessaoRN = new SessaoRN();
         String dataString = Console.scanString("Dia da Sessão: ");
         mostrarSessoes();
         try {
             int codigoSessao = Console.scanInt("Digite o código da sessão desejada: ");
-            Assento assento = listaAssentos.consultarPorDataCodigo(dataString,codigoSessao);
-            dataSessao = DateUtil.stringToDate(dataString);
+            Assento assento = assentoRN.procurarPorDataCodigo(dataString, codigoSessao);
             if(assento == null){
-                Sessao sessao = listaSessao.consultarPorCodigo(codigoSessao);
-                if(sessao == null)
-                    throw new ObjectNullException();
-                listaVendas.adicionar(new Venda(sessao,dataSessao));
+                Sessao sessao = sessaoRN.procurarPorId(codigoSessao);
+                vendaRN.adicionar(new Venda(sessao,DateUtil.stringToDateEUA(dataString)));
                 JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
                 int lugares = sessao.getSala().getQuantidadeSala() -1;
-                listaAssentos.adicionar(new Assento(sessao,lugares , dataSessao));
+                assentoRN.adicionar(new Assento(sessao,lugares,DateUtil.stringToDateEUA(dataString)));
             }else{
                 if(assento.getAssentoLivres() > 0){
-                    listaVendas.adicionar(new Venda(assento.getSessao(), dataSessao));
-                    JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
+                    vendaRN.adicionar(new Venda(assento.getSessao(),DateUtil.stringToDateEUA(dataString)));
+                    JOptionPane.showMessageDialog(null, "Compra de ingresso realizada!");
                     assento.ocuparLugar();
+                    assentoRN.atualizar(assento);
                 }else{
                   JOptionPane.showMessageDialog(null, "Não tem mais esta sessão para este dia", "", JOptionPane.WARNING_MESSAGE);
                 }
             }
+            
+        } catch (RNException ex) {
+            System.err.println(ex.getMessage());
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Data Inválida\n Favor digitar no Padrão DD/MM/AAAA", "Operação cancelada", ERROR_MESSAGE);
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
-        } catch (ObjectNullException ex) {
-            JOptionPane.showMessageDialog(null, "Sessão Não Localizado", null, ERROR_MESSAGE);
         }catch(HeadlessException ex){
-            JOptionPane.showMessageDialog(null, "Erro não identificado, tente novamente", null, ERROR_MESSAGE);
-        }
+          JOptionPane.showMessageDialog(null, "Erro não identificado, tente novamente", null, ERROR_MESSAGE);
+            
+        } 
              
     }
     
@@ -129,29 +112,69 @@ public class VendaUI {
      * exibi todas as sessoes
      */
     private void mostrarSessoes(){
-        System.out.println("___________________________________________\n");
-        System.out.println(String.format("%-50s", "Código Sessão") + "\t"
-                + String.format("%-80s", "|Filme/sala/horario"));
-        for (Sessao sessao : listaSessao.getListaSessao()) {
-            System.out.println(String.format("%-50s",sessao.getCodigoSessao()) + "\t"
-                    + String.format("%-80s", "|" + sessao.toString()));
+        SessaoRN sessaoRN = new SessaoRN();
+        
+        List<Sessao> listaSessoes = sessaoRN.listar();
+        if(listaSessoes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Sessões não encontradas", "Aviso", WARNING_MESSAGE);
+        }else{
+            System.out.println("___________________________________________\n");
+            System.out.println(String.format("%-20s", "Código da Sessão") + "\t"
+                    + String.format("%-50s", "|Filme") + "\t"
+                    + String.format("%-20s", "|Sala") + "\t"
+                    + String.format("%-40s", "|Horario"));
+            for (Sessao sessao : listaSessoes) {
+                System.out.println(String.format("%-20s", sessao.getCodigoSessao()) + "\t"
+                        + String.format("%-50s", "|" + sessao.getFilme().getNomeFilme()) + "\t"
+                        + String.format("%-20s", "|" + sessao.getSala().getNumeroSala()) + "\t"
+                        + String.format("%-40s", "|" + sessao.getHorario()));
+            }
         }
     }
-    /**
-     * exibi todas as vendas realizadas
+   
+     /**
+     * metodo que faz uma requisição para RN e depois exibe todos as vendas 
      */
     private void mostrarVendas() {
+        List<Venda> listaVendas = vendaRN.listar();
+        this.mostrarVendas(listaVendas);
+    }
+    
+    /**
+     * Método que verifica se a lista está vazia e se não estiver trata visualmente para ser exibido na tela
+     * @param listaVendas recebe uma lista de vendas para fazer as verificações e tratas a saida
+     */
+    private void mostrarVendas(List<Venda> listaVendas) {
         String dataString;
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-50s", "Registro Venda") + "\t"
                 + String.format("%-20s", "|Data") + "\t"
                 + String.format("%-80s", "|Filme/sala/horario"));
-        for (Venda venda : listaVendas.getListaVendas()) {
+        for (Venda venda : listaVendas) {
             dataString = DateUtil.dateToString(venda.getData());
             System.out.println(String.format("%-50s",venda.getRegistroVenda()) + "\t"
                     + String.format("%-20s", "|" + dataString) + "\t"
                     + String.format("%-80s", "|" + venda.getFilmeSalaSessao()));
         }
+    }
+
+    private void consultarPorRegistroVenda() {
+        try{
+            int registroVenda = Console.scanInt("Registro Venda: ");
+            Venda venda = vendaRN.procurarPorId(registroVenda);
+            this.mostrarVenda(venda);
+        }catch (RNException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    private void mostrarVenda(Venda v) {
+        System.out.println("-----------------------------");
+        System.out.println("Dados Atuais");
+        System.out.println("Registro Venda: "+v.getRegistroVenda());
+        System.out.println("Sessão: "+v.getFilmeSalaSessao());
+        System.out.println("Data: "+v.getData());
+        System.out.println("-----------------------------");
     }
     
 }

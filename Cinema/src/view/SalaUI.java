@@ -24,7 +24,7 @@ public class SalaUI {
         salaRN = new SalaRN();
     }
     /**
-     * metodo que contem um switch para escolher os procedimentos a ser realix=zado
+     * metodo que contem um switch para escolher os procedimentos a ser realizado
      */
     public void executar(){
         int opcao=0;
@@ -66,9 +66,10 @@ public class SalaUI {
      * envia para RN tratar da requisição
      */
     private void cadastrarSala() {
-        int numeroSala  = Console.scanInt("Número da Sala: ");
-        int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
         try{
+            int numeroSala  = Console.scanInt("Número da Sala: ");
+            int quantidadeSala = Console.scanInt("Capacidade Maxima da sala: ");
+        
             salaRN.adicionar(new Sala(numeroSala,quantidadeSala));
             JOptionPane.showMessageDialog(null, "Sala Cadastrada com Sucesso");
         }catch(InputMismatchException ex){
@@ -96,7 +97,7 @@ public class SalaUI {
             JOptionPane.showMessageDialog(null, "Salas não encontradas", "Aviso", WARNING_MESSAGE);
             
         }else{
-             System.out.println("___________________________________________\n");
+            System.out.println("___________________________________________\n");
             System.out.println(String.format("%-30s", "Numero da Sala")+ "\t"
                     + String.format("%-30s", "|Capacidade da Sala"));
             for(Sala sala : listaSalas){
@@ -122,8 +123,9 @@ public class SalaUI {
      * metodo que faz alteração na capacidade da sala
      */
     private void alterarFilme(){
-        int salaAlterar = Console.scanInt("Número da sala á alterar: ");
+        
         try{
+            int salaAlterar = Console.scanInt("Número da sala á alterar: ");
             Sala sala = salaRN.procurarPorNumero(salaAlterar);
             this.mostrarSala(sala);
             
@@ -143,8 +145,9 @@ public class SalaUI {
      * metodo que exclui uma sala
      */
     private void deletarSala(){
-        int filmeDeletar = Console.scanInt("Numero da sala a excluir: ");
+        
         try{
+            int filmeDeletar = Console.scanInt("Numero da sala a excluir: ");
             Sala sala = salaRN.procurarPorNumero(filmeDeletar);
             this.mostrarSala(sala);
             char resposta = Console.scanChar("Realmente deseja remover essa Sala?(s/n)");
@@ -156,12 +159,18 @@ public class SalaUI {
             }
         } catch (RNException ex) {
             System.err.println(ex.getMessage());
+        }catch(InputMismatchException ex){
+            JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
         }        
     }
 
+    /***
+     * consulta dados de uma sala a partir de um numero da sala digitado
+     */
     private void consultarSalaPorNumero() {
-        int numeroSala = Console.scanInt("Numero da Sala: ");
+        
         try{
+            int numeroSala = Console.scanInt("Numero da Sala: ");
             Sala sala = salaRN.procurarPorNumero(numeroSala);
             this.mostrarSala(sala);
         }catch (RNException ex) {
