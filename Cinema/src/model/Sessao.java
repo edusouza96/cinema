@@ -20,7 +20,6 @@ public class Sessao {
      * @param horario Recebe um objeto do tipo Date
      */
     public Sessao(Filme filme, Sala sala, Date horario) {
-        this.codigoSessao = generateCodigo();
         this.filme = filme;
         this.sala = sala;
         this.horario = horario;
@@ -34,7 +33,7 @@ public class Sessao {
      * @param horario Recebe um objeto do tipo Date
      */
     public Sessao(int codigoSessao,  Sala sala,Filme filme, Date horario) {
-        this.codigoSessao = generateCodigo();
+        this.codigoSessao = codigoSessao;
         this.filme = filme;
         this.sala = sala;
         this.horario = horario;

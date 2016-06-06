@@ -3,6 +3,7 @@ package rn;
 import Dao.AssentoDao;
 import Dao.DB.AssentoDaoDB;
 import exceptions.RNException;
+import java.util.Date;
 import java.util.List;
 import model.Assento;
 
@@ -57,17 +58,18 @@ public class AssentoRN {
      * @return : Retorna um objeto Assento
      * @throws RNException : Lança uma exceção caso não seja informado o codigo ou a data
      */
-    public Assento procurarPorDataCodigo(String data,int codigo) throws RNException{
+    public Assento procurarPorDataCodigo(Date data,int codigo) throws RNException{
         if(codigo <= 0){
             throw new RNException("Campo Código  não informado!");
         }
-        if(data.isEmpty()){
+        if(data == null){
             throw  new RNException("Data não informada!");
         }
-        
+         
         Assento assento = assentoDao.consultarPorDataCodigo(data, codigo);
+        
         if(assento == null){
-            //throw new RNException("Assento não Encontrada!");
+            throw new RNException("Assento não Encontrada!");
         }
         return assento;
     }

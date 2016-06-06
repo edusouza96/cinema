@@ -3,11 +3,8 @@ package view;
 import exceptions.RNException;
 import java.awt.HeadlessException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
@@ -62,7 +59,7 @@ public class VendaUI {
                 }catch(InputMismatchException ex){
                     JOptionPane.showMessageDialog(null, "Somente valor numérico", "Erro", ERROR_MESSAGE);
                 }catch(Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro não identificado, tente novamente", null, ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro não identificado, tente novamente"+ex, null, ERROR_MESSAGE);
                 }
         }while(opcao != 0);
     }
@@ -77,16 +74,18 @@ public class VendaUI {
         mostrarSessoes();
         try {
             int codigoSessao = Console.scanInt("Digite o código da sessão desejada: ");
-            Assento assento = assentoRN.procurarPorDataCodigo(dataString, codigoSessao);
+            Assento assento = assentoRN.procurarPorDataCodigo(DateUtil.stringToDate(dataString), codigoSessao);
+           
             if(assento == null){
+                
                 Sessao sessao = sessaoRN.procurarPorId(codigoSessao);
-                vendaRN.adicionar(new Venda(sessao,DateUtil.stringToDateEUA(dataString)));
+                vendaRN.adicionar(new Venda(sessao,DateUtil.stringToDate(dataString)));
                 JOptionPane.showMessageDialog(null, "Compra de ingresso realizada");
                 int lugares = sessao.getSala().getQuantidadeSala() -1;
-                assentoRN.adicionar(new Assento(sessao,lugares,DateUtil.stringToDateEUA(dataString)));
+                assentoRN.adicionar(new Assento(sessao,lugares,DateUtil.stringToDate(dataString)));
             }else{
                 if(assento.getAssentoLivres() > 0){
-                    vendaRN.adicionar(new Venda(assento.getSessao(),DateUtil.stringToDateEUA(dataString)));
+                    vendaRN.adicionar(new Venda(assento.getSessao(),DateUtil.stringToDate(dataString)));
                     JOptionPane.showMessageDialog(null, "Compra de ingresso realizada!");
                     assento.ocuparLugar();
                     assentoRN.atualizar(assento);

@@ -19,7 +19,6 @@ public class Assento {
      * @param data recebe a data do dia de uma determinada sessão
      */
     public Assento(Sessao sessao, int assentoLivres, Date data) {
-        this.codigoAssento = generateCodigo();
         this.sessao = sessao;
         this.assentoLivres = assentoLivres;
         this.data = data;

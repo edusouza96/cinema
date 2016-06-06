@@ -23,7 +23,6 @@ public class Venda {
     * @param data recebe um objeto data
     */
     public Venda(Sessao filmeSalaSessao, Date data) {
-        this.registroVenda = generateCodigo();
         this.filmeSalaSessao = filmeSalaSessao;
         this.data = data;
     }

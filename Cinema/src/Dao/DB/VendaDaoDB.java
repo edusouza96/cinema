@@ -34,7 +34,6 @@ public class VendaDaoDB extends DaoDB<Venda> implements VendaDao{
             String sql = "INSERT INTO venda ( sessao_codigoSessao, data) VALUES (?,?)";
             conectarObtendoId(sql);
             String data = DateUtil.dateToStringEUA(venda.getData());
-            
             comando.setInt(1, venda.getFilmeSalaSessao().getCodigoSessao());
             comando.setString(2, data);
             comando.executeUpdate();

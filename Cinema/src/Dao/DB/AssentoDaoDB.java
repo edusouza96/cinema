@@ -27,15 +27,15 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
      * @return retorna um objeto do tipo Assento
      */
     @Override
-    public Assento consultarPorDataCodigo(String data, int codigo) {
-        String sql = "SELECT * FROM sessao WHERE data = ? AND sessao_codigoSessao =?";
+    public Assento consultarPorDataCodigo(java.util.Date data, int codigo) {
+        String sql = "SELECT * FROM sessao WHERE sessao_codigoSessao =?";
+        
         try{
             conectar(sql);
-            java.util.Date dt = DateUtil.stringToDateEUA(data);
-            data = DateUtil.dateToStringEUA(dt);
-            comando.setString(1, data);
-            comando.setInt(2, codigo);
+            comando.setString(1, DateUtil.dateToStringEUA(data));
+            comando.setInt(1, codigo);
             ResultSet resultado = comando.executeQuery();
+            
             if(resultado.next()){
                 int codigoAssento = resultado.getInt("codigoAssento");
                 int sessao_codigoSessao = resultado.getInt("sessao_codigoSessao");
@@ -47,14 +47,13 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
                 return assento;
             }
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "Problema de localização", "Erro no Sistema", ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Problema de localização", "Erro no Sistema", ERROR_MESSAGE);
             //throw  new RuntimeException(ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(AssentoDaoDB.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally{
             fecharConexao();
         }
-        return null;
+         return null;
+            
     }
 
     /**
@@ -68,7 +67,7 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             String sql = "INSERT INTO assento (sessao_codigoSessao,assentosLivres,data)"
                     + "VALUES (?,?,?)";
             conectarObtendoId(sql);
-            String data = DateUtil.dateToString(assento.getData());
+            String data = DateUtil.dateToStringEUA(assento.getData());
             comando.setInt(1, assento.getSessao().getCodigoSessao());
             comando.setInt(2, assento.getAssentoLivres());
             comando.setString(3, data);
