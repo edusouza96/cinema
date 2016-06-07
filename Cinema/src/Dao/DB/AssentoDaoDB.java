@@ -28,27 +28,26 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
      */
     @Override
     public Assento consultarPorDataCodigo(java.util.Date data, int codigo) {
-        String sql = "SELECT * FROM sessao WHERE sessao_codigoSessao =?";
+        String sql = "SELECT * FROM assento WHERE sessao_codigoSessao = ? AND data = ?";
         
         try{
             conectar(sql);
-            comando.setString(1, DateUtil.dateToStringEUA(data));
             comando.setInt(1, codigo);
+            comando.setString(2, DateUtil.dateToStringEUA(data));
             ResultSet resultado = comando.executeQuery();
             
             if(resultado.next()){
                 int codigoAssento = resultado.getInt("codigoAssento");
                 int sessao_codigoSessao = resultado.getInt("sessao_codigoSessao");
                 int assentosLivres = resultado.getInt("assentosLivres");
-                
-                Date date = resultado.getDate("data");
+                String date = resultado.getString("data");
+         
                 SessaoDaoDB sessao = new SessaoDaoDB();
-                Assento assento = new Assento(codigoAssento,(sessao.procurarPorId(sessao_codigoSessao)), assentosLivres, date);
+                Assento assento = new Assento(codigoAssento,(sessao.procurarPorId(sessao_codigoSessao)), assentosLivres, data);
                 return assento;
             }
         }catch(SQLException ex){
-            //JOptionPane.showMessageDialog(null, "Problema de localização", "Erro no Sistema", ERROR_MESSAGE);
-            //throw  new RuntimeException(ex);
+            JOptionPane.showMessageDialog(null, "Problema de localização", "Erro no Sistema", ERROR_MESSAGE);
         } finally{
             fecharConexao();
         }
@@ -82,7 +81,6 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             }
         }catch (SQLException ex) {
             System.err.println("Erro de Sistema - Problema para disponibilizar assento!");
-            throw new RuntimeException(ex);
         } finally {
             fecharConexao();
         }
@@ -95,7 +93,7 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
     @Override
     public List<Assento> listar() {
         List<Assento> listaAssentos = new ArrayList<>();
-        String sql = "SELECT * FROM assento WHERE ";
+        String sql = "SELECT * FROM assento ";
         try{
             conectar(sql);
             ResultSet resultado = comando.executeQuery();
@@ -111,7 +109,6 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             }
         } catch (SQLException ex) {
             System.err.println("Erro de Sistema - Problema ao buscar os lugares!");
-            throw new RuntimeException(ex);
         } finally {
             fecharConexao();
         }
@@ -141,7 +138,6 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             }
         }catch (SQLException ex) {
             System.err.println("Erro de Sistema - Problema ao buscar os lugares!");
-            throw new RuntimeException(ex);
         } finally {
             fecharConexao();
         }
@@ -164,7 +160,6 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             comando.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("Erro de Sistema - Problema ao atualizar o numero de assentos disponiveis!");
-            throw new RuntimeException(ex);
         } finally {
             fecharConexao();
         }
@@ -183,7 +178,6 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
             comando.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("Erro de Sistema - Problema ao deletar!");
-            throw new RuntimeException(ex);
         } finally {
             fecharConexao();
         }
