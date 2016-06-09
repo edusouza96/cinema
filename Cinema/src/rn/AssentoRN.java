@@ -45,7 +45,7 @@ public class AssentoRN {
      * @throws RNException : lança exceção caso o assento não exista
      */
     public void atualizar (Assento assento) throws RNException{
-        if(assento == null || assento.getAssentoLivres() <= 0){
+        if(assento == null || assento.getAssentoLivres() < 0){
             throw new RNException("Assento não existe!");
         }
         assentoDao.atualizar(assento);
@@ -69,7 +69,7 @@ public class AssentoRN {
         Assento assento = assentoDao.consultarPorDataCodigo(data, codigo);
         
         if(assento == null){
-            throw new RNException("Assento não Encontrada!");
+            //throw new RNException("Assento não Encontrada!");
         }
         return assento;
     }

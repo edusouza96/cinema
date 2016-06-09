@@ -2,11 +2,6 @@ package executar;
 import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import repositorio.RepositorioAssentos;
-import repositorio.RepositorioFilmes;
-import repositorio.RepositorioSalas;
-import repositorio.RepositorioSessao;
-import repositorio.RepositorioVendas;
 import util.Console;
 import view.FilmeUI;
 import view.MenuUI;
@@ -18,19 +13,8 @@ import view.VendaUI;
  * Da inicio as operações da sala
  */
 public class MainVenda {
-    private static RepositorioSessao listaSessao;
-    private static RepositorioFilmes listaFilme;
-    private static RepositorioSalas listaSala;
-    private static RepositorioAssentos listaAssento;
-    private static RepositorioVendas listaVenda;
-    
     
     public static void main(String[] args){
-        listaFilme = new RepositorioFilmes();
-        listaSala = new RepositorioSalas();
-        listaSessao = new RepositorioSessao();        
-        listaAssento = new RepositorioAssentos();
-        listaVenda = new RepositorioVendas();
         
         int opcao = 0;
         
@@ -52,7 +36,7 @@ public class MainVenda {
                         new VendaUI().executar();
                         break;
                     case MenuUI.RELATORIO:
-                        new RelatorioUI(listaFilme,listaSala,listaSessao,listaAssento,listaVenda).executar();
+                        new RelatorioUI().executar();
                         break;
                     case MenuUI.SAIR:
                         JOptionPane.showMessageDialog(null, "Sistema Finalizado!");

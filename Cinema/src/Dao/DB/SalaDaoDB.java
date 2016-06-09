@@ -66,7 +66,7 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
     @Override
     public List<Sala> listar() {
         List<Sala> listaSalas = new ArrayList<>();
-        String sql = "SELECT * FROM sala";
+        String sql = "SELECT * FROM sala order by numeroSala";
         try{
             conectar(sql);
             ResultSet resultado = comando.executeQuery();
@@ -105,11 +105,12 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
     @Override
     public void atualizar(Sala sala) {
         try{
-            String sql = "UPDATE sala  SET  numeroSala=?, quantidadeSala=?"
-                    +"WHERE numeroSala=?";
+            String sql = "UPDATE sala  SET  quantidadeSala=? WHERE numeroSala=?";
             conectar(sql);
-            comando.setInt(1, sala.getNumeroSala());
-            comando.setInt(2, sala.getQuantidadeSala());
+            comando.setInt(1, sala.getQuantidadeSala());
+            comando.setInt(2, sala.getNumeroSala());
+            comando.executeUpdate();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Problema ao atualizar a sala ", "Erro no Sistema", ERROR_MESSAGE);
             throw  new RuntimeException(ex);

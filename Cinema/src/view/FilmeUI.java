@@ -95,11 +95,13 @@ public class FilmeUI {
             JOptionPane.showMessageDialog(null, "Filmes não encontrados", null, WARNING_MESSAGE);
         } else {
             System.out.println("___________________________________________\n");
-            System.out.println(String.format("%-50s", "Nome do Filme") + "\t"
+            System.out.println(String.format("%-10s", "Código") + "\t"
+                    + String.format("%-50s", "|Nome do Filme") + "\t"
                     + String.format("%-20s", "|Gênero") + "\t"
                     + String.format("%-40s", "|Sinopse"));
             for (Filme filme : listaFilmes) {
-                System.out.println(String.format("%-50s", filme.getNomeFilme()) + "\t"
+                System.out.println(String.format("%-10s", filme.getCodigoFilme()) + "\t"
+                        + String.format("%-50s", "|" + filme.getNomeFilme()) + "\t"
                         + String.format("%-20s", "|" + filme.getGenero()) + "\t"
                         + String.format("%-40s", "|" + filme.getSinopse()));
             }

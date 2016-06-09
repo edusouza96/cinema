@@ -66,7 +66,7 @@ public class VendaDaoDB extends DaoDB<Venda> implements VendaDao{
                 Date date = resultado.getDate("data");
                 SessaoDaoDB sessao = new SessaoDaoDB();
                 
-                Venda venda = new Venda(registroVenda,(sessao.procurarPorId(registroVenda)), date);
+                Venda venda = new Venda(registroVenda,(sessao.procurarPorId(sessao_codigoSessao)), date);
                 listaVendas.add(venda);
             }
         } catch (SQLException ex) {

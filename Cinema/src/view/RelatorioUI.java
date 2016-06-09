@@ -2,17 +2,17 @@ package view;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Filme;
 import model.Sala;
 import model.Sessao;
 import model.Venda;
-import repositorio.RepositorioAssentos;
-import repositorio.RepositorioFilmes;
-import repositorio.RepositorioSalas;
-import repositorio.RepositorioSessao;
-import repositorio.RepositorioVendas;
+import rn.FilmeRN;
+import rn.SalaRN;
+import rn.SessaoRN;
+import rn.VendaRN;
 import util.Console;
 import util.DateUtil;
 
@@ -20,26 +20,20 @@ import util.DateUtil;
  *Classe respponsavel por exibir os relatórios
  */
 public class RelatorioUI {
-    private RepositorioVendas listaVendas;
-    private RepositorioAssentos listaAssentos;
-    private RepositorioSessao listaSessao;
-    private RepositorioSalas listaSalas;
-    private RepositorioFilmes listaFilmes;
+    private FilmeRN filmeRN;
+    private SalaRN salaRN;
+    private SessaoRN sessaoRN;
+    private VendaRN vendaRN;
     
     /**
-     * Construtor que inicializa as listas
-     * @param listaFilmes recebe por parametro uma objeto do tipo repositorioFilme
-     * @param listaSalas recebe por parametro uma objeto do tipo repositorioSalas
-     * @param listaSessao recebe por parametro uma objeto do tipo repositorioSessao
-     * @param listaAssentos recebe por parametro uma objeto do tipo repositorioAssento
-     * @param listaVendas recebe por parametro uma objeto do tipo repositorioVendas
+     * Construtor
      */
-    public RelatorioUI(RepositorioFilmes listaFilmes, RepositorioSalas listaSalas, RepositorioSessao listaSessao, RepositorioAssentos listaAssentos, RepositorioVendas listaVendas) {
-        this.listaVendas = listaVendas;
-        this.listaAssentos = listaAssentos;
-        this.listaFilmes = listaFilmes;
-        this.listaSalas = listaSalas;
-        this.listaSessao = listaSessao;
+    public RelatorioUI() {
+        filmeRN = new FilmeRN();
+        salaRN = new SalaRN();
+        sessaoRN = new SessaoRN();
+        vendaRN = new VendaRN();
+        
     }
     /**
      * metodo de escolha de cada ação
@@ -85,15 +79,17 @@ public class RelatorioUI {
      * exibe o número de vendas por filme
      */
     private void vendaPorFilme(){
+        List<Filme> listaFilmes = filmeRN.listar();
+        List<Venda> listaVendas = vendaRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("_________VENDA_POR FILME___________________\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Nome do Filme"));
-        for(Filme filme : listaFilmes.getListaFilmes()){
+        for(Filme filme : listaFilmes){
             int cont =0;
-            for(Venda venda : listaVendas.getListaVendas()){
-                if(venda.getFilmeSalaSessao().getFilme().equals(filme)){
+            for(Venda venda : listaVendas){
+                if(venda.getFilmeSalaSessao().getFilme().getCodigoFilme() == filme.getCodigoFilme()){
                     cont++;
                 }
             }
@@ -101,18 +97,28 @@ public class RelatorioUI {
                     + String.format("%-80s", "|" + filme.getNomeFilme()));
         }
     }
+    
+    /**
+     * exibe o número de vendas por uma determinada data
+     */
     private void vendaPorData(){
+        List<Venda> listaVendas = vendaRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("_________VENDA_POR_DATA____________________\n");
         System.out.println("___________________________________________\n");
+        
+        String dataBusca = Console.scanString("Digite uma data a consultar_ ");
+        
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Data"));
-        String dataBusca = Console.scanString("Digite uma data a consultar_ ");
+        
         try {
             Date dataConvertida = DateUtil.stringToDate(dataBusca);
             int cont =0;
-            for(Venda venda : listaVendas.getListaVendas()){
-                if(venda.getData() == dataConvertida){
+            for(Venda venda : listaVendas){
+                String dtConvertida = DateUtil.dateToString(venda.getData());
+                
+                if(dtConvertida.equals(dataBusca)){
                     cont++;
                 }
             }
@@ -128,15 +134,17 @@ public class RelatorioUI {
      * exibe o número de vendas por sala
      */
     private void vendaPorSala(){
+        List<Sala> listaSalas = salaRN.listar();
+        List<Venda> listaVendas = vendaRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("__________VENDA_POR_SALA___________________\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Nº da Sala"));
-        for(Sala sala : listaSalas.getListaSalas()){
+        for(Sala sala : listaSalas){
             int cont =0;
-            for(Venda venda : listaVendas.getListaVendas()){
-                if(venda.getFilmeSalaSessao().getSala().equals(sala)){
+            for(Venda venda : listaVendas){
+                if(venda.getFilmeSalaSessao().getSala().getNumeroSala() == sala.getNumeroSala()){
                     cont++;
                 }
             }
@@ -148,15 +156,17 @@ public class RelatorioUI {
      * Exibe o número de vendas por sessão
      */
     private void vendaPorSessao(){
+        List<Venda> listaVendas = vendaRN.listar();
+        List<Sessao> listaSessoes = sessaoRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("__________VENDA_POR_SESSÃO_________________\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Sessão"));
-        for(Sessao sessao : listaSessao.getListaSessao()){
+        for(Sessao sessao : listaSessoes){
             int cont =0;
-            for(Venda venda : listaVendas.getListaVendas()){
-                if(venda.getFilmeSalaSessao().equals(sessao)){
+            for(Venda venda : listaVendas){
+                if(venda.getFilmeSalaSessao().getCodigoSessao() == sessao.getCodigoSessao()){
                     cont++;
                 }
             }
@@ -169,14 +179,16 @@ public class RelatorioUI {
      * Exibe o número de vendas por horario
      */
     private void vendaPorHorario(){
+        List<Venda> listaVendas = vendaRN.listar();
+        List<Sessao> listaSessoes = sessaoRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("__________VENDA_POR_HORÁRIO_DA_SESSÃO______\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-20s", "Nº de Vendas") + "\t"
                 + String.format("%-80s", "|Horario"));
-        for(Sessao sessao : listaSessao.getListaSessao()){
+        for(Sessao sessao : listaSessoes){
             int cont =0;
-            for(Venda venda : listaVendas.getListaVendas()){
+            for(Venda venda : listaVendas){
                 if(venda.getFilmeSalaSessao().getHorario().equals(sessao.getHorario())){
                     cont++;
                 }
@@ -190,15 +202,17 @@ public class RelatorioUI {
      * Exibe os filmes que estiveram em mais sessões
      */
     private void filmePorSessao(){
+        List<Filme> listaFilmes = filmeRN.listar();
+        List<Sessao> listaSessoes = sessaoRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("__________FILME_POR_SESSÃO_________________\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%-30s", "N° de Sessões") + "\t"
                 + String.format("%-80s", "|Filme"));
-        for(Filme filme : listaFilmes.getListaFilmes()){
+        for(Filme filme : listaFilmes){
             int cont =0;
-            for(Sessao sessao : listaSessao.getListaSessao()){
-                if(sessao.getFilme().equals(filme)){
+            for(Sessao sessao : listaSessoes){
+                if(sessao.getFilme().getCodigoFilme() == filme.getCodigoFilme()){
                     cont++;
                 }
             }
@@ -211,15 +225,17 @@ public class RelatorioUI {
      * Exibe as salas que foram mais utilizadas em sessões
      */
     private void salasPorSessao(){
+        List<Sala> listaSalas = salaRN.listar();
+        List<Sessao> listaSessoes = sessaoRN.listar();
         System.out.println("___________________________________________\n");
         System.out.println("_______SALAS_POR_SESSÃO____________________\n");
         System.out.println("___________________________________________\n");
         System.out.println(String.format("%20s", "Sessões") + "\t"
                 + String.format("%-80s", "|N° da Sala"));
-        for(Sala sala : listaSalas.getListaSalas()){
+        for(Sala sala : listaSalas){
             int cont =0;
-            for(Sessao sessao : listaSessao.getListaSessao()){
-                if(sessao.getFilme().equals(sala)){
+            for(Sessao sessao : listaSessoes){
+                if(sessao.getSala().getNumeroSala() == sala.getNumeroSala()){
                     cont++;
                 }
             }
