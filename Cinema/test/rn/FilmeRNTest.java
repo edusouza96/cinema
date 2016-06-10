@@ -2,16 +2,12 @@ package rn;
 
 import java.util.List;
 import model.Filme;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Edu
+ * Classe que teste as regras de negocio da classe FilmeRN
  */
 public class FilmeRNTest {
     private FilmeRN lista;

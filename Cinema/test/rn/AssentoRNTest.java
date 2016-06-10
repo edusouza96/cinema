@@ -11,7 +11,7 @@ import util.DateUtil;
 
 /**
  *
- * Classe que teste as regras de negocio da classe Assento
+ * Classe que teste as regras de negocio da classe AssentoRN
  */
 public class AssentoRNTest {
     private AssentoRN lista;

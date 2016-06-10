@@ -1,95 +1,70 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rn;
 
-import java.util.List;
 import model.Sala;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Edu
+ * Classe que teste as regras de negocio da classe SalaRN
  */
 public class SalaRNTest {
-    
+    private SalaRN lista;
     public SalaRNTest() {
+        lista = new SalaRN();
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
+   
     /**
-     * Test of adicionar method, of class SalaRN.
+     * Teste do método adicionar, da classe SalaRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAdicionar() throws Exception {
         System.out.println("adicionar");
-        Sala s = null;
-        SalaRN instance = new SalaRN();
-        instance.adicionar(s);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Sala s = new Sala(666, 1000);
+        lista.adicionar(s);
+        assertNotNull(lista.procurarPorNumero(s.getNumeroSala()));
     }
 
     /**
-     * Test of listar method, of class SalaRN.
+     * Teste do método listar, da classe SalaRN.
      */
     @Test
     public void testListar() {
         System.out.println("listar");
-        SalaRN instance = new SalaRN();
-        List<Sala> expResult = null;
-        List<Sala> result = instance.listar();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expResult = 0;
+        int result = lista.listar().size();
+        
+        assertTrue(expResult<result);
+        
     }
 
     /**
-     * Test of deletar method, of class SalaRN.
+     * Teste do método deletar, da classe SalaRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testDeletar() throws Exception {
         System.out.println("deletar");
-        Sala sala = null;
-        SalaRN instance = new SalaRN();
-        instance.deletar(sala);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int tamanhoLista = lista.listar().size();
+        Sala sala = new Sala(666, 1000);
+        lista.deletar(sala);
+        int _tamanhoLista = lista.listar().size();
+        assertTrue(_tamanhoLista != tamanhoLista);
+        
     }
 
     /**
-     * Test of atualizar method, of class SalaRN.
+     * Teste do método atualizar, da classe SalaRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAtualizar() throws Exception {
         System.out.println("atualizar");
-        Sala sala = null;
-        SalaRN instance = new SalaRN();
-        instance.atualizar(sala);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Sala sala = new Sala(666, 1000);
+        lista.atualizar(sala);
+        assertTrue(!lista.listar().contains(sala));
     }
 
     /**
@@ -98,13 +73,11 @@ public class SalaRNTest {
     @Test
     public void testProcurarPorNumero() throws Exception {
         System.out.println("procurarPorNumero");
-        int numero = 0;
-        SalaRN instance = new SalaRN();
-        Sala expResult = null;
-        Sala result = instance.procurarPorNumero(numero);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int tamanhoLista = lista.listar().size();
+        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getNumeroSala();
+        
+        Sala result = lista.procurarPorNumero(ultimoRegistro);
+        assertNotNull(result);
     }
     
 }

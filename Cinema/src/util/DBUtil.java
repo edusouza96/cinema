@@ -1,5 +1,6 @@
 package util;
 
+import exceptions.RTException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,11 +25,19 @@ public class DBUtil {
             conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
             
         } catch (ClassNotFoundException ex) {
-            System.err.println("Erro de Sistema - Classe do Driver Nao Encontrada!");
-            throw new RuntimeException(ex);
+            try {
+                throw new RTException("Erro de Sistema - Classe do Driver Nao Encontrada!");
+            } catch (RTException ex1) {
+               
+            }
+            
         } catch (SQLException ex) {
-            System.err.println("Erro de Sistema - Problema na conexão do banco de dados");
-            throw new RuntimeException(ex);
+            
+            try {
+                throw new RTException("Erro de Sistema - Problema na conexão do banco de dados");
+            } catch (RTException ex1) {
+               
+            }
         }
         return(conexao);
     }

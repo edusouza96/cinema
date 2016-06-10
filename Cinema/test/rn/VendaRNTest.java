@@ -1,85 +1,75 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rn;
 
-import java.util.List;
+import java.text.ParseException;
+import model.Filme;
+import model.Sala;
+import model.Sessao;
 import model.Venda;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.DateUtil;
 
 /**
- *
- * @author Edu
+ *Classe que teste as regras de negocio da classe VendaRN
  */
 public class VendaRNTest {
+    private VendaRN lista;
+    private Filme filme;
+    private Sala sala;
+    private Sessao sessao;
     
-    public VendaRNTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
-     * Test of adicionar method, of class VendaRN.
+     * construtor que inicializa os objetos
+     */
+    public VendaRNTest() {
+        lista = new VendaRN();
+        filme = new Filme(100, "filmeTeste", "Genero Teste", "sinopse Teste");
+        sala = new Sala (666, 100);
+        try {
+            sessao =  new Sessao(30, sala, filme, DateUtil.stringToHour("03:00"));
+        } catch (ParseException ex) {
+            System.out.println("");
+        }
+    }
+    
+   
+    /**
+     * Teste do método adicionar, da classe VendaRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAdicionar() throws Exception {
         System.out.println("adicionar");
-        Venda v = null;
-        VendaRN instance = new VendaRN();
-        instance.adicionar(v);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Venda v = new Venda(sessao,  DateUtil.stringToDate("05/03/2016"));
+        
+        lista.adicionar(v);
+        assertTrue(!lista.listar().contains(v));
     }
 
     /**
-     * Test of listar method, of class VendaRN.
+     * Teste do método listar, da classe VendaRN.
      */
     @Test
     public void testListar() {
         System.out.println("listar");
-        VendaRN instance = new VendaRN();
-        List<Venda> expResult = null;
-        List<Venda> result = instance.listar();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expResult = 0;
+        int result = lista.listar().size();
+        assertNotEquals(expResult, result);
+        
     }
 
     /**
-     * Test of procurarPorId method, of class VendaRN.
+     * Teste do método procurarPorId, da classe VendaRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testProcurarPorId() throws Exception {
         System.out.println("procurarPorId");
-        int registroVenda = 0;
-        VendaRN instance = new VendaRN();
-        Venda expResult = null;
-        Venda result = instance.procurarPorId(registroVenda);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int tamanhoLista = lista.listar().size();
+        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getRegistroVenda();
+        Venda result = lista.procurarPorId(ultimoRegistro);
+        assertNotNull(result);
+        
     }
     
 }
