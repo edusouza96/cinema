@@ -5,11 +5,8 @@ import exceptions.DBException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import model.Assento;
@@ -44,6 +41,7 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
          
                 SessaoDaoDB sessao = new SessaoDaoDB();
                 Assento assento = new Assento(codigoAssento,(sessao.procurarPorId(sessao_codigoSessao)), assentosLivres, data);
+                System.out.println(assento);
                 return assento;
             }
         }catch(SQLException ex){

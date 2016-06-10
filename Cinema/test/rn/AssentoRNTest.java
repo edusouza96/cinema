@@ -1,76 +1,76 @@
 package rn;
 
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
 import model.Assento;
+import model.Filme;
+import model.Sala;
+import model.Sessao;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.DateUtil;
 
 /**
  *
- * @author eduardo
+ * Classe que teste as regras de negocio da classe Assento
  */
 public class AssentoRNTest {
     private AssentoRN lista;
+    private Filme filme;
+    private Sala sala;
+    private Sessao sessao;
+        
+    /**
+     * construtor que inicializa os objetos
+     */
     public AssentoRNTest() {
         lista = new AssentoRN();
+        filme = new Filme(100, "filmeTeste", "Genero Teste", "sinopse Teste");
+        sala = new Sala (666, 100);
+        try {
+            sessao =  new Sessao(30, sala, filme, DateUtil.stringToHour("03:00"));
+        } catch (ParseException ex) {
+            System.out.println("");
+        }
     }
     
 
     /**
-     * Test of adicionar method, of class AssentoRN.
+     * Testa do método adicionar, da classe AssentoRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAdicionar() throws Exception {
         System.out.println("adicionar");
-        Assento a = null;
-        AssentoRN instance = new AssentoRN();
-        instance.adicionar(a);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Assento a = new Assento(sessao, 10, DateUtil.stringToDate("05/03/2016"));
+        lista.adicionar(a);
+        assertTrue(!lista.listar().contains(a));
     }
 
     /**
-     * Test of listar method, of class AssentoRN.
-     */
-    @Test
-    public void testListar() {
-        System.out.println("listar");
-        AssentoRN instance = new AssentoRN();
-        List<Assento> expResult = null;
-        List<Assento> result = instance.listar();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of atualizar method, of class AssentoRN.
+     * Teste do método atualizar, da classe AssentoRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAtualizar() throws Exception {
         System.out.println("atualizar");
-        Assento assento = null;
-        AssentoRN instance = new AssentoRN();
-        instance.atualizar(assento);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int tamanhoLista = lista.listar().size();
+        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoAssento();
+        Assento assento = new Assento(ultimoRegistro,sessao, 9, DateUtil.stringToDate("05/03/2016"));
+        lista.atualizar(assento);
+        assertTrue(!lista.listar().contains(assento));
+
     }
 
     /**
-     * Test of procurarPorDataCodigo method, of class AssentoRN.
+     * Teste do metodo procurarPorDataCodigo ,da classe AssentoRN.
+     * @throws java.lang.Exception
      */
     @Test
     public void testProcurarPorDataCodigo() throws Exception {
         System.out.println("procurarPorDataCodigo");
-        Date data = null;
-        int codigo = 0;
-        AssentoRN instance = new AssentoRN();
-        Assento expResult = null;
-        Assento result = instance.procurarPorDataCodigo(data, codigo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Assento result = lista.procurarPorDataCodigo(DateUtil.stringToDate("05/03/1996"), 4);
+        assertNotNull(result);
+     
     }
     
 }
