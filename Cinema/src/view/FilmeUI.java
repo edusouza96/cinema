@@ -38,7 +38,6 @@ public class FilmeUI {
                         break;
                     case MenuUI.LISTAR:
                         mostrarFilmes();
-                        System.out.print("hue");
                         break;
                     case MenuUI.EDITAR:
                         alterarFilme();
