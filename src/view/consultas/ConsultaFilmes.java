@@ -6,7 +6,6 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -95,77 +94,6 @@ public class ConsultaFilmes extends Application {
         grid.add(hbBtn, 1,6);//-------------------------------------------------adiciona o layout do botao no grid
         //fim linha botão
 
-        //metodo para setar um evento no botão atualizar
-        btnAtualizar.setOnAction((ActionEvent e) -> {
-                    
-            try {
-                String busca = txtBusca.getText();
-                Filme filme = filmeRN.procuraPorNome(busca);
-                filme.setNomeFilme(txtNomeFilme.getText());
-                filme.setGenero(txtGenero.getText());
-                filme.setSinopse(txtSinopse.getText());
-                filmeRN.atualizar(filme);
-                txtBusca.setText("");
-                txtNomeFilme.setText("");
-                txtGenero.setText("");
-                txtSinopse.setText("");
-                Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                dialogoAviso.setTitle("Confirmação");
-                dialogoAviso.setContentText("Filme Alterado com Sucesso!");
-                dialogoAviso.showAndWait();
-                
-            } catch (RNException ex) {
-                System.err.println(ex.getMessage());
-            }
-        } 
-        );
-        //fim metodo de evento do botão Atualizar
-        
-        //metodo para setar um evento no botão deletar
-        btnDeletar.setOnAction(new EventHandler<ActionEvent>() {  
-            @Override            
-            public void handle(ActionEvent e) { 
-                try {
-                    String busca = txtBusca.getText();
-                    Filme filme = filmeRN.procuraPorNome(busca);
-                    filmeRN.deletar(filme);
-                    txtBusca.setText("");
-                    txtNomeFilme.setText("");
-                    txtGenero.setText("");
-                    txtSinopse.setText("");
-                    Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAviso.setTitle("Confirmação");
-                    dialogoAviso.setContentText("Filme Deletado com Sucesso!");
-                    dialogoAviso.showAndWait();
-                } catch (RNException ex) {
-                    System.err.println(ex.getMessage());
-                }
-                
-            }
-        });
-        //fim metodo de evento do botão Deletar
-        
-        //metodo para setar um evento no botão buscar
-        btnBuscar.setOnAction(new EventHandler<ActionEvent>() {  
-            @Override              
-            public void handle(ActionEvent e) { 
-                
-                try {
-                    String busca = txtBusca.getText();
-                    //int idFilme = Integer.parseInt(busca);
-                    //Filme filme = filmeRN.procurarPorId(idFilme);
-                    Filme filme = filmeRN.procuraPorNome(busca);
-                    txtNomeFilme.setText(filme.getNomeFilme());
-                    txtGenero.setText(filme.getGenero());
-                    txtSinopse.setText(filme.getSinopse());
-                } catch (RNException ex) {
-                    
-                }
-            }
-        });
-        //fim metodo de evento do botão buscar
- 
-       
         //Setando valores Tabela 
         List<Filme> listaFilme = filmeRN.listar();
         TableView tabela = new TableView<>();
@@ -184,17 +112,81 @@ public class ConsultaFilmes extends Application {
         tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
         //fim Setando valores Tabela 
         
+        //metodo para setar um evento no botão atualizar
+        btnAtualizar.setOnAction((ActionEvent e) -> {
+                    
+            try {
+                String busca = txtBusca.getText();
+                Filme filme = filmeRN.procuraPorNome(busca);
+                filme.setNomeFilme(txtNomeFilme.getText());
+                filme.setGenero(txtGenero.getText());
+                filme.setSinopse(txtSinopse.getText());
+                filmeRN.atualizar(filme);
+                txtBusca.setText("");
+                txtNomeFilme.setText("");
+                txtGenero.setText("");
+                txtSinopse.setText("");
+                Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                dialogoAviso.setTitle("Confirmação");
+                dialogoAviso.setContentText("Filme Alterado com Sucesso!");
+                dialogoAviso.showAndWait();
+                tabela.getItems().clear();
+                tabela.setItems(FXCollections.observableArrayList(filmeRN.listar()));
+                tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
+            } catch (RNException ex) {
+                System.err.println(ex.getMessage());
+            }
+        } 
+        );
+        //fim metodo de evento do botão Atualizar
+        
+        //metodo para setar um evento no botão deletar
+        btnDeletar.setOnAction((ActionEvent e) -> {
+            try {
+                String busca = txtBusca.getText();
+                Filme filme = filmeRN.procuraPorNome(busca);
+                filmeRN.deletar(filme);
+                txtBusca.setText("");
+                txtNomeFilme.setText("");
+                txtGenero.setText("");
+                txtSinopse.setText("");
+                Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                dialogoAviso.setTitle("Confirmação");
+                dialogoAviso.setContentText("Filme Deletado com Sucesso!");
+                dialogoAviso.showAndWait();
+                tabela.getItems().clear();
+                tabela.setItems(FXCollections.observableArrayList(filmeRN.listar()));
+                tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
+            } catch (RNException ex) {
+                System.err.println(ex.getMessage());
+            }
+        });
+        //fim metodo de evento do botão Deletar
+        
+        //metodo para setar um evento no botão buscar
+        btnBuscar.setOnAction((ActionEvent e) -> {
+            try {
+                String busca = txtBusca.getText(); 
+                //int idFilme = Integer.parseInt(busca);
+                //Filme filme = filmeRN.procurarPorId(idFilme);
+                Filme filme = filmeRN.procuraPorNome(busca);
+                txtNomeFilme.setText(filme.getNomeFilme());
+                txtGenero.setText(filme.getGenero());
+                txtSinopse.setText(filme.getSinopse());
+            } catch (RNException ex) {
+                
+            }
+        });
+        //fim metodo de evento do botão buscar
+ 
         //Evento de clique na tabela
-        tabela.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override 
-            public void handle(MouseEvent event) {
-                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                    Filme filme = (Filme) (tabela.getSelectionModel().getSelectedItem());  
-                    txtNomeFilme.setText(filme.getNomeFilme());
-                    txtGenero.setText(filme.getGenero());
-                    txtSinopse.setText(filme.getSinopse());
-                    txtBusca.setText(filme.getNomeFilme());
-                }
+        tabela.setOnMousePressed((MouseEvent event) -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                Filme filme = (Filme) (tabela.getSelectionModel().getSelectedItem());
+                txtNomeFilme.setText(filme.getNomeFilme());
+                txtGenero.setText(filme.getGenero());
+                txtSinopse.setText(filme.getSinopse());
+                txtBusca.setText(filme.getNomeFilme());
             }
         });
         //fim Evento de clique na tabela

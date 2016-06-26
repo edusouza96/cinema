@@ -3,7 +3,6 @@ package view.cadastros;
 import exceptions.RNException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -70,33 +69,23 @@ public class CadastroFilme extends Application {
         hbBtn.getChildren().add(btnCadastrar);//---------------------------------adiciona o botao no layout
         grid.add(hbBtn, 1, 4);//------------------------------------------------adiciona o layout do botao no grid
         //fim linha botão
-        
-        //mensagem a ser exibida quando apertar o botão
-       
-        final Text msgBotao = new Text();//-------------------------------------cria uma variavel texto
-        grid.add(msgBotao, 1, 6);//---------------------------------------------seta posição para exibir o texto
-        //fim da mensagem a ser exibida
 
         //metodo para setar um evento no botão
-        btnCadastrar.setOnAction(new EventHandler<ActionEvent>() {  //-----------
-            @Override              //-------------------------------------------
-            public void handle(ActionEvent e) {  //-----------------------------método de evento
-                try {
-                    String nomeFilme = txtNomeFilme.getText();
-                    String genero = txtGenero.getText();
-                    String sinopse = txtSinopse.getText();
-                    filmeRN.adicionar(new Filme(nomeFilme, genero, sinopse));
-                    txtNomeFilme.setText("");
-                    txtGenero.setText("");
-                    txtSinopse.setText("");
-                    Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAviso.setTitle("Confirmação");
-                    dialogoAviso.setContentText("Filme Cadastrado com Sucesso!");
-                    dialogoAviso.showAndWait();
-                } catch (RNException ex) {
-            
-                }
-               
+        btnCadastrar.setOnAction((ActionEvent e) -> {
+            try {
+                String nomeFilme = txtNomeFilme.getText();
+                String genero = txtGenero.getText();
+                String sinopse = txtSinopse.getText();
+                filmeRN.adicionar(new Filme(nomeFilme, genero, sinopse));
+                txtNomeFilme.setText("");
+                txtGenero.setText("");
+                txtSinopse.setText("");
+                Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                dialogoAviso.setTitle("Confirmação");
+                dialogoAviso.setContentText("Filme Cadastrado com Sucesso!");
+                dialogoAviso.showAndWait();
+            } catch (RNException ex) {
+                
             }
         });
         //fim metodo de evento do botão

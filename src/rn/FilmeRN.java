@@ -28,8 +28,8 @@ public class FilmeRN {
      * @throws RNException : Lança uma exceção em caso de alguma falha
      */
     public void adicionar(Filme f) throws RNException{
-        //this.validarCamposObrigatorios(f);
-        //this.validarNomeExistente(f);
+        this.validarCamposObrigatorios(f);
+        this.validarNomeExistente(f);
         filmeDao.adicionar(f);
     }
     /**

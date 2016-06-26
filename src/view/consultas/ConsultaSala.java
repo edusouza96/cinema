@@ -23,9 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Filme;
 import model.Sala;
-import rn.FilmeRN;
 import rn.SalaRN;
 
 /**
@@ -88,6 +86,24 @@ public class ConsultaSala extends Application {
         grid.add(hbBtn, 1,6);//-------------------------------------------------adiciona o layout do botao no grid
         //fim linha botão
 
+        
+        //Setando valores Tabela 
+        List<Sala> listaSala = salaRN.listar();
+        TableView tabela = new TableView<>();
+        TableColumn colunaNumeroSala = new TableColumn<>("Numero Sala");
+        TableColumn colunaCapacidadeSala = new TableColumn<>("Capacidade Sala");
+        
+        
+        colunaNumeroSala.setCellValueFactory(new PropertyValueFactory<>("numeroSala"));
+        colunaNumeroSala.setMinWidth(200);
+        colunaCapacidadeSala.setCellValueFactory(new PropertyValueFactory<>("quantidadeSala"));
+        colunaCapacidadeSala.setMinWidth(200);
+        
+        
+        tabela.setItems(FXCollections.observableArrayList(listaSala));
+        tabela.getColumns().addAll(colunaNumeroSala, colunaCapacidadeSala);
+        //fim Setando valores Tabela 
+        
         //metodo para setar um evento no botão atualizar
         btnAtualizar.setOnAction((ActionEvent e) -> {
                     
@@ -112,7 +128,9 @@ public class ConsultaSala extends Application {
                 dialogoAviso.setTitle("Confirmação");
                 dialogoAviso.setContentText("Sala Alterada com Sucesso!");
                 dialogoAviso.showAndWait();
-                
+                tabela.getItems().clear();
+                tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
+                tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
             } catch (RNException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -137,6 +155,9 @@ public class ConsultaSala extends Application {
                     dialogoAviso.setTitle("Confirmação");
                     dialogoAviso.setContentText("Filme Deletado com Sucesso!");
                     dialogoAviso.showAndWait();
+                    tabela.getItems().clear();
+                    tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
+                    tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
                 } catch (RNException ex) {
                     System.err.println(ex.getMessage());
                 }
@@ -166,23 +187,6 @@ public class ConsultaSala extends Application {
         //fim metodo de evento do botão buscar
  
        
-        //Setando valores Tabela 
-        List<Sala> listaSala = salaRN.listar();
-        TableView tabela = new TableView<>();
-        TableColumn colunaNumeroSala = new TableColumn<>("Numero Sala");
-        TableColumn colunaCapacidadeSala = new TableColumn<>("Capacidade Sala");
-        
-        
-        colunaNumeroSala.setCellValueFactory(new PropertyValueFactory<>("numeroSala"));
-        colunaNumeroSala.setMinWidth(200);
-        colunaCapacidadeSala.setCellValueFactory(new PropertyValueFactory<>("quantidadeSala"));
-        colunaCapacidadeSala.setMinWidth(200);
-        
-        
-        tabela.setItems(FXCollections.observableArrayList(listaSala));
-        tabela.getColumns().addAll(colunaNumeroSala, colunaCapacidadeSala);
-        //fim Setando valores Tabela 
-        
         //Evento de clique na tabela
         tabela.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override 
@@ -200,7 +204,7 @@ public class ConsultaSala extends Application {
         //layou tabela
         VBox vbTb = new VBox(10);  //-------------------------------------------layout para tabela
         vbTb.getChildren().add(tabela);//---------------------------------------adiciona a tabela no layout
-        grid.add(vbTb, 0, 10, 10, 0);//----------------------------------------adiciona o layout da tabela no grid
+        grid.add(vbTb, 0, 10, 10, 20);//----------------------------------------adiciona o layout da tabela no grid
         //fim layou tabela
         
         //codigo Scene

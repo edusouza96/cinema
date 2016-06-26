@@ -23,7 +23,7 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
             ResultSet resultado = comando.executeQuery();
             
             if(resultado.next()){
-                int quantidadeSala = resultado.getInt("quantidadeAssento");
+                int quantidadeSala = resultado.getInt("quantidadeSala");
                 Sala sala = new Sala(numero, quantidadeSala);
                 return sala;
             }
@@ -44,7 +44,7 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
     @Override
     public void adicionar(Sala sala) {
         try{
-            String sql = "INSERT INTO sala (numeroSala, quantidadeAssento)"
+            String sql = "INSERT INTO sala (numeroSala, quantidadeSala)"
                     + "VALUES (?,?)";
             conectar(sql);
             comando.setInt(1, sala.getNumeroSala());
@@ -73,7 +73,7 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
             
             while(resultado.next()){
                 int numeroSala = resultado.getInt("numeroSala");
-                int quantidadeSala = resultado.getInt("quantidadeAssento");
+                int quantidadeSala = resultado.getInt("quantidadeSala");
                 
                 Sala sala = new Sala(numeroSala, quantidadeSala);
                 listaSalas.add(sala);
@@ -105,7 +105,7 @@ public class SalaDaoDB extends DaoDB<Sala> implements SalaDao{
     @Override
     public void atualizar(Sala sala) {
         try{
-            String sql = "UPDATE sala  SET  quantidadeAssento=? WHERE numeroSala=?";
+            String sql = "UPDATE sala  SET  quantidadeSala=? WHERE numeroSala=?";
             conectar(sql);
             comando.setInt(1, sala.getQuantidadeSala());
             comando.setInt(2, sala.getNumeroSala());

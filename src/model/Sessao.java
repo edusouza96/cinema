@@ -12,6 +12,8 @@ public class Sessao {
     private Filme filme;
     private Sala sala;
     private Date horario;
+    private String nomeFilme;
+    private int numeroSala;
 
     /**
      * Contrutor que recebe os parametros para iniciar os atribbutos do objetos
@@ -45,6 +47,12 @@ public class Sessao {
     public Sessao() {
     }
 
+    public void SessaoAdaptada(int codigoSessao,  int sala, String filme, Date horario) {
+        this.codigoSessao = codigoSessao;
+        this.nomeFilme = filme;
+        this.numeroSala = sala;
+        this.horario = horario;
+    }
     /**
      * getter do codigo da sessao
      * @return retorna o codigo da sessao
@@ -107,6 +115,14 @@ public class Sessao {
      */
     public void setHorario(Date horario) {
         this.horario = horario;
+    }
+
+    public String getNomeFilme() {
+        return nomeFilme;
+    }
+
+    public int getNumeroSala() {
+        return numeroSala;
     }
 
     /**

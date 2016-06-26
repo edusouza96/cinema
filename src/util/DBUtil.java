@@ -16,7 +16,7 @@ public class DBUtil {
     private final static String BD = "cinema_java";
     private final static String URL = "jdbc:mysql://"+HOST+":"+PORT+"/"+BD;
     private final static String USUARIO = "root";
-    private final static String SENHA = "usbw";//usbw no senac
+    private final static String SENHA = "";//usbw no senac
     
     public static Connection getConnection(){
         Connection conexao = null;
