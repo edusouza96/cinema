@@ -132,7 +132,7 @@ public class Sessao {
     @Override
     public String toString() {
         String hora = DateUtil.hourToString(horario);
-        return "Nome do Filme = " + filme.getNomeFilme() + " | Numero da Sala = " + sala.getNumeroSala() + " | Horario = " + hora;
+        return "Filme = " + filme.getNomeFilme() + " | Sala = " + sala.getNumeroSala() + " | Hora = " + hora;
     }
     
     /**
