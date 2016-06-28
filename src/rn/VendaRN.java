@@ -52,6 +52,10 @@ public class VendaRN {
         return (vendaDao.listar());
     }
     
+    public List<Venda> listarPorData(){
+        return (vendaDao.listarPorData());
+    }
+    
     /**
      * Verifica se o parametro passado não está vazio
      * @param registroVenda : Numero recebido da view

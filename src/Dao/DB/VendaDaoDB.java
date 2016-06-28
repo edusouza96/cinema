@@ -53,6 +53,39 @@ public class VendaDaoDB extends DaoDB<Venda> implements VendaDao{
         }
     }
 
+    /*/**
+    * Taz uma lista de vendas agrupada por data
+    * @return retorna uma lista venda
+    */
+    @Override
+    public List<Venda> listarPorData() {
+        List<Venda> listaVendas = new ArrayList<>();
+        String sql = "SELECT sessao_codigoSessao,data,count(registroVenda) as regVenda FROM venda group by data";
+        try{
+            conectar(sql);
+            ResultSet resultado = comando.executeQuery();
+            while(resultado.next()){
+                int registroVenda = resultado.getInt("regVenda");
+                int sessao_codigoSessao = resultado.getInt("sessao_codigoSessao");
+                Date date = resultado.getDate("data");
+                SessaoDaoDB sessao = new SessaoDaoDB();
+                
+                Venda venda = new Venda(registroVenda,(sessao.procurarPorId(sessao_codigoSessao)), date);
+                listaVendas.add(venda);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erro de Sistema - Problema ao buscar as vendas!");
+            throw new RuntimeException(ex);
+        } finally {
+            fecharConexao();
+        }
+        return (listaVendas);
+    }
+    
+    /**
+     * Taz uma lista de vendas
+     * @return retorna uma lista venda
+     */
     @Override
     public List<Venda> listar() {
         List<Venda> listaVendas = new ArrayList<>();
