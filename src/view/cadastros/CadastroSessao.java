@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -29,6 +30,7 @@ import rn.FilmeRN;
 import rn.SalaRN;
 import rn.SessaoRN;
 import util.DateUtil;
+import view.Cinema;
 
 /**
  *
@@ -38,6 +40,7 @@ public class CadastroSessao extends Application {
     private SessaoRN sessaoRN;
     private FilmeRN filmeRN;
     private SalaRN salaRN;
+    private Cinema menuCinema;
     @Override
     public void start(Stage primaryStage) {
         sessaoRN = new SessaoRN();
@@ -46,8 +49,14 @@ public class CadastroSessao extends Application {
         
         primaryStage.setTitle("CINEMA - Sessão");//-------------------------------Titulo da janela
         Parent formulario = form(primaryStage);
+        //menu
+        menuCinema = new Cinema();
+        BorderPane root = new BorderPane();
+        root.setTop(menuCinema.menu(primaryStage));
+        root.setCenter(formulario);
+        //fim menu
         //codigo Scene
-        Scene scene = new Scene(formulario, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
+        Scene scene = new Scene(root, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
         primaryStage.setScene(scene);//-----------------------------------------
         scene.getStylesheets().add(CadastroSessao.class.getResource("../../css/style.css").toExternalForm());
         primaryStage.show();//--------------------------------------------------Mostra a janela

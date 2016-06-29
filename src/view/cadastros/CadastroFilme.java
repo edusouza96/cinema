@@ -10,12 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Filme;
 import rn.FilmeRN;
+import view.Cinema;
 
 /**
  *
@@ -23,6 +25,7 @@ import rn.FilmeRN;
  */
 public class CadastroFilme extends Application {
     private FilmeRN filmeRN;
+    private Cinema menuCinema;
     @Override
     public void start(Stage primaryStage) {
         filmeRN = new FilmeRN();
@@ -34,6 +37,13 @@ public class CadastroFilme extends Application {
         grid.setVgap(10);//-----------------------------------------------------Espaço entre componetes por linha
         grid.setPadding(new Insets(25, 25, 25, 25));//--------------------------seta o espaço da grid em relação a janela
         //fim layout
+
+        //menu
+        menuCinema = new Cinema();
+        BorderPane root = new BorderPane();
+        root.setTop(menuCinema.menu(primaryStage));
+        root.setCenter(grid);
+        //fim menu
         
         //Titulo dentro da aplicação
         Text scenetitle = new Text("Cadastro de Filme");//----------------------Titulo 
@@ -91,8 +101,8 @@ public class CadastroFilme extends Application {
         //fim metodo de evento do botão
  
         //codigo Scene
-        Scene scene = new Scene(grid, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
-        primaryStage.setScene(scene);//-----------------------------------------
+        Scene scene = new Scene(root, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
+        primaryStage.setScene(scene);
         scene.getStylesheets().add(CadastroFilme.class.getResource("../../css/style.css").toExternalForm());
         primaryStage.show();//--------------------------------------------------Mostra a janela
         //fim codigo scene

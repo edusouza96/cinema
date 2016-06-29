@@ -12,11 +12,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Sessao;
 import model.Venda;
 import rn.SessaoRN;
 import rn.VendaRN;
+import view.Cinema;
 
 /**
  * Simple Preloader Using the ProgressBar Control
@@ -27,6 +29,7 @@ public class VendaPorHorario extends Preloader {
     
     private SessaoRN sessaoRN;
     private VendaRN vendaRN;
+    private Cinema menuCinema;
  
     @Override public void start(Stage stage) {
         sessaoRN = new SessaoRN();
@@ -57,7 +60,13 @@ public class VendaPorHorario extends Preloader {
             barraVertical.getData().add(new XYChart.Data((sessao.getHorario()+""), cont));//inserção de dados <categoria, valor>       
         }
         
-        Scene scene  = new Scene(bcBarra,600,500);
+        //menu
+        menuCinema = new Cinema();
+        BorderPane root = new BorderPane();
+        root.setTop(menuCinema.menu(stage));
+        root.setCenter(bcBarra);
+        //fim menu
+        Scene scene  = new Scene(root,600,500);
         bcBarra.getData().addAll( barraVertical);
         //scene.getStylesheets().add(VendaPorFilme.class.getResource("../../css/style.css").toExternalForm());
         stage.setScene(scene);

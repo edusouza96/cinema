@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Sala;
 import rn.SalaRN;
+import view.Cinema;
 
 /**
  *
@@ -32,6 +34,7 @@ import rn.SalaRN;
  */
 public class ConsultaSala extends Application {
     private SalaRN salaRN;
+    private Cinema menuCinema;
     @Override
     public void start(Stage primaryStage) {
         salaRN = new SalaRN();
@@ -43,6 +46,13 @@ public class ConsultaSala extends Application {
         grid.setVgap(10);//-----------------------------------------------------Espaço entre componetes por linha
         grid.setPadding(new Insets(25, 25, 25, 25));//--------------------------seta o espaço da grid em relação a janela
         //fim layout
+        
+        //menu
+        menuCinema = new Cinema();
+        BorderPane root = new BorderPane();
+        root.setTop(menuCinema.menu(primaryStage));
+        root.setCenter(grid);
+        //fim menu
         
         //Titulo dentro da aplicação
         Text scenetitle = new Text("Consulta de Sala");//------------------------Titulo 
@@ -208,7 +218,7 @@ public class ConsultaSala extends Application {
         //fim layou tabela
         
         //codigo Scene
-        Scene scene = new Scene(grid, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
+        Scene scene = new Scene(root, 600, 500);//------------------------------cria a janela passaando a grid e o tamanho por parametro
         primaryStage.setScene(scene);//-----------------------------------------
         scene.getStylesheets().add(ConsultaSala.class.getResource("../../css/style.css").toExternalForm());
         primaryStage.show();//--------------------------------------------------Mostra a janela
