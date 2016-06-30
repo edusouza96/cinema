@@ -21,12 +21,17 @@ import rn.SalaRN;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por cadastrar as salas
  * @author 631420057
  */
 public class CadastroSala extends Application {
     private SalaRN salaRN;
     private Cinema menuCinema;
+    
+     /**
+     *  método que monta a janela e suas respctivas ações
+     * @param primaryStage janela
+     */
     @Override
     public void start(Stage primaryStage) {
         salaRN = new SalaRN();

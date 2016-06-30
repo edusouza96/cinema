@@ -133,8 +133,7 @@ public class SessaoDaoDB extends DaoDB<Sessao> implements SessaoDao{
     public void atualizar(Sessao sessao) {
        
         try {
-             String sql = "UPDATE sessao SET sala_numeroSala=?, filme_codigoFilme=?, horario=?"
-                +"WHERE codigoSessao = ?";
+             String sql = "UPDATE sessao SET sala_numeroSala=?, filme_codigoFilme=?, horario=? WHERE codigoSessao = ?";
             conectar(sql);
             String hora = DateUtil.hourToString(sessao.getHorario());
             comando.setInt(1, sessao.getSala().getNumeroSala());
@@ -213,87 +212,4 @@ public class SessaoDaoDB extends DaoDB<Sessao> implements SessaoDao{
         return (listaSessoes);
     }
 }
-//
-//    /**
-//     * Metodo que devolve um lista de sessoes de acordo com o parametro passado
-//     * @param filmeParam: Para buscar registros no dados no banco
-//     * @return : Retorna uma lista do tipo sessao 
-//     */
-//    @Override
-//    public List<Sessao> procurarPorFilme(Filme filmeParam) {
-//        List<Sessao> listaSessoes = new ArrayList<>();
-//        String sql = "SELECT codigoSessao,horario,numeroSala,quantidadeAssento,codigoFilme,nomeFilme,genero,sinopse"
-//                +"FROM sessao,sala,filme WHERE codigoFilme = ?  and filme_codigoFilme = codigoFilme and sala_codigoSala = numeroSala";
-//                
-//        try{
-//            conectar(sql);
-//            comando.setInt(1, filmeParam.getCodigoFilme());
-//            ResultSet resultado = comando.executeQuery();
-//            while(resultado.next()){
-//                int codigoSessao = resultado.getInt("codigoSessao");
-//                Date horario = resultado.getDate("horario");
-//                int numeroSala = resultado.getInt("numeroSala");
-//                int quantidadeSala = resultado.getInt("quantidadeSala");
-//                int codigoFilme = resultado.getInt("codigoFilme");
-//                String nomeFilme = resultado.getString("nomeFilme");
-//                String genero = resultado.getString("genero");
-//                String sinopse = resultado.getString("sinopse");
-//                
-//                Sala sala = new Sala(numeroSala, quantidadeSala);
-//
-//                Filme filme = new Filme(codigoFilme,nomeFilme, genero, sinopse);
-//                
-//                Sessao sessao = new Sessao(codigoSessao,sala,filme,horario);
-//                listaSessoes.add(sessao);
-//            }
-//        }catch (SQLException ex) {
-//            System.err.println("Erro de Sistema - Problema ao buscar as sessoes pelo filme no Banco de Dados!");
-//            throw new RuntimeException(ex);
-//        } finally {
-//            fecharConexao();
-//        }
-//        return (listaSessoes);
-//    }
-//
-//    /**
-//     * Metodo que devolve um lista de sessoes de acordo com o parametro passado
-//     * @param salaParam: Para buscar registros no dados no banco
-//     * @return : Retorna uma lista do tipo sessao 
-//     */
-//    @Override
-//    public List<Sessao> procurarPorSala(Sala salaParam) {
-//       List<Sessao> listaSessoes = new ArrayList<>();
-//        String sql = "SELECT codigoSessao,horario,numeroSala,quantidadeAssento,codigoFilme,nomeFilme,genero,sinopse"
-//                +"FROM sessao,sala,filme WHERE numeroSala = ?  and filme_codigoFilme = codigoFilme and sala_codigoSala = numeroSala";
-//                
-//        try{
-//            conectar(sql);
-//            comando.setInt(1, salaParam.getNumeroSala());
-//            ResultSet resultado = comando.executeQuery();
-//            while(resultado.next()){
-//                int codigoSessao = resultado.getInt("codigoSessao");
-//                Date horario = resultado.getDate("horario");
-//                int numeroSala = resultado.getInt("numeroSala");
-//                int quantidadeSala = resultado.getInt("quantidadeSala");
-//                int codigoFilme = resultado.getInt("codigoFilme");
-//                String nomeFilme = resultado.getString("nomeFilme");
-//                String genero = resultado.getString("genero");
-//                String sinopse = resultado.getString("sinopse");
-//                
-//                Sala sala = new Sala(numeroSala, quantidadeSala);
-//
-//                Filme filme = new Filme(codigoFilme,nomeFilme, genero, sinopse);
-//                
-//                Sessao sessao = new Sessao(codigoSessao,sala,filme,horario);
-//                listaSessoes.add(sessao);
-//            }
-//        }catch (SQLException ex) {
-//            System.err.println("Erro de Sistema - Problema ao buscar as sessoes pela Sala no Banco de Dados!");
-//            throw new RuntimeException(ex);
-//        } finally {
-//            fecharConexao();
-//        }
-//        return (listaSessoes);
-//    }
 
-   

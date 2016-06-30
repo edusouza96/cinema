@@ -145,7 +145,7 @@ public class AssentoDaoDB extends DaoDB<Assento> implements AssentoDao{
 
     /**
      * Atualiza a quantidade de assentos disponiveis
-     * @param assento 
+     * @param assento janela
      */
     @Override
     public void atualizar(Assento assento) {

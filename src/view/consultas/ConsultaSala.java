@@ -29,12 +29,17 @@ import rn.SalaRN;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por exibir todos as salas cadastradas e de altera-las 
+ * ou deleta-las quando requerida
  * @author 631420057
  */
 public class ConsultaSala extends Application {
     private SalaRN salaRN;
     private Cinema menuCinema;
+    /**
+     * método que monta a janela e suas respctivas ações
+     * @param primaryStage  
+     */
     @Override
     public void start(Stage primaryStage) {
         salaRN = new SalaRN();

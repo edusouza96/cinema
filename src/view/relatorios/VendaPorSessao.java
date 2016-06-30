@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package view.relatorios;
 
 import java.util.List;
@@ -21,7 +17,7 @@ import rn.VendaRN;
 import view.Cinema;
 
 /**
- * Simple Preloader Using the ProgressBar Control
+ * Classe que monta um relatorio em grafico monstrando quantas vendas tiveram em cada sessão
  *
  * @author eduardo
  */
@@ -31,6 +27,10 @@ public class VendaPorSessao extends Preloader {
     private VendaRN vendaRN;
     private Cinema menuCinema;
  
+    /**
+     * método que monta a janela e suas respctivas ações
+     * @param stage 
+     */
     @Override public void start(Stage stage) {
         sessaoRN = new SessaoRN();
         vendaRN = new VendaRN();
@@ -57,7 +57,7 @@ public class VendaPorSessao extends Preloader {
                 }
             }
             barraVertical.setName("Ingressos Vendidos");
-            barraVertical.getData().add(new XYChart.Data((sessao.toString()+""), cont));//inserção de dados <categoria, valor>       
+            barraVertical.getData().add(new XYChart.Data((sessao.toString2()), cont));//inserção de dados <categoria, valor>       
         }
         
         //menu
@@ -68,7 +68,7 @@ public class VendaPorSessao extends Preloader {
         //fim menu
         Scene scene  = new Scene(root,600,500);
         bcBarra.getData().addAll( barraVertical);
-        //scene.getStylesheets().add(VendaPorFilme.class.getResource("../../css/style.css").toExternalForm());
+        scene.getStylesheets().add(VendaPorSessao.class.getResource("../../css/styleGrafic.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     

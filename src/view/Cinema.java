@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -30,11 +26,16 @@ import view.relatorios.VendaPorSala;
 import view.relatorios.VendaPorSessao;
 
 /**
- *
+ * Classe que faz papel de janela principal do sistema, e possui o metodo menu
+ * para poder distribuir para outras janelas
  * @author eduardo
  */
 public class Cinema extends Application {
     
+    /**
+     * monta a janela a ser exibida 
+     * @param primaryStage janela
+     */
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
@@ -43,12 +44,14 @@ public class Cinema extends Application {
         MenuBar menuBar = new MenuBar();
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
         root.setTop(menu(primaryStage));
-        
+        Label lblNomeFilme = new Label("System Cine");
+        lblNomeFilme.setId("titulo");
+        root.setCenter(lblNomeFilme);
        
         primaryStage.setTitle("CINEMA - Home");
         Scene scene = new Scene(root, 600, 500, Color.WHITE);
         primaryStage.setScene(scene);
-       
+        scene.getStylesheets().add(Cinema.class.getResource("../css/styleMain.css").toExternalForm());
         primaryStage.show();
     }
 
@@ -58,6 +61,12 @@ public class Cinema extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    /**
+     * metodo qua faz toda a montagem do menu
+     * @param primaryStage janela
+     * @return retorna um menuBar que é inserido no layout 
+     */
     public MenuBar menu(Stage primaryStage){
         MenuBar menuBar = new MenuBar();
         //menu Filme
@@ -191,8 +200,13 @@ public class Cinema extends Application {
         Menu menuSair = new Menu("Ações");
         menuSair.setMnemonicParsing(true);
         MenuItem menuItemSair = new MenuItem("Sair");
-        menuSair.getItems().add(menuItemSair);
-        menuSair.setOnAction(actionEvent -> Platform.exit());
+        MenuItem menuItemPrincipal = new MenuItem("Home");
+        menuSair.getItems().addAll(menuItemPrincipal,menuItemSair);
+        menuItemSair.setOnAction(actionEvent -> Platform.exit());
+        menuItemPrincipal.setOnAction((a) ->{
+            Cinema cinema = new Cinema();
+            cinema.start(primaryStage);
+        });
         //fim menu Ações
         menuBar.getMenus().addAll(menuFilme,menuSala,menuSessao,menuVenda,menuRelatorio,menuSair);
         

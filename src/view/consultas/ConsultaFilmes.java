@@ -28,12 +28,18 @@ import rn.FilmeRN;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por exibir todos os filmes cadastrados e de altera-los 
+ * ou deleta-los quando requerido
  * @author 631420057
  */
 public class ConsultaFilmes extends Application {
     private FilmeRN filmeRN;
     private Cinema menuCinema;
+    
+    /**
+     * método que monta a janela e suas respctivas ações
+     * @param primaryStage  
+     */
     @Override
     public void start(Stage primaryStage) {
         filmeRN = new FilmeRN();

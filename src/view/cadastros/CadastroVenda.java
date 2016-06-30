@@ -39,7 +39,7 @@ import util.DateUtil;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por realizar as vendas
  * @author 631420057
  */
 public class CadastroVenda extends Application {
@@ -51,6 +51,11 @@ public class CadastroVenda extends Application {
     private Sessao sessaoEscolhida;
     int codigoSessao;
     private Cinema menuCinema;
+    
+    /**
+     * Método que monta a janela para exibição
+     * @param primaryStage  janela
+     */
     @Override
     public void start(Stage primaryStage) {
         vendaRN = new VendaRN();
@@ -84,6 +89,11 @@ public class CadastroVenda extends Application {
         launch(args);
     }
 
+    /**
+     * metodo que coloca os componentes no formulario e monta todas as ações dos botoes
+     * @param primaryStage
+     * @return retorna um nó grid para adicionar no layot da janela
+     */
     private Parent form(Stage primaryStage) {
         //Layout
         GridPane grid = new GridPane();//---------------------------------------cria o layout grid
@@ -220,7 +230,16 @@ public class CadastroVenda extends Application {
         //fim metodo de evento do botão
         return grid;
     }
-private List<Object> populaListaAdaptada(List<Sessao> listaSessao, List<Object> listaSessaoAdaptada) {
+    
+    /**
+     * metodo responsabel por popular uma lista adaptada, para exibição correta na tela,
+     * essa lista adaptada é a transformação de objeto filme em nome filme e do 
+     * objeo sala em numero sala, tornando mais facil de manipular esses dados visualmente
+     * @param listaSessao contem uma lista de sessoes cadastradas
+     * @param listaSessaoAdaptada lista que será populada para ser exibida
+     * @return retorna a lista adaptada
+     */
+    private List<Object> populaListaAdaptada(List<Sessao> listaSessao, List<Object> listaSessaoAdaptada) {
         
         for(Sessao sessao : listaSessao){
             sessao.SessaoAdaptada(

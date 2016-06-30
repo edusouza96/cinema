@@ -20,12 +20,17 @@ import rn.FilmeRN;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por cadastrar os Filmes
  * @author 631420057
  */
 public class CadastroFilme extends Application {
     private FilmeRN filmeRN;
     private Cinema menuCinema;
+    
+     /**
+     *  método que monta a janela e suas respctivas ações
+     * @param primaryStage janela
+     */
     @Override
     public void start(Stage primaryStage) {
         filmeRN = new FilmeRN();

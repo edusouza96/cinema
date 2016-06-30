@@ -135,6 +135,11 @@ public class Sessao {
         return "Filme = " + filme.getNomeFilme() + " | Sala = " + sala.getNumeroSala() + " | Hora = " + hora;
     }
     
+    public String toString2() {
+        String hora = DateUtil.hourToString(horario);
+        return "Filme = " + filme.getNomeFilme() + "\n Sala = " + sala.getNumeroSala() + "\n Hora = " + hora;
+    }
+    
     /**
      * metodo responsavel por gerar um codigo para objeto
      * @return retorna um codigo

@@ -33,7 +33,7 @@ import util.DateUtil;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por fazer os cadastro de sessoes
  * @author 631420057
  */
 public class CadastroSessao extends Application {
@@ -41,6 +41,11 @@ public class CadastroSessao extends Application {
     private FilmeRN filmeRN;
     private SalaRN salaRN;
     private Cinema menuCinema;
+    
+    /**
+     * Método que monta a janela para exibição
+     * @param primaryStage janela
+     */
     @Override
     public void start(Stage primaryStage) {
         sessaoRN = new SessaoRN();
@@ -70,6 +75,11 @@ public class CadastroSessao extends Application {
         launch(args);
     }
 
+     /**
+     * metodo que coloca os componentes no formulario e monta todas as ações dos botoes
+     * @param primaryStage
+     * @return retorna um nó grid para adicionar no layot da janela
+     */
     private Parent form(Stage primaryStage) {
         //Layout
         GridPane grid = new GridPane();//---------------------------------------cria o layout grid
@@ -166,6 +176,10 @@ public class CadastroSessao extends Application {
         return grid;
     }
 
+    /**
+     * metodo que popula a combobo que exibe os nomes dos filmes, para poder se fazer alterações no cadastro
+     * @return  retorna uma lista de filmes cadastrados
+     */
     private List popularCbxNomeFilme() {
         FilmeRN filmeRN = new FilmeRN();
         List<Filme> listaFilme = filmeRN.listar();
@@ -176,6 +190,10 @@ public class CadastroSessao extends Application {
         return listaNomeFilme;
     }
 
+    /**
+     * metodo que popula a combobox que exibe o numero da sala, para poder se fazer altrerações no cadastro
+     * @return retorna uma lista de numero de salas cadastradas
+     */
     private List popularCbxNumeroSala() {
         SalaRN salaRN = new SalaRN();
         List<Sala> listaSala = salaRN.listar();

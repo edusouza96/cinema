@@ -40,7 +40,8 @@ import util.DateUtil;
 import view.Cinema;
 
 /**
- *
+ * Classe responsavel  por exibir todos as sessões cadastradas e de altera-las 
+ * ou deleta-las quando requerido
  * @author 631420057
  */
 public class ConsultaSessao extends Application {
@@ -49,6 +50,11 @@ public class ConsultaSessao extends Application {
     private SalaRN salaRN;
     private int codigoSessao;
     private Cinema menuCinema;
+    
+    /**
+     * método que monta a janela
+     * @param primaryStage  
+     */
     @Override
     public void start(Stage primaryStage) {
         sessaoRN = new SessaoRN();
@@ -80,6 +86,10 @@ public class ConsultaSessao extends Application {
         launch(args);
     }
 
+    /**
+     * método que cria os componentes do formulario e suas respctivas ações
+     * @param primaryStage  
+     */
     private Parent form(Stage primaryStage) {
         //Layout
         GridPane grid = new GridPane();//---------------------------------------cria o layout grid
@@ -255,6 +265,10 @@ public class ConsultaSessao extends Application {
         return grid;
     }
 
+    /**
+     * metodo que popula a combobo que exibe os nomes dos filmes, para poder se fazer alterações no cadastro
+     * @return  retorna uma lista de filmes cadastrados
+     */
     private List popularCbxNomeFilme() {
         FilmeRN filmeRN = new FilmeRN();
         List<Filme> listaFilme = filmeRN.listar();
@@ -265,6 +279,10 @@ public class ConsultaSessao extends Application {
         return listaNomeFilme;
     }
 
+    /**
+     * metodo que popula a combobox que exibe o numero da sala, para poder se fazer altrerações no cadastro
+     * @return retorna uma lista de numero de salas cadastradas
+     */
     private List popularCbxNumeroSala() {
         SalaRN salaRN = new SalaRN();
         List<Sala> listaSala = salaRN.listar();
@@ -275,6 +293,14 @@ public class ConsultaSessao extends Application {
         return listaNumeroSala;
     }
 
+    /**
+     * metodo responsabel por popular uma lista adaptada, para exibição correta na tela,
+     * essa lista adaptada é a transformação de objeto filme em nome filme e do 
+     * objeo sala em numero sala, tornando mais facil de manipular esses dados visualmente
+     * @param listaSessao contem uma lista de sessoes cadastradas
+     * @param listaSessaoAdaptada lista que será populada para ser exibida
+     * @return retorna a lista adaptada
+     */
     private List<Object> populaListaAdaptada(List<Sessao> listaSessao, List<Object> listaSessaoAdaptada) {
         
         for(Sessao sessao : listaSessao){

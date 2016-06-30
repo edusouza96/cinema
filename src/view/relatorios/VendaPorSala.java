@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package view.relatorios;
 
 import java.util.List;
@@ -21,7 +17,7 @@ import rn.VendaRN;
 import view.Cinema;
 
 /**
- * Simple Preloader Using the ProgressBar Control
+ * Classe que monta um relatorio que exibe quantas vendas tiveram em cada salas
  *
  * @author eduardo
  */
@@ -30,7 +26,11 @@ public class VendaPorSala extends Preloader {
     private SalaRN salaRN;
     private VendaRN vendaRN;
     private Cinema menuCinema;
- 
+    
+    /**
+     * método que monta a janela e suas respctivas ações
+     * @param stage 
+     */ 
     @Override public void start(Stage stage) {
         salaRN = new SalaRN();
         vendaRN = new VendaRN();
@@ -68,7 +68,7 @@ public class VendaPorSala extends Preloader {
         //fim menu
         Scene scene  = new Scene(root,600,500);
         bcBarra.getData().addAll( barraVertical);
-        //scene.getStylesheets().add(VendaPorFilme.class.getResource("../../css/style.css").toExternalForm());
+        scene.getStylesheets().add(VendaPorSala.class.getResource("../../css/styleGrafic.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     
