@@ -4,11 +4,14 @@ import java.util.List;
 import model.Filme;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * Classe que teste as regras de negocio da classe FilmeRN
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FilmeRNTest {
     private FilmeRN lista;
     public FilmeRNTest() {
@@ -21,7 +24,7 @@ public class FilmeRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testAdicionar() throws Exception {
+    public void testAAdicionar() throws Exception {
         System.out.println("adicionar");
         Filme f = new Filme("filmeTeste", "generoTeste", "sinopseTeste");
         lista.adicionar(f);
@@ -32,7 +35,7 @@ public class FilmeRNTest {
      * Teste do método listar, da classe FilmeRN.
      */
     @Test
-    public void testListar() {
+    public void testBListar() {
         System.out.println("listar");
         int expResult = 0;
         int result = lista.listar().size();
@@ -40,43 +43,12 @@ public class FilmeRNTest {
         
     }
 
-    /**
-     * Teste do metodo deletar, da classe FilmeRN.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testDeletar() throws Exception {
-        System.out.println("deletar");
-        int tamanhoLista = lista.listar().size();
-        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoFilme();
-        Filme filme = new Filme(ultimoRegistro,"filmeTeste", "generoTeste", "sinopseTeste");
-        lista.deletar(filme);
-        int _tamanhoLista = lista.listar().size();
-        
-        assertTrue(_tamanhoLista != tamanhoLista);
-    }
-
-    /**
-     * Teste do metodo atualizar, da classe FilmeRN.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testAtualizar() throws Exception {
-        System.out.println("atualizar");
-        int tamanhoLista = lista.listar().size();
-        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoFilme();
-        Filme filme = new Filme(ultimoRegistro,"filmeTeste", "generoTeste", "sinopseTeste");
-        lista.atualizar(filme);
-        assertTrue(!lista.listar().contains(filme));
-        
-    }
-
-    /**
+     /**
      * Teste do método procuraPorNome, da classe FilmeRN.
      * @throws java.lang.Exception
      */
     @Test
-    public void testProcuraPorNome() throws Exception {
+    public void testCProcuraPorNome() throws Exception {
         System.out.println("procuraPorNome");
         String nome = "filmeTeste";
         Filme expResult = null;
@@ -90,7 +62,7 @@ public class FilmeRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testProcurarPorId() throws Exception {
+    public void testDProcurarPorId() throws Exception {
         System.out.println("procurarPorId");
         int tamanhoLista = lista.listar().size();
         int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoFilme();
@@ -105,7 +77,7 @@ public class FilmeRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testProcuraPorGenero() throws Exception {
+    public void testEProcuraPorGenero() throws Exception {
         System.out.println("procuraPorGenero");
         String genero = "teste";
         List<Filme> expResult = null;
@@ -118,12 +90,46 @@ public class FilmeRNTest {
      * Teste do metodo filmeExiste, da classe FilmeRN.
      */
     @Test
-    public void testFilmeExiste() {
+    public void testFFilmeExiste() {
         System.out.println("filmeExiste");
         String nome = "filme";
         boolean expResult = false;
         boolean result = lista.filmeExiste(nome);
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Teste do metodo atualizar, da classe FilmeRN.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGAtualizar() throws Exception {
+        System.out.println("atualizar");
+        int tamanhoLista = lista.listar().size();
+        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoFilme();
+        Filme filme = new Filme(ultimoRegistro,"filmeTeste", "generoTeste", "sinopseTeste");
+        lista.atualizar(filme);
+        assertTrue(!lista.listar().contains(filme));
+        
+    }
+    /**
+     * Teste do metodo deletar, da classe FilmeRN.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testHDeletar() throws Exception {
+        System.out.println("deletar");
+        int tamanhoLista = lista.listar().size();
+        int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoFilme();
+        Filme filme = new Filme(ultimoRegistro,"filmeTeste", "generoTeste", "sinopseTeste");
+        lista.deletar(filme);
+        int _tamanhoLista = lista.listar().size();
+        
+        assertTrue(_tamanhoLista != tamanhoLista);
+    }
+
+    
+
+   
     
 }
