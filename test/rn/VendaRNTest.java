@@ -7,11 +7,14 @@ import model.Sessao;
 import model.Venda;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import util.DateUtil;
 
 /**
  *Classe que teste as regras de negocio da classe VendaRN
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VendaRNTest {
     private VendaRN lista;
     private Filme filme;
@@ -21,6 +24,7 @@ public class VendaRNTest {
     /**
      * construtor que inicializa os objetos
      */
+    
     public VendaRNTest() {
         lista = new VendaRN();
         filme = new Filme(100, "filmeTeste", "Genero Teste", "sinopse Teste");
@@ -38,7 +42,7 @@ public class VendaRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testAdicionar() throws Exception {
+    public void testAAdicionar() throws Exception {
         System.out.println("adicionar");
         Venda v = new Venda(sessao,  DateUtil.stringToDate("05/03/2016"));
         
@@ -50,7 +54,7 @@ public class VendaRNTest {
      * Teste do método listar, da classe VendaRN.
      */
     @Test
-    public void testListar() {
+    public void testBListar() {
         System.out.println("listar");
         int expResult = 0;
         int result = lista.listar().size();
@@ -63,7 +67,7 @@ public class VendaRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testProcurarPorId() throws Exception {
+    public void testCProcurarPorId() throws Exception {
         System.out.println("procurarPorId");
         int tamanhoLista = lista.listar().size();
         int ultimoRegistro = lista.listar().get(tamanhoLista-1).getRegistroVenda();

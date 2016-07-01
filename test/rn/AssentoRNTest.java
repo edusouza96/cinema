@@ -7,12 +7,15 @@ import model.Sala;
 import model.Sessao;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import util.DateUtil;
 
 /**
  *
  * Classe que teste as regras de negocio da classe AssentoRN
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AssentoRNTest {
     private AssentoRN lista;
     private Filme filme;
@@ -39,7 +42,7 @@ public class AssentoRNTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testAdicionar() throws Exception {
+    public void testAAdicionar() throws Exception {
         System.out.println("adicionar");
         Assento a = new Assento(sessao, 10, DateUtil.stringToDate("05/03/2016"));
         lista.adicionar(a);
@@ -47,11 +50,22 @@ public class AssentoRNTest {
     }
 
     /**
+     * Teste do metodo procurarPorDataCodigo ,da classe AssentoRN.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testBProcurarPorDataCodigo() throws Exception {
+        System.out.println("procurarPorDataCodigo");
+        Assento result = lista.procurarPorDataCodigo(DateUtil.stringToDate("09/06/2016"), 1);
+        assertNotNull(result);
+     
+    }
+    /**
      * Teste do método atualizar, da classe AssentoRN.
      * @throws java.lang.Exception
      */
     @Test
-    public void testAtualizar() throws Exception {
+    public void testCAtualizar() throws Exception {
         System.out.println("atualizar");
         int tamanhoLista = lista.listar().size();
         int ultimoRegistro = lista.listar().get(tamanhoLista-1).getCodigoAssento();
@@ -61,16 +75,6 @@ public class AssentoRNTest {
 
     }
 
-    /**
-     * Teste do metodo procurarPorDataCodigo ,da classe AssentoRN.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testProcurarPorDataCodigo() throws Exception {
-        System.out.println("procurarPorDataCodigo");
-        Assento result = lista.procurarPorDataCodigo(DateUtil.stringToDate("09/06/2016"), 1);
-        assertNotNull(result);
-     
-    }
+    
     
 }
