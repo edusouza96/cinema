@@ -113,7 +113,7 @@ public class ConsultaFilmes extends Application {
         //Setando valores Tabela 
         List<Filme> listaFilme = filmeRN.listar();
         TableView tabela = new TableView<>();
-        TableColumn colunaCodigoFilme = new TableColumn<>("Código");
+        TableColumn colunaCodigoFilme = new TableColumn<>("Cód");
         TableColumn colunaNomeFilme = new TableColumn<>("Nome do Filme");
         TableColumn colunaGenero = new TableColumn<>("Gênero");
         TableColumn colunaSinopse = new TableColumn<>("Sinopse");
@@ -122,8 +122,10 @@ public class ConsultaFilmes extends Application {
         colunaNomeFilme.setCellValueFactory(new PropertyValueFactory<>("nomeFilme"));
         colunaNomeFilme.setMinWidth(150);
         colunaGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colunaGenero.setMinWidth(120);
         colunaSinopse.setCellValueFactory(new PropertyValueFactory<>("sinopse"));
-        
+        colunaSinopse.setMinWidth(220);
+         
         tabela.setItems(FXCollections.observableArrayList(listaFilme));
         tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
         //fim Setando valores Tabela 
@@ -148,7 +150,7 @@ public class ConsultaFilmes extends Application {
                 dialogoAviso.showAndWait();
                 tabela.getItems().clear();
                 tabela.setItems(FXCollections.observableArrayList(filmeRN.listar()));
-                tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
+                tabela.getItems().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
             } catch (RNException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -172,7 +174,7 @@ public class ConsultaFilmes extends Application {
                 dialogoAviso.showAndWait();
                 tabela.getItems().clear();
                 tabela.setItems(FXCollections.observableArrayList(filmeRN.listar()));
-                tabela.getColumns().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
+                tabela.getItems().addAll(colunaCodigoFilme, colunaNomeFilme, colunaGenero, colunaSinopse);
             } catch (RNException ex) {
                 System.err.println(ex.getMessage());
             }

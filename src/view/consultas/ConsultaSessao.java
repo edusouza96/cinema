@@ -213,10 +213,6 @@ public class ConsultaSessao extends Application {
                 tabela.getItems().clear();
                 tabela.setItems(FXCollections.observableArrayList(listaRefresh));
             } catch (RNException ex) {
-                Alert dialogoAviso = new Alert(Alert.AlertType.ERROR);
-                dialogoAviso.setTitle("Erro");
-                dialogoAviso.setContentText("Revise os dados e tente novamente!");
-                dialogoAviso.showAndWait();
                 
             } catch (ParseException ex) {
                 Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
@@ -224,7 +220,17 @@ public class ConsultaSessao extends Application {
                 dialogoAviso.setContentText("Horario fora do padrão!");
                 dialogoAviso.showAndWait();
             } catch (HourNotAvailable ex) {
-               
+                Alert dialogoAviso = new Alert(Alert.AlertType.ERROR);
+                dialogoAviso.setTitle("Erro");
+                dialogoAviso.setContentText("Horario no formato incorreto!");
+                dialogoAviso.showAndWait();
+                
+            }catch(Exception ex){
+                Alert dialogoAviso = new Alert(Alert.AlertType.ERROR);
+                dialogoAviso.setTitle("Erro");
+                dialogoAviso.setContentText("Revise os dados e tente novamente!");
+                dialogoAviso.showAndWait();
+                
             }
                 
            

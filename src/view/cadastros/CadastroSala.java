@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Sala;
 import rn.SalaRN;
+import util.MaskFieldUtil;
 import view.Cinema;
 
 /**
@@ -61,13 +62,15 @@ public class CadastroSala extends Application {
         grid.add(lblNumeroSala, 0, 1);//-----------------------------------------seta posição do label numero da sala
         TextField txtNumeroSala = new TextField();//-----------------------------cria a caixa de texto numero da sala
         grid.add(txtNumeroSala, 1, 1);//-----------------------------------------seta a posição da caixa do numero da sala
+        MaskFieldUtil.numericField(txtNumeroSala);//----------------------------mascara para somente numeros
         //fim Numero da Sala
         
         //linha Capacidade Sala
-        Label lblCapacidadeSala = new Label("Capacidade da Sala:");//-------------------------------cria label do  Capacidade Sala
-        grid.add(lblCapacidadeSala, 0, 2);//--------------------------------------------seta posição do label  Capacidade Sala
-        TextField txtCapacidadeSala = new TextField();//--------------------------------cria a caixa de texto do  Capacidade Sala
-        grid.add(txtCapacidadeSala, 1, 2);//--------------------------------------------seta a posição da caixa do  Capacidade Sala
+        Label lblCapacidadeSala = new Label("Capacidade da Sala:");//-----------cria label do  Capacidade Sala
+        grid.add(lblCapacidadeSala, 0, 2);//------------------------------------seta posição do label  Capacidade Sala
+        TextField txtCapacidadeSala = new TextField();//------------------------cria a caixa de texto do  Capacidade Sala
+        grid.add(txtCapacidadeSala, 1, 2);//------------------------------------seta a posição da caixa do  Capacidade Sala
+        MaskFieldUtil.numericField(txtCapacidadeSala);//------------------------mascara para somente numeros
         //fim  Capacidade Sala
         
         
@@ -92,17 +95,29 @@ public class CadastroSala extends Application {
                 try {
                     String numeroSalaString = txtNumeroSala.getText();
                     String quantidadeSalaString = txtCapacidadeSala.getText();
+                    if(quantidadeSalaString.isEmpty() ){
+                        Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                        dialogoAviso.setTitle("Aviso");
+                        dialogoAviso.setContentText("Campo Capacidade da sala deve ser preenchido!");
+                        dialogoAviso.showAndWait();
+                    }else if(numeroSalaString.isEmpty() ){
+                        Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                        dialogoAviso.setTitle("Aviso");
+                        dialogoAviso.setContentText("Campo Número da sala deve ser preenchido!");
+                        dialogoAviso.showAndWait();
+                    }else{
+                        int numeroSala = Integer.parseInt(numeroSalaString);
+                        int quantidadeSala = Integer.parseInt(quantidadeSalaString);
+
+                        salaRN.adicionar(new Sala(numeroSala, quantidadeSala));
+                        txtNumeroSala.setText("");
+                        txtCapacidadeSala.setText("");
+                        Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoAviso.setTitle("Confirmação");
+                        dialogoAviso.setContentText("Sala Cadastrado com Sucesso!");
+                        dialogoAviso.showAndWait();
+                    }
                     
-                    int numeroSala = Integer.parseInt(numeroSalaString);
-                    int quantidadeSala = Integer.parseInt(quantidadeSalaString);
-                    
-                    salaRN.adicionar(new Sala(numeroSala, quantidadeSala));
-                    txtNumeroSala.setText("");
-                    txtCapacidadeSala.setText("");
-                    Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAviso.setTitle("Confirmação");
-                    dialogoAviso.setContentText("Sala Cadastrado com Sucesso!");
-                    dialogoAviso.showAndWait();
                 } catch (RNException ex) {
             
                 }

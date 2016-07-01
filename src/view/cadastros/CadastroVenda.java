@@ -178,10 +178,11 @@ public class CadastroVenda extends Application {
         
        ///metodo para setar um evento no botão
         btnCadastrar.setOnAction((ActionEvent e) -> {
-            String data = ""+dtpData.getValue();
-            data = data.charAt(8)+""+data.charAt(9)+"/"+data.charAt(5)+data.charAt(6)+"/"+data.charAt(0)+data.charAt(1)+data.charAt(2)+data.charAt(3);
-                
-            try {                
+               
+            try { 
+                String data = dtpData.getValue()+"";
+                data = data.charAt(8)+""+data.charAt(9)+"/"+data.charAt(5)+data.charAt(6)+"/"+data.charAt(0)+data.charAt(1)+data.charAt(2)+data.charAt(3);
+             
                 Assento assento = assentoRN.procurarPorDataCodigo(DateUtil.stringToDate(data), codigoSessao);
            
                 if(assento == null){
@@ -222,6 +223,11 @@ public class CadastroVenda extends Application {
                 Alert dialogoAviso = new Alert(Alert.AlertType.ERROR);
                 dialogoAviso.setTitle("Erro");
                 dialogoAviso.setContentText("Data Inválida");
+                dialogoAviso.showAndWait();
+            } catch (Exception ex) {
+                Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                dialogoAviso.setTitle("Aviso");
+                dialogoAviso.setContentText("Data deve ser preenchida");
                 dialogoAviso.showAndWait();
             } 
                 

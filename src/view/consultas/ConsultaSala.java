@@ -26,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Sala;
 import rn.SalaRN;
+import util.MaskFieldUtil;
 import view.Cinema;
 
 /**
@@ -70,6 +71,7 @@ public class ConsultaSala extends Application {
         grid.add(lblBusca, 0, 1);//---------------------------------------------seta posição do label busca
         TextField txtBusca = new TextField();//---------------------------------cria a caixa de texto busca
         grid.add(txtBusca, 1,1);//----------------------------------------------seta a posição da caixa busca
+        MaskFieldUtil.numericField(txtBusca);//------------------------mascara para somente numeros
         //fim linha Busca
         
         
@@ -78,6 +80,7 @@ public class ConsultaSala extends Application {
         grid.add(lblNumeroSala, 0, 2);//-----------------------------------------seta posição do label numero da sala
         TextField txtNumeroSala = new TextField();//-----------------------------cria a caixa de texto numero da sala
         grid.add(txtNumeroSala, 1, 2);//-----------------------------------------seta a posição da caixa do numero da sala
+        MaskFieldUtil.numericField(txtNumeroSala);//----------------------------mascara para somente numeros
         //fim Numero da Sala
         
        //linha Capacidade Sala
@@ -85,6 +88,7 @@ public class ConsultaSala extends Application {
         grid.add(lblCapacidadeSala, 0, 3);//--------------------------------------------seta posição do label  Capacidade Sala
         TextField txtCapacidadeSala = new TextField();//--------------------------------cria a caixa de texto do  Capacidade Sala
         grid.add(txtCapacidadeSala, 1, 3);//--------------------------------------------seta a posição da caixa do  Capacidade Sala
+        MaskFieldUtil.numericField(txtCapacidadeSala);//------------------------mascara para somente numeros
         //fim  Capacidade Sala
         
         
@@ -124,28 +128,44 @@ public class ConsultaSala extends Application {
                     
             try {
                 String buscaString = txtBusca.getText();
-                int busca = Integer.parseInt(buscaString);
-                
                 String numeroSalaString = txtNumeroSala.getText();
-                int numeroSala = Integer.parseInt(numeroSalaString);
-                
                 String capacidadeSalaString = txtCapacidadeSala.getText();
-                int capacidadeSala = Integer.parseInt(capacidadeSalaString);
                 
-                Sala sala = salaRN.procurarPorNumero(busca);
-                sala.setNumeroSala(numeroSala);
-                sala.setQuantidadeSala(capacidadeSala);
-                salaRN.atualizar(sala);
-                txtBusca.setText("");
-                txtNumeroSala.setText("");
-                txtCapacidadeSala.setText("");
-                Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                dialogoAviso.setTitle("Confirmação");
-                dialogoAviso.setContentText("Sala Alterada com Sucesso!");
-                dialogoAviso.showAndWait();
-                tabela.getItems().clear();
-                tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
-                tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
+                if(buscaString.isEmpty() ){
+                    Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                    dialogoAviso.setTitle("Aviso");
+                    dialogoAviso.setContentText("Campo Buscar pelo numero a sala deve ser preenchido!");
+                    dialogoAviso.showAndWait();
+                }else if(capacidadeSalaString.isEmpty() ){
+                    Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                    dialogoAviso.setTitle("Aviso");
+                    dialogoAviso.setContentText("Campo Capacidade da sala deve ser preenchido!");
+                    dialogoAviso.showAndWait();
+                }else if(numeroSalaString.isEmpty() ){
+                    Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                    dialogoAviso.setTitle("Aviso");
+                    dialogoAviso.setContentText("Campo Número da sala deve ser preenchido!");
+                    dialogoAviso.showAndWait();
+                }else{
+                    int busca = Integer.parseInt(buscaString);
+                    int capacidadeSala = Integer.parseInt(capacidadeSalaString);
+                    int numeroSala = Integer.parseInt(numeroSalaString);
+
+                    Sala sala = salaRN.procurarPorNumero(busca);
+                    sala.setNumeroSala(numeroSala);
+                    sala.setQuantidadeSala(capacidadeSala);
+                    salaRN.atualizar(sala);
+                    txtBusca.setText("");
+                    txtNumeroSala.setText("");
+                    txtCapacidadeSala.setText("");
+                    Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                    dialogoAviso.setTitle("Confirmação");
+                    dialogoAviso.setContentText("Sala Alterada com Sucesso!");
+                    dialogoAviso.showAndWait();
+                    tabela.getItems().clear();
+                    tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
+                    tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
+                }
             } catch (RNException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -158,21 +178,29 @@ public class ConsultaSala extends Application {
             @Override            
             public void handle(ActionEvent e) { 
                 try {
-                   
                     String buscaString = txtBusca.getText();
-                    int busca = Integer.parseInt(buscaString);
-                    Sala sala = salaRN.procurarPorNumero(busca);
-                    salaRN.deletar(sala);
-                    txtBusca.setText("");
-                    txtNumeroSala.setText("");
-                    txtCapacidadeSala.setText("");
-                    Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoAviso.setTitle("Confirmação");
-                    dialogoAviso.setContentText("Filme Deletado com Sucesso!");
-                    dialogoAviso.showAndWait();
-                    tabela.getItems().clear();
-                    tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
-                    tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
+                   if(buscaString.isEmpty() ){
+                        Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                        dialogoAviso.setTitle("Aviso");
+                        dialogoAviso.setContentText("Campo Buscar pelo numero a sala deve ser preenchido!");
+                        dialogoAviso.showAndWait();
+                    }else{
+                       int busca = Integer.parseInt(buscaString);
+                        Sala sala = salaRN.procurarPorNumero(busca);
+                        salaRN.deletar(sala);
+                        txtBusca.setText("");
+                        txtNumeroSala.setText("");
+                        txtCapacidadeSala.setText("");
+                        Alert dialogoAviso = new Alert(Alert.AlertType.INFORMATION);
+                        dialogoAviso.setTitle("Confirmação");
+                        dialogoAviso.setContentText("Filme Deletado com Sucesso!");
+                        dialogoAviso.showAndWait();
+                        tabela.getItems().clear();
+                        tabela.setItems(FXCollections.observableArrayList(salaRN.listar()));
+                        tabela.getItems().addAll(colunaNumeroSala, colunaCapacidadeSala);
+                    }
+                    
+                    
                 } catch (RNException ex) {
                     System.err.println(ex.getMessage());
                 }
@@ -188,12 +216,21 @@ public class ConsultaSala extends Application {
                 
                 try {
                     String buscaString = txtBusca.getText();
-                    int  busca = Integer.parseInt(buscaString);
-                    //Filme filme = filmeRN.procurarPorId(idFilme);
-                    Sala sala = salaRN.procurarPorNumero(busca);
+                    if(buscaString.isEmpty() ){
+                        Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                        dialogoAviso.setTitle("Aviso");
+                        dialogoAviso.setContentText("Campo Buscar pelo numero a sala deve ser preenchido!");
+                        dialogoAviso.showAndWait();
+                    }else{
+                        int  busca = Integer.parseInt(buscaString);
+                        //Filme filme = filmeRN.procurarPorId(idFilme);
+                        Sala sala = salaRN.procurarPorNumero(busca);
+
+                        txtNumeroSala.setText(""+sala.getNumeroSala());
+                        txtCapacidadeSala.setText(""+sala.getQuantidadeSala());
+                    }
                     
-                    txtNumeroSala.setText(""+sala.getNumeroSala());
-                    txtCapacidadeSala.setText(""+sala.getQuantidadeSala());
+                   
                 } catch (RNException ex) {
                     
                 }

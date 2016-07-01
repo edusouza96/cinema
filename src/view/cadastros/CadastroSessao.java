@@ -135,7 +135,7 @@ public class CadastroSessao extends Application {
         btnCadastrar.setOnAction((ActionEvent e) -> {
                 
             try {
-                String nomeFilme = cbxNomeFilme.getSelectionModel().getSelectedItem().toString();
+                String nomeFilme = ""+cbxNomeFilme.getSelectionModel().getSelectedItem().toString();
                 Filme filme;
                 filme = filmeRN.procuraPorNome(nomeFilme);
                 
@@ -156,10 +156,7 @@ public class CadastroSessao extends Application {
                 cbxNumeroSala.setValue("");
                 txtHorario.setText("");
             } catch (RNException ex) {
-                Alert dialogoAviso = new Alert(Alert.AlertType.ERROR);
-                dialogoAviso.setTitle("Erro");
-                dialogoAviso.setContentText("Revise os dados e tente novamente!");
-                dialogoAviso.showAndWait();
+                
                 
             } catch (ParseException ex) {
                 Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
@@ -168,6 +165,11 @@ public class CadastroSessao extends Application {
                 dialogoAviso.showAndWait();
             } catch (HourNotAvailable ex) {
                
+            }catch(Exception ex){
+                Alert dialogoAviso = new Alert(Alert.AlertType.WARNING);
+                dialogoAviso.setTitle("Alerta");
+                dialogoAviso.setContentText("Campo não preenchido!");
+                dialogoAviso.showAndWait();
             }
                 
            

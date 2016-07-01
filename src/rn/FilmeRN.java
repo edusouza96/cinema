@@ -67,6 +67,7 @@ public class FilmeRN {
             
         }
         this.validarCamposObrigatorios(filme);
+        this.validarNomeExistente(filme);
         filmeDao.atualizar(filme);
     }
     
